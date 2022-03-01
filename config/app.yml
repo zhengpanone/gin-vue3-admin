@@ -1,0 +1,16 @@
+app:
+  desc: Gin框架学习实践
+  version: v0.1.0
+  addr: 0.0.0.0:8099
+  env: dev
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  password: root
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+    
