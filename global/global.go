@@ -1,6 +1,10 @@
 package global
 
-import "gin-api-learn/config"
+import (
+	"gin-api-learn/config"
+
+	"go.uber.org/zap"
+)
 
 /**
 全局常量和变量
@@ -11,4 +15,5 @@ const (
 
 var (
 	GlobalConfig config.ServerConfig
+	GlobalLogger *zap.Logger // 日志
 )

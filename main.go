@@ -7,6 +7,7 @@ import (
 
 func main() {
 	initialize.InitConfig()
+	initialize.InitLogger()
 	core.RunServer()
 
 }

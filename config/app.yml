@@ -9,8 +9,29 @@ mysql:
   port: 3306
   user: root
   password: root
+  database: 'gin-dev'
+  charset: utf8mb4  # 要支持完整的UTF-8编码,需设置成: utf8mb4
+  parseTime: true # 解析time.Time类型
+  timeZone: Local # 时区,若设置 Asia/Shanghai,需写成: Asia%2fShanghai
+
+
 
 redis:
   host: 127.0.0.1
   port: 6379
     
+log:
+  path: ./logs # 日志文件目录
+  filePrefix: gin # 日志文件前缀
+  fileFormat: 2006-01-02 # 日志文件名格式
+  level: debug # 最低记录级别
+  writeWay: file # file/console/all
+  outFormat: json # json/console
+  zap:
+    outFormat: json # json
+  lumberJack: # 日志文件切割和压缩
+    maxSize: 1 # 单文件最大容量(单位MB)
+    maxBackups: 3 # 保留旧文件的最大数量
+    maxAge: 30 # 旧文件最多保存几天
+    compress: false #是否压缩/归档旧文件
+   

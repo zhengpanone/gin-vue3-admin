@@ -9,14 +9,6 @@ type app struct {
 	Env        string `yaml:"env"`
 }
 
-// mysql信息
-type mysql struct {
-	Host     string `yaml:"host"`
-	Port     string `yaml:"port"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
-}
-
 // redis
 type redis struct {
 	Host string `yaml:"host"`
@@ -28,5 +20,5 @@ type ServerConfig struct {
 	App   app   `yaml:"app"`
 	Mysql mysql `yaml:"mysql"`
 	Redis redis `yaml:"redis"`
-	// Log   log   `yaml:"log"`
+	Log   log   `yaml:"log"` //嵌入日志配置
 }
