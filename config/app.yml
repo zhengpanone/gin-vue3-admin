@@ -49,3 +49,7 @@ log:
     maxAge: 30 # 旧文件最多保存几天
     compress: false #是否压缩/归档旧文件
    
+jwt:
+  secret: jwtsecret # jwt生成密钥
+  issuer: zhengpanone # 签发人
+  expire: 3h # 有效时间，值如: 30s|10min|1h

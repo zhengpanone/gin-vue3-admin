@@ -8,6 +8,11 @@ import (
 	"gorm.io/gorm"
 )
 
+func LoginPwd(user *entity.User) error {
+	result := global.GlobalMysqlClient.Where("phone=? and password=?", user.Phone, user.Password).First(user)
+	return result.Error
+}
+
 func Register(param request.RegisterParam) (*entity.User, error) {
 	user := entity.User{
 		NickName: param.NickName,

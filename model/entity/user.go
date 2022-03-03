@@ -10,6 +10,7 @@ type User struct {
 	Password string   `json:"password" gorm:"type:varchar(20);comment:密码"`
 	Status   string   `json:"status" gorm:"size:4;default:1;comment:状态 1:正常 2:白名单 3:黑名单"`
 	UserInfo UserInfo `json:"userInfo" gorm:"-"`
+	Token    string   `json:"token" gorm:"-"`
 }
 
 // 用户信息表

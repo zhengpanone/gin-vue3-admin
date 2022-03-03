@@ -8,3 +8,8 @@ type RegisterParam struct {
 	Password string `json:"password"`
 	Address  string `json:"address"`
 }
+
+type LoginParam struct {
+	Phone    string `json:"phone"`
+	Password string `json:"password"`
+}

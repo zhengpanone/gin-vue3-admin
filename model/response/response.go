@@ -46,3 +46,7 @@ func OkWithData(ctx *gin.Context, data interface{}) {
 func Error(ctx *gin.Context, msg string) {
 	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }
+
+func ErrorWithToken(ctx *gin.Context, msg string) {
+	ResultJson(ctx, TOKEN_EXPIRE, msg, map[string]interface{}{})
+}
