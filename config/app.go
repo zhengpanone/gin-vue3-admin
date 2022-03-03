@@ -9,12 +9,6 @@ type app struct {
 	Env        string `yaml:"env"`
 }
 
-// redis
-type redis struct {
-	Host string `yaml:"host"`
-	Port string `yaml:"port"`
-}
-
 // serverconfig配置信息
 type ServerConfig struct {
 	App   app   `yaml:"app"`

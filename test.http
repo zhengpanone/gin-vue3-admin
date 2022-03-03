@@ -20,3 +20,12 @@ Content-Type: {{contentType}}
 {
     "token": "{{token}}"
 }
+
+
+### 
+GET http://127.0.0.1:8099/redis/test?type=set HTTP/1.1
+Content-Type: {{contentType}}
+
+### 
+GET http://127.0.0.1:8099/redis/test?type=get HTTP/1.1
+Content-Type: {{contentType}}

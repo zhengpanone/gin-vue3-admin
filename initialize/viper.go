@@ -10,7 +10,7 @@ import (
 )
 
 // viper 初始化配置解析,函数可接受命令行参数
-func InitConfig() {
+func InitViperConfig() {
 	var configFile string
 	flag.StringVar(&configFile, "c", global.CONFIGFILE, "配置文件路径")
 	if len(configFile) == 0 {

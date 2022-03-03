@@ -7,8 +7,6 @@ import (
 
 func main() {
 	initialize.InitConfig()
-	initialize.InitLogger()
-	initialize.InitGorm()
 	core.RunServer()
 
 }
