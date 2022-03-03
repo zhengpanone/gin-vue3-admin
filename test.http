@@ -18,5 +18,5 @@ POST http://127.0.0.1:8099/v1/user/detail HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDYzMDc3ODIsImlhdCI6MTY0NjI5Njk4MiwiaXNzIjoiemhlbmdwYW5vbmUiLCJVaWQiOjR9.U3_ImyXwYZ__efEWX3KBJNYyWQOIf9MkpC5fNegsk54"
+    "token": "{{token}}"
 }
