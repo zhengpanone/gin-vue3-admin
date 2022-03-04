@@ -7,7 +7,7 @@ import (
 	"gin-api-learn/model/entity"
 	"gin-api-learn/model/request"
 	"gin-api-learn/model/response"
-	"gin-api-learn/service"
+	"github.com/zhengpanone/gin-api-learn/server/service"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
