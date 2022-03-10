@@ -8,6 +8,5 @@ import (
 
 func RegisterRouters(engine *gin.Engine) {
 	router.InitSystemRouter(engine)
-	router.InitUserRouter(engine)
 	router.InitRedisRouter(engine)
 }
