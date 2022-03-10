@@ -2,7 +2,7 @@ package initialize
 
 import (
 	"gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/server/utils"
+	"gin-api-learn/utils"
 	"path"
 	"strings"
 	"time"

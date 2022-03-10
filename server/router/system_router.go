@@ -1,7 +1,7 @@
 package router
 
 import (
-	v1 "gin-api-learn/api/v1"
+	"gin-api-learn/api/v1/system"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +10,6 @@ import (
 func InitSystemRouter(engine *gin.Engine) {
 	systemRouter := engine.Group("system")
 	{
-		systemRouter.GET("config", v1.GetConfig)
+		systemRouter.GET("config", system.GetConfig)
 	}
 }

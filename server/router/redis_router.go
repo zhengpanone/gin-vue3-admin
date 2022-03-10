@@ -1,7 +1,7 @@
 package router
 
 import (
-	v1 "gin-api-learn/api/v1"
+	"gin-api-learn/api/v1/system"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,6 +9,6 @@ import (
 func InitRedisRouter(engine *gin.Engine) {
 	redisRouter := engine.Group("redis")
 	{
-		redisRouter.GET("test", v1.RedisPing)
+		redisRouter.GET("test", system.RedisPing)
 	}
 }

@@ -29,7 +29,7 @@ type mysql struct {
 type gorm struct {
 	SkipDefaultTx   bool   `yaml:"skipDefaultTx"`                            // 是否跳过默认事务
 	CoverLogger     bool   `yaml:"coverLogger"`                              //是否覆盖默认logger
-	TablePrefix     string `yaml:"ablePrefix"`                               // 表前缀
+	TablePrefix     string `yaml:"tablePrefix"`                              // 表前缀
 	PreparedStmt    bool   `yaml:"preparedStmt"`                             //设置Sql缓存
 	CloseForeignKey bool   `yaml:"disableForeignKeyConstraintWhenMigrating"` // 禁用外键约束
 	SingularTable   bool   `yaml:"singularTable"`                            // 是否使用单数表名(默认复数),启用后,User结构体表将是user

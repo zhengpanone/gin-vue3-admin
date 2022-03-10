@@ -2,15 +2,15 @@ package dao
 
 import (
 	"gin-api-learn/global"
-	"gin-api-learn/model/entity"
+	"gin-api-learn/model/entity/system"
 )
 
 type UserDao struct {
 	Uid uint
 }
 
-func (u *UserDao) FindUser() (*entity.User, error) {
-	var user entity.User
+func (u *UserDao) FindUser() (*system.SysUser, error) {
+	var user system.SysUser
 
 	// 校验账号和密码
 	result := global.GlobalMysqlClient.Where("id=? ", u.Uid).First(&user)
@@ -18,7 +18,7 @@ func (u *UserDao) FindUser() (*entity.User, error) {
 		return nil, result.Error
 	}
 	// 查询用户信息
-	userInfo := entity.UserInfo{}
+	userInfo := system.SysUserInfo{}
 	result = global.GlobalMysqlClient.Where("uid = ? ", u.Uid).First(&userInfo)
 	if result.Error != nil {
 		return nil, result.Error
