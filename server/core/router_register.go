@@ -7,6 +7,7 @@ import (
 )
 
 func RegisterRouters(engine *gin.Engine) {
+	router.Use(CORS)
 	router.InitSystemRouter(engine)
 	router.InitRedisRouter(engine)
 }
