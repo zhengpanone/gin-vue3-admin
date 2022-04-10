@@ -19,7 +19,7 @@ require (
 	github.com/go-openapi/spec v0.20.4 // indirect
 	github.com/go-openapi/swag v0.21.1 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible // indirect
-	github.com/go-redis/redis/v8 v8.11.4 // indirect
+	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
@@ -39,7 +39,7 @@ require (
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	golang.org/x/tools v0.1.9 // indirect
 	gorm.io/driver/mysql v1.3.2 // indirect
-	gorm.io/gorm v1.23.2 // indirect
+	gorm.io/gorm v1.23.4 // indirect
 )
 
 require (
@@ -59,6 +59,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
+	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
