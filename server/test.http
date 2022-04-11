@@ -1,5 +1,13 @@
-
 @contentType = application/json
+
+### 用户注册
+POST http://127.0.0.1:8099/v1/user/register HTTP/1.1
+content-type: {{contentType}}
+
+{
+"username":"zhangsan",
+"password":"123456"
+}
 
 ### 用户登录
 # @name login
@@ -7,8 +15,8 @@ POST http://127.0.0.1:8099/v1/user/login HTTP/1.1
 content-type: {{contentType}}
 
 {
-    "phone": "123456",
-    "password": "123456"
+    "username": "zhangsan",
+    "password": "12345"
 }
 
 @token={{login.response.body.$.data.token }}

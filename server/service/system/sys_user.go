@@ -1,6 +1,7 @@
 package system
 
 import (
+	"fmt"
 	"gin-api-learn/global"
 	"gin-api-learn/model/entity/system"
 	"gin-api-learn/model/request"
@@ -10,9 +11,13 @@ import (
 
 type SysUserService struct{}
 
-func (userService *SysUserService) LoginPwd(user *system.SysUser) error {
-	result := global.GlobalMysqlClient.Where("phone=? and password=?", user.Phone, user.Password).First(user)
-	return result.Error
+func (userService *SysUserService) LoginPwd(u *request.LoginParam) (err error, userInfo *system.SysUser) {
+	var user system.SysUser
+	err = global.GlobalMysqlClient.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
+	if err == nil {
+		// TODO 查询目录
+	}
+	return err, &user
 }
 
 func (userService *SysUserService) Register(param request.RegisterParam) (*system.SysUser, error) {
@@ -41,4 +46,11 @@ func (userService *SysUserService) Register(param request.RegisterParam) (*syste
 		return nil
 	})
 	return &user, nil
+}
+
+// 更改用户名
+func (userService *SysUserService) ChangePassword(param request.ChangePasswordStruct) error {
+	result := global.GlobalMysqlClient.Where("username=? and password=?", param.Username, param.Password).First(param)
+	fmt.Println(result)
+	return result.Error
 }

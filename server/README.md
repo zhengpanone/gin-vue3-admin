@@ -20,3 +20,9 @@
 ```shell
 mkdir gin-api-learn && cd gin-api-learn && go mod init gin-api-learn
 ```
+
+### air运行项目
+
+```shell
+cd server && air
+```

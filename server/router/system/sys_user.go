@@ -10,11 +10,14 @@ import (
 type UserRouter struct{}
 
 func (s *UserRouter) InitUserRouter(engine *gin.Engine) {
-	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
 	userRouter := engine.Group("v1/user")
+	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
+
 	{
-		userRouter.POST("login", baseApi.Login)       // 用户登录
-		userRouter.POST("register", baseApi.Register) // 用户注册
+		userRouter.POST("register", baseApi.Register)             // 用户注册
+		userRouter.POST("changePassword", baseApi.ChangePassword) //用户修改密码
+		userRouter.POST("login", baseApi.Login)                   // 用户登录
+
 	}
 	tokenGroup := engine.Group("v1/user").Use(middleware.JWTAuthMiddleware())
 	{
