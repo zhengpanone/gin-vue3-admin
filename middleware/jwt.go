@@ -13,7 +13,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	"go.uber.org/zap"
 )
-
+// JWT中间件
 func JWTAuthMiddleware() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		// 获取参数中的token
@@ -59,6 +59,10 @@ func setContextData(ctx *gin.Context, userClaim *request.UserClaims, token strin
 func getToken(ctx *gin.Context) string {
 	token := ctx.Request.Header.Get("TOKEN")
 	if token != "" {
+		return token
+	}
+	token = ctx.GetHeader("Authorization")
+	if token !=""{
 		return token
 	}
 	//获取当前请求方法

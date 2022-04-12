@@ -6,10 +6,15 @@ import (
 )
 
 func RegisterRouters(engine *gin.Engine) {
+	//engine.Use(middleware.CORS())
 
 	router.InitSystemRouter(engine)
 	router.InitRedisRouter(engine)
 	router.InitSwaggerRouter(engine)
 	router.InitUserRouter(engine)
 
+}
+
+func CORS() {
+	panic("unimplemented")
 }

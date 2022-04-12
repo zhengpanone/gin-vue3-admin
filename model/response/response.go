@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/satori/go.uuid"
 )
 
 const (
@@ -14,11 +15,42 @@ const (
 	TOKEN_EXPIRE = -2
 )
 
+// 响应结构体
 type Response struct {
-	Code int         `json:"code"`
-	Msg  string      `json:"msg"`
+	// 业务状态码
+	Code int `json:"code"`
+	// 提示信息
+	Msg string `json:"msg"`
+	// 响应数据
 	Data interface{} `json:"data"`
-	Time string      `json:"-"`
+	// Meta 源数据,存储如请求ID,分页等信息
+	Meta Meta `json:"meta"`
+	// Errors 错误提示，如 xx字段不能为空等
+	Errors []ErrorItem `json:"errors"`
+	Time   string      `json:"-"`
+}
+
+// Meta 元数据
+type Meta struct {
+	RequestId string `json:"request_id"`
+	// TODO 还可以集成分页信息
+}
+
+// ErrorItem 错误项
+type ErrorItem struct {
+	Key   string `json:"key"`
+	Value string `json:"error"`
+}
+
+func New() *Response {
+	return &Response{
+		Code:   200,
+		Msg:    "",
+		Data:   nil,
+		Meta:   Meta{RequestId: uuid.NewV4().String()},
+		Errors: []ErrorItem{},
+		Time:   "",
+	}
 }
 
 func ResultJson(ctx *gin.Context, code int, msg string, data interface{}) {
