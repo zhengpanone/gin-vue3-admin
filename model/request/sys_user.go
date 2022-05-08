@@ -14,7 +14,7 @@ type RegisterParam struct {
 	Email    string `json:"email"`                                               // 邮箱
 }
 
-type ChangePasswordStruct struct {
+type ChangePasswordParam struct {
 	Username    string `json:"username"`    // 用户名
 	Password    string `json:"password""`   // 密码
 	NewPassword string `json:"newPassword"` // 新密码

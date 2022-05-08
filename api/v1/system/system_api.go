@@ -16,3 +16,8 @@ func GetConfig(ctx *gin.Context) {
 	global.GlobalLogger.Info("Info记录", zap.String("name", "张三"))
 	response.OkWithData(ctx, global.GlobalConfig)
 }
+
+// GenerateCaptcha 获取验证码
+func GenerateCaptcha(ctx *gin.Context) {
+
+}

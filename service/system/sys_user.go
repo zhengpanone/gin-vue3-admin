@@ -32,7 +32,7 @@ func Register(param request.RegisterParam) (*system.SysUser, error) {
 			return err
 		}
 		userInfo := system.SysUserInfo{
-			Uid:      user.ID,
+			UserID:   user.ID,
 			Birthday: param.Birthday,
 			Address:  param.Address,
 		}
@@ -46,8 +46,8 @@ func Register(param request.RegisterParam) (*system.SysUser, error) {
 	return &user, nil
 }
 
-// 更改用户名
-func ChangePassword(param request.ChangePasswordStruct) error {
+// ChangePassword 更改密码
+func ChangePassword(param request.ChangePasswordParam) error {
 	result := global.GlobalMysqlClient.Where("username=? and password=?", param.Username, param.Password).First(param)
 	fmt.Println(result)
 	return result.Error

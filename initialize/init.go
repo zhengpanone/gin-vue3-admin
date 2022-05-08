@@ -6,9 +6,10 @@ import (
 )
 
 func InitConfig() {
-	InitViperConfig()
-	InitLogger()
+	InitViperConfig() //初始化Viper
+	InitLogger()      // 初始化log
 	InitGorm()
+	//if global.GlobalRedisClient
 	InitRedis()
 }
 

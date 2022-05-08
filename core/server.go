@@ -27,7 +27,7 @@ func getCustomHttpServer(engine *gin.Engine) *http.Server {
 	return httpServer
 }
 
-// 启动服务
+// RunServer 启动服务
 func RunServer() {
 	engine := gin.New()
 	httpServer := getCustomHttpServer(engine)

@@ -12,6 +12,7 @@ func RegisterRouters(engine *gin.Engine) {
 	router.InitRedisRouter(engine)
 	router.InitSwaggerRouter(engine)
 	router.InitUserRouter(engine)
+	router.InitMenu(engine)
 
 }
 

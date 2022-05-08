@@ -15,7 +15,7 @@ const (
 	TOKEN_EXPIRE = -2
 )
 
-// 响应结构体
+//Response  响应结构体
 type Response struct {
 	// 业务状态码
 	Code int `json:"code"`
@@ -74,7 +74,7 @@ func OkWithData(ctx *gin.Context, data interface{}) {
 	ResultJson(ctx, SUCCESS, "请求成功", data)
 }
 
-// 错误信息
+//Error 错误信息
 func Error(ctx *gin.Context, msg string) {
 	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }

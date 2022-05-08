@@ -19,7 +19,7 @@ import (
 // @ID /v1/user/register
 // @Accept  json
 // @Produce  application/json
-// @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]
+// @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
 // @Router /v1/user/register [post]
 func Register(ctx *gin.Context) {
 	// 绑定参数
@@ -40,9 +40,11 @@ func Register(ctx *gin.Context) {
 // @ID /v1/user/changePassword
 // @Accept  json
 // @Produce  json
+// @Param data body request.ChangePasswordParam true #[用户名,密码,新密码] body [string, string, string] [required,required,required] [sys.SysUser]
+// @Success 200 {object} response.ResultJson
 // @Router /v1/user/changePassword [post]
 func ChangePassword(ctx *gin.Context) {
-	var changePassword request.ChangePasswordStruct
+	var changePassword request.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
 	if changePassword.Username == "" || changePassword.Password == "" || changePassword.NewPassword == "" {
 		response.Error(ctx, "用户名、密码、新密码不能为空")

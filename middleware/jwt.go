@@ -13,6 +13,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	"go.uber.org/zap"
 )
+
 // JWT中间件
 func JWTAuthMiddleware() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
@@ -43,7 +44,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 // 设置数据到上下文
 func setContextData(ctx *gin.Context, userClaim *request.UserClaims, token string) {
 	userDao := &dao.UserDao{
-		Uid: userClaim.Uid,
+		UserID: userClaim.UserID,
 	}
 	user, err := userDao.FindUser()
 	if err != nil {
@@ -62,7 +63,7 @@ func getToken(ctx *gin.Context) string {
 		return token
 	}
 	token = ctx.GetHeader("Authorization")
-	if token !=""{
+	if token != "" {
 		return token
 	}
 	//获取当前请求方法
@@ -85,7 +86,7 @@ func getToken(ctx *gin.Context) string {
 }
 
 // 创建JWT
-func CreateToken(uid uint) (string, error) {
+func CreateToken(userID string) (string, error) {
 	newWithClaims := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		&request.UserClaims{
 			StandardClaims: &jwt.StandardClaims{
@@ -93,7 +94,7 @@ func CreateToken(uid uint) (string, error) {
 				Issuer:    global.GlobalConfig.Jwt.Issuer, // 签发人
 				IssuedAt:  time.Now().Unix(),              // 签发时间
 			},
-			Uid: uid,
+			UserID: userID,
 		})
 	return newWithClaims.SignedString([]byte(global.GlobalConfig.Jwt.Secret))
 }

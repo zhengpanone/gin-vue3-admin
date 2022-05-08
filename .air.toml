@@ -19,7 +19,7 @@ tmp_dir = "tmp"
   # 忽略这些文件扩展名或目录
   exclude_dir = ["assets", "tmp", "vendor"]
   # 排除以下文件
-  exclude_file = []
+  exclude_file = [".idea"]
   exclude_regex = ["_test.go"]
   exclude_unchanged = false
 

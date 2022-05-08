@@ -2,7 +2,7 @@ package system
 
 import "gin-api-learn/global"
 
-// 用户表
+// SysUser 用户表
 type SysUser struct {
 	global.BaseModel
 	Username string      `json:"username" gorm:"comment:用户登录名"`
@@ -15,10 +15,10 @@ type SysUser struct {
 	Sex      string      `validate:"oneof=female male"`
 }
 
-// 用户信息表
+// SysUserInfo 用户信息表
 type SysUserInfo struct {
 	global.BaseModel
-	Uid      uint   `json:"uid"`
+	UserID   string `json:"userID"`
 	Birthday string `json:"birthday" gorm:"type:varchar(10);comment:生日"`
 	Address  string `json:"address" gorm:"type:text;comment:地址"`
 }
