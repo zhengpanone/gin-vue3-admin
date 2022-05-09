@@ -1,8 +1,20 @@
 package request
 
-import "github.com/golang-jwt/jwt"
+import (
+	"github.com/golang-jwt/jwt"
+	uuid "github.com/satori/go.uuid"
+)
 
-type UserClaims struct {
-	*jwt.StandardClaims
-	UserID string // 不建议放入会被修改的字段，推荐放入用户ID。
+type CustomClaims struct {
+	BaseClaims
+	BufferTime int64
+	jwt.StandardClaims
+}
+
+type BaseClaims struct {
+	UUID        uuid.UUID
+	UserID      string // UserId
+	Username    string
+	NickName    string
+	AuthorityId string
 }

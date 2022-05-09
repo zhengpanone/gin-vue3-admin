@@ -15,5 +15,5 @@ type ServerConfig struct {
 	Mysql mysql `yaml:"mysql"`
 	Redis redis `yaml:"redis"`
 	Log   log   `yaml:"log"` //嵌入日志配置
-	Jwt   Jwt   `yaml:"jwt"`
+	JWT   JWT   `yaml:"jwt"`
 }

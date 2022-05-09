@@ -2,9 +2,10 @@ package config
 
 import "time"
 
-// Jwt JSON WEB TOKEN 配置
-type Jwt struct {
-	Secret string        `yaml:"secret"`
-	Issuer string        `yaml:"issuer"`
-	Expire time.Duration `yaml:"expire"`
+// JWT JSON WEB TOKEN 配置
+type JWT struct {
+	SigningKey string        `yaml:"signingKey"` // jwt签名
+	Issuer     string        `yaml:"issuer"`     // 签发者
+	ExpireTime time.Duration `yaml:"expire"`     // 过期时间
+	BufferTime int64         `yaml:"bufferTime"` // 缓冲时间
 }

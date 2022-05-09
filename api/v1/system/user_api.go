@@ -12,6 +12,9 @@ import (
 	"go.uber.org/zap"
 )
 
+type BaseApi struct {
+}
+
 // Register
 // @Tags SysUser
 // @Summary 用户注册
@@ -52,6 +55,17 @@ func ChangePassword(ctx *gin.Context) {
 	}
 	err := system.ChangePassword(changePassword)
 	fmt.Println(err)
+}
+
+func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
+	var userParam request.LoginParam
+	_ = ctx.ShouldBindJSON(&userParam)
+	err := system.GetUserInfo(userParam)
+	if err != nil {
+		response.Error(ctx, "获取用户信息失败")
+		return
+	}
+
 }
 
 // Login

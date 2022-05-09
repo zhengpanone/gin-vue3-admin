@@ -5,20 +5,36 @@ import (
 	"gin-api-learn/global"
 	"gin-api-learn/model/entity/system"
 	"gin-api-learn/model/request"
+	uuid "github.com/satori/go.uuid"
 
 	"gorm.io/gorm"
 )
 
-func LoginPwd(u *request.LoginParam) (err error, userInfo *system.SysUser) {
+type UserService struct {
+}
+
+//@author: [zhengpanone](https://github.com/zhengpanone)
+//@function: LoginPwd
+//@description: 用户登录
+//@param: u *request.LoginParam
+//@return: userInfo *system.SysUser, err error
+
+func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *system.SysUser, err error) {
 	var user system.SysUser
 	err = global.GlobalMysqlClient.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
 	if err == nil {
 		// TODO 查询目录
 	}
-	return err, &user
+	return &user, err
 }
 
-func Register(param request.RegisterParam) (*system.SysUser, error) {
+//@author: [zhengpanone](https://github.com/zhengpanone)
+//@function: Register
+//@description: 用户注册
+//@param: param *request.RegisterParam
+//@return: user *system.SysUser,err error
+
+func (userService *UserService) Register(param *request.RegisterParam) (*system.SysUser, error) {
 	user := system.SysUser{
 		Username: param.Username,
 		Phone:    param.Phone,
@@ -47,8 +63,16 @@ func Register(param request.RegisterParam) (*system.SysUser, error) {
 }
 
 // ChangePassword 更改密码
-func ChangePassword(param request.ChangePasswordParam) error {
+func (userService *UserService) ChangePassword(param request.ChangePasswordParam) error {
 	result := global.GlobalMysqlClient.Where("username=? and password=?", param.Username, param.Password).First(param)
 	fmt.Println(result)
 	return result.Error
+}
+
+// GetUserInfo 获取用户信息
+// TODO
+func (userService *UserService) GetUserInfo(uuid uuid.UUID) (user system.SysUser, err error) {
+	var sysUser system.SysUser
+	//err = global.GlobalMysqlClient.Preload("")
+	return sysUser, err
 }
