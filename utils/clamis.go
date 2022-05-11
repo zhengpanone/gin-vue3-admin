@@ -20,15 +20,15 @@ func GetClaims(c *gin.Context) (*request.CustomClaims, error) {
 }
 
 // GetUserUuid 从Gin的Context中获取从jwt解析出来的用户UUID
-func GetUserUuid(c *gin.Context) uuid.UUID {
+func GetUserUuid(c *gin.Context) (userID string) {
 	if claims, exists := c.Get("claims"); !exists {
 		if cl, err := GetClaims(c); err != nil {
-			return uuid.UUID{}
+			return uuid.UUID{}.String()
 		} else {
-			return cl.UUID
+			return cl.UserID
 		}
 	} else {
 		waitUse := claims.(*request.CustomClaims)
-		return waitUse.UUID
+		return waitUse.UserID
 	}
 }

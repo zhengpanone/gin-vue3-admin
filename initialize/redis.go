@@ -9,11 +9,11 @@ import (
 
 func InitRedis() {
 	redisClient := redis.NewClient(&redis.Options{
-		Addr:     global.GlobalConfig.Redis.Addr,
-		Password: global.GlobalConfig.Redis.Password,
-		DB:       global.GlobalConfig.Redis.DefaultDB,
+		Addr:     global.GVA_CONFIG.Redis.Addr,
+		Password: global.GVA_CONFIG.Redis.Password,
+		DB:       global.GVA_CONFIG.Redis.DefaultDB,
 	})
-	timeoutCtx, cancelFunc := context.WithTimeout(context.Background(), global.GlobalConfig.Redis.DialTimeout)
+	timeoutCtx, cancelFunc := context.WithTimeout(context.Background(), global.GVA_CONFIG.Redis.DialTimeout)
 	defer cancelFunc()
 	_, err := redisClient.Ping(timeoutCtx).Result()
 	if err != nil {

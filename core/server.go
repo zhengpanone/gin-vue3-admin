@@ -14,7 +14,7 @@ func getCustomHttpServer(engine *gin.Engine) *http.Server {
 	// 创建自定义配置服务
 	httpServer := &http.Server{
 		//ip和端口号
-		Addr: global.GlobalConfig.App.Addr,
+		Addr: global.GVA_CONFIG.App.Addr,
 		//调用的处理器，如为nil会调用http.DefaultServeMux
 		Handler: engine,
 		//计算从成功建立连接到request body(或header)完全被读取的时间
@@ -37,6 +37,6 @@ func RunServer() {
 }
 
 func printServerInfo() {
-	appConfig := global.GlobalConfig.App
+	appConfig := global.GVA_CONFIG.App
 	fmt.Printf("\n【 当前环境: %s 当前版本: %s 接口地址: http://%s 】\n", appConfig.Env, appConfig.Version, appConfig.Addr)
 }

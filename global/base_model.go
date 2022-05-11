@@ -9,8 +9,8 @@ import (
 //重写gorm.Model
 
 type BaseModel struct {
-	ID        string         `json:"id" gorm:"primaryKey"`
-	CreateAt  time.Time      `json:"createAt" gorm:"autoCreateTime"`       // 使用时间戳秒数填充创建时间
-	UpdateAt  time.Time      `json:"UpdateAt" gorm:"autoUpdateTime:milli"` // 使用时间戳毫秒数填充更新时间
+	ID        string         `json:"id" gorm:"primaryKey;column:id;"`
+	CreateAt  time.Time      `json:"createAt" gorm:"autoCreateTime;column:create_time;"`       // 使用时间戳秒数填充创建时间
+	UpdateAt  time.Time      `json:"UpdateAt" gorm:"autoUpdateTime:milli;column:update_time;"` // 使用时间戳毫秒数填充更新时间
 	DeletedAt gorm.DeletedAt `json:"-" gorm:"index"`
 }

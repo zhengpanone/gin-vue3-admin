@@ -3,9 +3,9 @@ package system
 import (
 	"fmt"
 	"gin-api-learn/global"
-	"gin-api-learn/middleware"
 	"gin-api-learn/model/request"
 	"gin-api-learn/model/response"
+	"gin-api-learn/utils"
 
 	"gin-api-learn/service/system"
 	"github.com/gin-gonic/gin"
@@ -15,25 +15,27 @@ import (
 type BaseApi struct {
 }
 
+var userService = system.UserService{}
+
 // Register
 // @Tags SysUser
 // @Summary 用户注册
 // @Description 用户注册
-// @ID /v1/user/register
 // @Accept  json
 // @Produce  application/json
 // @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
 // @Router /v1/user/register [post]
 func Register(ctx *gin.Context) {
-	// 绑定参数
 	var registerParam request.RegisterParam
+	// 绑定参数
 	_ = ctx.ShouldBindJSON(&registerParam)
-	register, err := system.Register(registerParam)
+	// TODO 校验参数
+	register, err := userService.Register(&registerParam)
 	if err != nil {
-		response.Error(ctx, "注册失败")
+		response.Error(ctx, "注册失败"+err.Error())
 		return
 	}
-	response.OkWithData(ctx, register)
+	response.OkWithDataAndMsg(ctx, register, "注册成功")
 }
 
 // ChangePassword
@@ -53,18 +55,18 @@ func ChangePassword(ctx *gin.Context) {
 		response.Error(ctx, "用户名、密码、新密码不能为空")
 		return
 	}
-	err := system.ChangePassword(changePassword)
+	err := userService.ChangePassword(changePassword)
 	fmt.Println(err)
 }
 
 func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
-	var userParam request.LoginParam
-	_ = ctx.ShouldBindJSON(&userParam)
-	err := system.GetUserInfo(userParam)
+	//var userParam request.LoginParam
+	/*_ = ctx.ShouldBindJSON(&userParam)
+	err := userService.GetUserInfo()
 	if err != nil {
 		response.Error(ctx, "获取用户信息失败")
 		return
-	}
+	}*/
 
 }
 
@@ -83,14 +85,20 @@ func Login(ctx *gin.Context) {
 		response.Error(ctx, "用户名和密码不能为空！")
 		return
 	}
-	err, user := system.LoginPwd(&loginParam)
+	user, err := userService.LoginPwd(&loginParam)
 	if err != nil {
 		global.GlobalLogger.Error("登录失败", zap.Any("user", loginParam))
 		response.Error(ctx, "登录失败,账号或密码错误")
 		return
 	}
 	// 生成Token
-	token, err := middleware.CreateToken(user.ID)
+	jwt := utils.NewJWT()
+	claims := jwt.CreateClaims(request.BaseClaims{
+		UserID:   user.ID,
+		Username: user.UserName,
+		NickName: user.NickName,
+	})
+	token, err := jwt.CreateToken(claims)
 	if err != nil {
 		global.GlobalLogger.Sugar().Error("登录失败,Token生成异常：%s", err)
 		response.Error(ctx, "登录失败,账号或密码错误")

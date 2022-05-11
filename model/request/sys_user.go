@@ -5,8 +5,9 @@ package request
 // 注册参数
 
 type RegisterParam struct {
-	Username string `json:"username" binding:"required"`                         // 用户名
-	Password string `json:"password" binding:"required"`                         //密码
+	Username string `json:"username" binding:"required"` // 用户名
+	Password string `json:"password" binding:"required"` //密码
+	RoleID   string `json:"roleID" gorm:"default:111"`
 	Phone    string `json:"phone" binding:"required"`                            // 手机号码
 	NickName string `json:"nickName" binding:"required" validate:"min=3,max=32"` // 昵称
 	Birthday string `json:"birthday"`                                            // 生日

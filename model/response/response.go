@@ -74,6 +74,10 @@ func OkWithData(ctx *gin.Context, data interface{}) {
 	ResultJson(ctx, SUCCESS, "请求成功", data)
 }
 
+func OkWithDataAndMsg(ctx *gin.Context, data interface{}, msg string) {
+	ResultJson(ctx, SUCCESS, msg, data)
+}
+
 //Error 错误信息
 func Error(ctx *gin.Context, msg string) {
 	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
