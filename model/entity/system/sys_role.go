@@ -13,8 +13,10 @@ type SysRole struct {
 // SysUserRole 用户-角色
 type SysUserRole struct {
 	global.BaseModel
-	UserID string `json:"userID" gorm:"comment:用户ID"`
-	RoleID string `json:"roleID" gorm:"comment:角色ID"`
+	UserID  string  `json:"userID" gorm:"comment:用户ID"`
+	SysUser SysUser `gorm:"foreignkey:UserID"`
+	RoleID  string  `json:"roleID" gorm:"comment:角色ID"`
+	SysRole SysRole `gorm:"foreignkey:RoleID"`
 }
 
 //SysRoleMenu 角色-菜单关系表

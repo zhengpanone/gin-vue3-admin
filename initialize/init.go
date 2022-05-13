@@ -9,8 +9,8 @@ func InitConfig() {
 	InitViperConfig() //初始化Viper
 	InitLogger()      // 初始化log
 	InitGorm()
-	//if global.GlobalRedisClient
-	InitRedis()
+	// if global.GlobalRedisClient
+	// InitRedis()
 }
 
 func CloseResource() {
