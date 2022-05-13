@@ -3,11 +3,10 @@ package system
 import (
 	"fmt"
 	"gin-api-learn/global"
-	"gin-api-learn/middleware"
 	"gin-api-learn/model/request"
 	"gin-api-learn/model/response"
+	"gin-api-learn/utils"
 
-	"gin-api-learn/service/system"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
@@ -28,7 +27,7 @@ func Register(ctx *gin.Context) {
 	// 绑定参数
 	var registerParam request.RegisterParam
 	_ = ctx.ShouldBindJSON(&registerParam)
-	register, err := system.Register(registerParam)
+	register, err := userService.Register(&registerParam)
 	if err != nil {
 		response.Error(ctx, "注册失败")
 		return
@@ -53,18 +52,18 @@ func ChangePassword(ctx *gin.Context) {
 		response.Error(ctx, "用户名、密码、新密码不能为空")
 		return
 	}
-	err := system.ChangePassword(changePassword)
+	err := userService.ChangePassword(changePassword)
 	fmt.Println(err)
 }
 
 func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
-	var userParam request.LoginParam
-	_ = ctx.ShouldBindJSON(&userParam)
-	err := system.GetUserInfo(userParam)
-	if err != nil {
-		response.Error(ctx, "获取用户信息失败")
-		return
-	}
+	// var userParam request.LoginParam
+	// _ = ctx.ShouldBindJSON(&userParam)
+	// err := userService.GetUserInfo(userParam)
+	// if err != nil {
+	// 	response.Error(ctx, "获取用户信息失败")
+	// 	return
+	// }
 
 }
 
@@ -83,14 +82,18 @@ func Login(ctx *gin.Context) {
 		response.Error(ctx, "用户名和密码不能为空！")
 		return
 	}
-	err, user := system.LoginPwd(&loginParam)
+	user, err := userService.LoginPwd(&loginParam)
 	if err != nil {
 		global.GlobalLogger.Error("登录失败", zap.Any("user", loginParam))
 		response.Error(ctx, "登录失败,账号或密码错误")
 		return
 	}
 	// 生成Token
-	token, err := middleware.CreateToken(user.ID)
+	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
+	claims := j.CreateClaims(request.BaseClaims{
+		Username: user.Username,
+	})
+	token, err := j.CreateToken(claims)
 	if err != nil {
 		global.GlobalLogger.Sugar().Error("登录失败,Token生成异常：%s", err)
 		response.Error(ctx, "登录失败,账号或密码错误")

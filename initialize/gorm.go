@@ -19,7 +19,7 @@ import (
 
 // InitGorm 初始化mysql客户端
 func InitGorm() {
-	mysqlConfig := global.GlobalConfig.Mysql
+	mysqlConfig := global.GVA_CONFIG.Mysql
 	//user:pass@tcp(127.0.0.1:3306)/dbname?charset=utf8mb4&parseTime=True&loc=Local
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=%t&loc=%s", mysqlConfig.User, mysqlConfig.Password, mysqlConfig.Host, mysqlConfig.Port, mysqlConfig.Database, mysqlConfig.Charset, mysqlConfig.ParseTime, mysqlConfig.TimeZone)
 
@@ -57,7 +57,7 @@ func InitGorm() {
 
 // 设置新的Logger
 func setNewLogger(gConfig *gorm.Config) {
-	logPath := global.GlobalConfig.Log.Path
+	logPath := global.GVA_CONFIG.Log.Path
 	file, _ := os.OpenFile(logPath+"/sql.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, os.ModePerm)
 	logLevelMap := map[string]logger.LogLevel{
 		"error": logger.Error,
@@ -67,14 +67,14 @@ func setNewLogger(gConfig *gorm.Config) {
 	var logLevel logger.LogLevel
 	var ok bool
 
-	if logLevel, ok = logLevelMap[global.GlobalConfig.Mysql.LogLevel]; !ok {
+	if logLevel, ok = logLevelMap[global.GVA_CONFIG.Mysql.LogLevel]; !ok {
 		logLevel = logger.Error
 	}
 	newLogger := logger.New(log.New(file, "\r\n", log.LstdFlags), logger.Config{
-		SlowThreshold:             global.GlobalConfig.Mysql.SlowSql,                   //慢SQL时间
-		LogLevel:                  logLevel,                                            // 记录日志级别
-		IgnoreRecordNotFoundError: global.GlobalConfig.Mysql.IgnoreRecordNotFoundError, // 是否忽略ErrRecordNotFound(未查到记录错误)
-		Colorful:                  false,                                               // 开关颜色
+		SlowThreshold:             global.GVA_CONFIG.Mysql.SlowSql,                   //慢SQL时间
+		LogLevel:                  logLevel,                                          // 记录日志级别
+		IgnoreRecordNotFoundError: global.GVA_CONFIG.Mysql.IgnoreRecordNotFoundError, // 是否忽略ErrRecordNotFound(未查到记录错误)
+		Colorful:                  false,                                             // 开关颜色
 	})
 	gConfig.Logger = newLogger
 

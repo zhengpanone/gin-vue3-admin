@@ -19,7 +19,7 @@ const (
 
 //初始化日志
 func InitLogger() {
-	logConfig := global.GlobalConfig.Log
+	logConfig := global.GVA_CONFIG.Log
 	// 判读日志目录是否存在
 	if exist, _ := utils.DirExist(logConfig.Path); !exist {
 		_ = utils.CreateDir(logConfig.Path)
@@ -53,7 +53,7 @@ func getLevel() zapcore.Level {
 		"dpanic": zapcore.DPanicLevel,
 		"fatal":  zapcore.FatalLevel,
 	}
-	if level, ok := levelMap[global.GlobalConfig.Log.Level]; ok {
+	if level, ok := levelMap[global.GVA_CONFIG.Log.Level]; ok {
 		return level
 	}
 	// 默认info级别
@@ -86,7 +86,7 @@ func getEncodeTime(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 
 // 获取文件切割和归档配置信息
 func getLumberjackWriteSyncer() zapcore.WriteSyncer {
-	lumberJackConfig := global.GlobalConfig.Log.LumberJack
+	lumberJackConfig := global.GVA_CONFIG.Log.LumberJack
 	lumberJackLogger := &lumberjack.Logger{
 		Filename:   getLogFile(),                // 日志文件
 		MaxSize:    lumberJackConfig.MaxSize,    // 单文件最大容量(MB)
@@ -100,10 +100,10 @@ func getLumberjackWriteSyncer() zapcore.WriteSyncer {
 
 // 获取日志文件路径
 func getLogFile() string {
-	fileFormat := time.Now().Format(global.GlobalConfig.Log.FileFormat)
+	fileFormat := time.Now().Format(global.GVA_CONFIG.Log.FileFormat)
 	fileName := strings.Join([]string{
-		global.GlobalConfig.Log.FilePrefix,
+		global.GVA_CONFIG.Log.FilePrefix,
 		fileFormat,
 		"log"}, ".")
-	return path.Join(global.GlobalConfig.Log.Path, fileName)
+	return path.Join(global.GVA_CONFIG.Log.Path, fileName)
 }
