@@ -1,6 +1,9 @@
 package system
 
-type SysMenu struct {
+import "gin-api-learn/global"
+
+type SysPermissionMenu struct {
+	global.BaseModel
 	ParentId string `json:"parentId" gorm:"comment:父菜单ID,一级菜单为0"`
 	Name     string `json:"name" gorm:"comment:菜单名称"`
 	Path     string `json:"path" gorm:"菜单URL"`
