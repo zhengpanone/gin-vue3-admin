@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gin-api-learn/global"
 	"gin-api-learn/model/entity/system"
+
 	"gorm.io/gorm"
 )
 
@@ -19,7 +20,7 @@ func sysTable() {
 	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
 	_ = setTableOption("角色表").AutoMigrate(&system.SysRole{})
 	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
-	_ = setTableOption("菜单表").AutoMigrate(&system.SysMenu{})
+	_ = setTableOption("菜单表").AutoMigrate(&system.SysPermissionMenu{})
 	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysRoleMenu{})
 
 }

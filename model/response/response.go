@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 const (
@@ -75,7 +75,7 @@ func OkWithData(ctx *gin.Context, data interface{}) {
 }
 
 //Error 错误信息
-func Error(ctx *gin.Context, msg string) {
+func ErrorWithMsg(ctx *gin.Context, msg string) {
 	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }
 

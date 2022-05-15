@@ -11,9 +11,10 @@ type app struct {
 
 // ServerConfig serverConfig 配置信息
 type ServerConfig struct {
-	App   app   `yaml:"app"`
-	Mysql mysql `yaml:"mysql"`
-	Redis redis `yaml:"redis"`
-	Log   log   `yaml:"log"` //嵌入日志配置
-	JWT   JWT   `yaml:"jwt"`
+	App     app     `yaml:"app"`
+	Mysql   mysql   `yaml:"mysql"`
+	Redis   redis   `yaml:"redis"`
+	Log     log     `yaml:"log"` //嵌入日志配置
+	JWT     JWT     `yaml:"jwt"`
+	Captcha Captcha `json:"captcha" yaml:"captcha"`
 }

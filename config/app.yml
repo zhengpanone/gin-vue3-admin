@@ -55,3 +55,11 @@ jwt:
   secret: jwtsecret # jwt生成密钥
   issuer: zhengpanone # 签发人
   expire: 3h # 有效时间，值如: 30s|10min|1h
+
+# captcha configuration
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80
+
+

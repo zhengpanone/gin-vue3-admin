@@ -11,9 +11,6 @@ import (
 	"go.uber.org/zap"
 )
 
-type BaseApi struct {
-}
-
 // Register
 // @Tags SysUser
 // @Summary 用户注册
