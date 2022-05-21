@@ -27,7 +27,7 @@ func CreateDir(path string) error {
 	if !dirExist {
 		err := os.Mkdir(path, os.ModePerm)
 		if err != nil {
-			global.GlobalLogger.Sugar().Debugf("创建目录%s失败:%s", path, err)
+			global.GVA_LOG.Sugar().Debugf("创建目录%s失败:%s", path, err)
 		}
 	}
 	return err

@@ -6,6 +6,7 @@ import (
 	"gin-api-learn/model/request"
 	"gin-api-learn/model/response"
 	"gin-api-learn/utils"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,9 +15,9 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		// 获取参数中的token
 		token, err := utils.GetToken(ctx)
-		global.GlobalLogger.Sugar().Info("token:%s", token)
+		global.GVA_LOG.Sugar().Info("token:%s", token)
 		if err != nil {
-			response.Error(ctx, err.Error())
+			response.ErrorWithMsg(ctx, err.Error())
 			// 中断请求
 			ctx.Abort()
 			return
@@ -44,7 +45,7 @@ func setContextData(ctx *gin.Context, customClaim *request.CustomClaims, token s
 	}
 	user, err := userDao.FindUser()
 	if err != nil {
-		response.Error(ctx, "用户不存在")
+		response.ErrorWithMsg(ctx, "用户不存在")
 		ctx.Abort()
 		return
 	}

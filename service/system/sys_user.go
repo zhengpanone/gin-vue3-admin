@@ -44,7 +44,7 @@ func (userService *UserService) Register(param *request.RegisterParam) (*system.
 		// tx.Where("username = ?", user.Username).First()
 
 		if err := tx.Create(&user).Error; err != nil {
-			global.GlobalLogger.Sugar().Errorf("新增用户失败：%s", err)
+			global.GVA_LOG.Sugar().Errorf("新增用户失败：%s", err)
 			return err
 		}
 		userInfo := system.SysUserInfo{
@@ -53,7 +53,7 @@ func (userService *UserService) Register(param *request.RegisterParam) (*system.
 			Address:  param.Address,
 		}
 		if err := tx.Create(&userInfo).Error; err != nil {
-			global.GlobalLogger.Sugar().Errorf("新增用户信息失败：%s", err)
+			global.GVA_LOG.Sugar().Errorf("新增用户信息失败：%s", err)
 			return err
 		}
 		user.UserInfo = userInfo

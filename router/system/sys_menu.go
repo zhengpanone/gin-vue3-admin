@@ -1,4 +1,4 @@
-package router
+package system
 
 import (
 	"gin-api-learn/api/v1/system"

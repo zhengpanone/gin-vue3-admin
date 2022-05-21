@@ -3,6 +3,8 @@ package core
 import (
 	"fmt"
 	"gin-api-learn/global"
+	"gin-api-learn/initialize"
+
 	"net/http"
 	"time"
 
@@ -29,9 +31,9 @@ func getCustomHttpServer(engine *gin.Engine) *http.Server {
 
 // RunServer 启动服务
 func RunServer() {
-	engine := gin.New()
+	engine := initialize.InitRouters()
 	httpServer := getCustomHttpServer(engine)
-	RegisterRouters(engine)
+
 	printServerInfo()
 	_ = httpServer.ListenAndServe()
 }

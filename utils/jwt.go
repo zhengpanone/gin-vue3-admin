@@ -83,7 +83,7 @@ func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
 	})
 	if err != nil {
 		if ve, ok := err.(*jwt.ValidationError); ok {
-			global.GlobalLogger.Error("解析JWT失败", zap.String("err", err.Error()))
+			global.GVA_LOG.Error("解析JWT失败", zap.String("err", err.Error()))
 			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
 				return nil, TokenMalformed
 			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {

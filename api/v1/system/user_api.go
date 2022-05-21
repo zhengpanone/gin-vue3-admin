@@ -26,7 +26,7 @@ func Register(ctx *gin.Context) {
 	_ = ctx.ShouldBindJSON(&registerParam)
 	register, err := userService.Register(&registerParam)
 	if err != nil {
-		response.Error(ctx, "注册失败")
+		response.ErrorWithMsg(ctx, "注册失败")
 		return
 	}
 	response.OkWithData(ctx, register)
@@ -46,7 +46,7 @@ func ChangePassword(ctx *gin.Context) {
 	var changePassword request.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
 	if changePassword.Username == "" || changePassword.Password == "" || changePassword.NewPassword == "" {
-		response.Error(ctx, "用户名、密码、新密码不能为空")
+		response.ErrorWithMsg(ctx, "用户名、密码、新密码不能为空")
 		return
 	}
 	err := userService.ChangePassword(changePassword)
@@ -76,13 +76,13 @@ func Login(ctx *gin.Context) {
 	var loginParam request.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
 	if loginParam.Username == "" || loginParam.Password == "" {
-		response.Error(ctx, "用户名和密码不能为空！")
+		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
 		return
 	}
 	user, err := userService.LoginPwd(&loginParam)
 	if err != nil {
-		global.GlobalLogger.Error("登录失败", zap.Any("user", loginParam))
-		response.Error(ctx, "登录失败,账号或密码错误")
+		global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
+		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
 		return
 	}
 	// 生成Token
@@ -92,8 +92,8 @@ func Login(ctx *gin.Context) {
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
-		global.GlobalLogger.Sugar().Error("登录失败,Token生成异常：%s", err)
-		response.Error(ctx, "登录失败,账号或密码错误")
+		global.GVA_LOG.Sugar().Error("登录失败,Token生成异常：%s", err)
+		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
 	}
 	user.Token = token
 	response.OkWithData(ctx, user)

@@ -55,6 +55,11 @@ func InitGorm() {
 	}
 }
 
+// RegisterTables 注册数据库表专用
+func RegisterTables(db *gorm.DB) {
+
+}
+
 // 设置新的Logger
 func setNewLogger(gConfig *gorm.Config) {
 	logPath := global.GVA_CONFIG.Log.Path
