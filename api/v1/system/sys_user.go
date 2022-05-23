@@ -7,35 +7,29 @@ import (
 	"gin-api-learn/model/response"
 	"gin-api-learn/utils"
 
-	"gin-api-learn/service/system"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
-
-type BaseApi struct {
-}
-
-var userService = system.UserService{}
 
 // Register
 // @Tags SysUser
 // @Summary 用户注册
 // @Description 用户注册
+// @ID /v1/user/register
 // @Accept  json
 // @Produce  application/json
 // @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
 // @Router /v1/user/register [post]
 func Register(ctx *gin.Context) {
-	var registerParam request.RegisterParam
 	// 绑定参数
+	var registerParam request.RegisterParam
 	_ = ctx.ShouldBindJSON(&registerParam)
-	// TODO 校验参数
 	register, err := userService.Register(&registerParam)
 	if err != nil {
-		response.Error(ctx, "注册失败"+err.Error())
+		response.ErrorWithMsg(ctx, "注册失败")
 		return
 	}
-	response.OkWithDataAndMsg(ctx, register, "注册成功")
+	response.OkWithData(ctx, register)
 }
 
 // ChangePassword
@@ -52,7 +46,7 @@ func ChangePassword(ctx *gin.Context) {
 	var changePassword request.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
 	if changePassword.Username == "" || changePassword.Password == "" || changePassword.NewPassword == "" {
-		response.Error(ctx, "用户名、密码、新密码不能为空")
+		response.ErrorWithMsg(ctx, "用户名、密码、新密码不能为空")
 		return
 	}
 	err := userService.ChangePassword(changePassword)
@@ -60,13 +54,13 @@ func ChangePassword(ctx *gin.Context) {
 }
 
 func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
-	//var userParam request.LoginParam
-	/*_ = ctx.ShouldBindJSON(&userParam)
-	err := userService.GetUserInfo()
-	if err != nil {
-		response.Error(ctx, "获取用户信息失败")
-		return
-	}*/
+	// var userParam request.LoginParam
+	// _ = ctx.ShouldBindJSON(&userParam)
+	// err := userService.GetUserInfo(userParam)
+	// if err != nil {
+	// 	response.Error(ctx, "获取用户信息失败")
+	// 	return
+	// }
 
 }
 
@@ -82,26 +76,24 @@ func Login(ctx *gin.Context) {
 	var loginParam request.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
 	if loginParam.Username == "" || loginParam.Password == "" {
-		response.Error(ctx, "用户名和密码不能为空！")
+		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
 		return
 	}
 	user, err := userService.LoginPwd(&loginParam)
 	if err != nil {
-		global.GlobalLogger.Error("登录失败", zap.Any("user", loginParam))
-		response.Error(ctx, "登录失败,账号或密码错误")
+		global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
+		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
 		return
 	}
 	// 生成Token
-	jwt := utils.NewJWT()
-	claims := jwt.CreateClaims(request.BaseClaims{
-		UserID:   user.ID,
-		Username: user.UserName,
-		NickName: user.NickName,
+	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
+	claims := j.CreateClaims(request.BaseClaims{
+		Username: user.Username,
 	})
-	token, err := jwt.CreateToken(claims)
+	token, err := j.CreateToken(claims)
 	if err != nil {
-		global.GlobalLogger.Sugar().Error("登录失败,Token生成异常：%s", err)
-		response.Error(ctx, "登录失败,账号或密码错误")
+		global.GVA_LOG.Sugar().Error("登录失败,Token生成异常：%s", err)
+		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
 	}
 	user.Token = token
 	response.OkWithData(ctx, user)

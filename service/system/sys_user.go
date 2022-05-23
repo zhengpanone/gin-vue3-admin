@@ -1,7 +1,6 @@
 package system
 
 import (
-	"errors"
 	"fmt"
 	"gin-api-learn/global"
 	"gin-api-learn/model/entity/system"
@@ -36,28 +35,31 @@ func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *syste
 //@return: user *system.SysUser,err error
 
 func (userService *UserService) Register(param *request.RegisterParam) (*system.SysUser, error) {
-	user := &system.SysUser{
-		UserName: param.Username,
+	user := system.SysUser{
+		Username: param.Username,
 		Phone:    param.Phone,
 		Password: param.Password,
-		RoleID:   param.RoleID,
 	}
-	user, err := findUserByUserName(user)
-	user.ID = uuid.NewV4().String()
-	if err != nil {
-		return user, errors.New("用户已注册")
-	}
-	err = global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
+	global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
+		// tx.Where("username = ?", user.Username).First()
+
 		if err := tx.Create(&user).Error; err != nil {
-			global.GlobalLogger.Sugar().Errorf("新增用户失败：%s", err)
+			global.GVA_LOG.Sugar().Errorf("新增用户失败：%s", err)
 			return err
 		}
+		userInfo := system.SysUserInfo{
+			UserID:   user.ID,
+			Birthday: param.Birthday,
+			Address:  param.Address,
+		}
+		if err := tx.Create(&userInfo).Error; err != nil {
+			global.GVA_LOG.Sugar().Errorf("新增用户信息失败：%s", err)
+			return err
+		}
+		user.UserInfo = userInfo
 		return nil
 	})
-	if err != nil {
-		return nil, err
-	}
-	return user, nil
+	return &user, nil
 }
 
 // ChangePassword 更改密码
@@ -73,13 +75,4 @@ func (userService *UserService) GetUserInfo(uuid uuid.UUID) (user system.SysUser
 	var sysUser system.SysUser
 	//err = global.GlobalMysqlClient.Preload("")
 	return sysUser, err
-}
-
-func findUserByUserName(sysUser *system.SysUser) (*system.SysUser, error) {
-
-	result := global.GlobalMysqlClient.Where("user_name=?", sysUser.UserName).First(&sysUser)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return sysUser, result.Error
-	}
-	return sysUser, nil
 }

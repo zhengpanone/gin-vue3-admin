@@ -23,7 +23,7 @@ func RedisPing(ctx *gin.Context) {
 	if err != nil {
 		fmt.Println("------------")
 		fmt.Println(err)
-		response.Error(ctx, err.Error())
+		response.ErrorWithMsg(ctx, err.Error())
 		return
 	}
 

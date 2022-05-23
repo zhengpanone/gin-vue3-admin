@@ -19,5 +19,5 @@ var (
 	GVA_CONFIG        config.ServerConfig
 	GlobalMysqlClient *gorm.DB      // mysql客户端
 	GlobalRedisClient *redis.Client // redis客户端
-	GlobalLogger      *zap.Logger   // 日志
+	GVA_LOG           *zap.Logger   // 日志
 )

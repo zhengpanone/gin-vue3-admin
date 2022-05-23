@@ -39,7 +39,7 @@ func InitLogger() {
 	logger := zap.New(zapCore, zap.AddCaller(), zap.AddStacktrace(zap.ErrorLevel))
 	defer logger.Sync()
 	// 赋值给全局变量
-	global.GlobalLogger = logger
+	global.GVA_LOG = logger
 
 }
 

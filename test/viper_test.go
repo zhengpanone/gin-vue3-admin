@@ -15,10 +15,10 @@ func TestViper1(t *testing.T) {
 	}
 	v.RegisterAlias("author", "username")
 	v.Set("name", "测试")
-	err := v.Unmarshal(&global.GlobalConfig)
+	err := v.Unmarshal(&global.GVA_CONFIG)
 	if err != nil {
 		t.Errorf(err.Error())
 		return
 	}
-	t.Logf("config:%#v\n", global.GlobalConfig)
+	t.Logf("config:%#v\n", global.GVA_CONFIG)
 }
