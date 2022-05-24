@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"github.com/zhengpanone/gin-api-learn/server/global"
 	"github.com/zhengpanone/gin-api-learn/server/model/common/response"
+	"github.com/zhengpanone/gin-api-learn/server/model/entity/system"
 	"github.com/zhengpanone/gin-api-learn/server/model/request"
+	systemRes "github.com/zhengpanone/gin-api-learn/server/model/system/response"
 	"github.com/zhengpanone/gin-api-learn/server/utils"
 
 	"github.com/gin-gonic/gin"
@@ -63,12 +65,13 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 }
 
 // Login
-// @Tags BaseApi
+// @Tags Base
 // @Summary 用户登录
 // @Description 用户登录
 // @ID /v1/user/login
 // @Accept json
 // @Produce json
+// @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
 // @Router /v1/user/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam request.LoginParam
@@ -77,12 +80,23 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
 		return
 	}
-	user, err := userService.LoginPwd(&loginParam)
-	if err != nil {
-		global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
-		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
-		return
+	if store.Verify(loginParam.CaptchaID, loginParam.Captcha, true) {
+
+		user, err := userService.LoginPwd(&loginParam)
+		if err != nil {
+			global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
+			response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
+			return
+		} else {
+			b.tokenNext(ctx, *user)
+		}
+
 	}
+
+}
+
+// 登录校验成功后签发jwt
+func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	// 生成Token
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
 	claims := j.CreateClaims(request.BaseClaims{
@@ -91,10 +105,14 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 	token, err := j.CreateToken(claims)
 	if err != nil {
 		global.GVA_LOG.Sugar().Error("登录失败,Token生成异常：%s", err)
-		response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
+		response.ErrorWithMsg(ctx, "获取token失败")
 	}
 	user.Token = token
-	response.OkWithData(ctx, user)
+	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
+		User:      user,
+		Token:     token,
+		ExpiresAt: claims.ExpiresAt,
+	}, "登录成功")
 }
 
 func GetUser(ctx *gin.Context) {
