@@ -6,6 +6,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "github.com/zhengpanone/gin-api-learn/docs"
 	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-api-learn/middleware"
 	"github.com/zhengpanone/gin-api-learn/model/common/response"
 	"github.com/zhengpanone/gin-api-learn/router"
 )
@@ -17,10 +18,10 @@ func InitRouters() *gin.Engine {
 	global.GVA_LOG.Info("use middleware logger")
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.GVA_LOG.Info("register swagger handler")
-	//Router.Use(middleware.CORS())
+	Router.Use(middleware.CORS())
 	global.GVA_LOG.Info("use middleware cors")
 
-	PublicGroup := Router.Group("/api/v1")
+	PublicGroup := Router.Group("")
 	{
 		PublicGroup.GET("/health", func(c *gin.Context) {
 			response.Ok(c)
@@ -31,8 +32,4 @@ func InitRouters() *gin.Engine {
 	}
 	global.GVA_LOG.Info("router register success")
 	return Router
-}
-
-func CORS() {
-	panic("unimplemented")
 }

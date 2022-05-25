@@ -1,7 +1,7 @@
 package response
 
 type SysCaptchaResponse struct {
-	CaptchaID     string `json:"captchaID"`
-	PicPath       string `json:"picPath"`
-	CaptchaLength int    `json:"captchaLength"`
+	CaptchaID     string `json:"captcha_id"`
+	PicPath       string `json:"pic_path"`
+	CaptchaLength int    `json:"captcha_length"`
 }

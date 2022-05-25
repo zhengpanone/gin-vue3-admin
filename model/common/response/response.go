@@ -1,8 +1,8 @@
 package response
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	SUCCESS      = 0
+	SUCCESS      = http.StatusOK
 	ERROR        = -1
 	TOKEN_EXPIRE = -2
 )
@@ -27,7 +27,6 @@ type Response struct {
 	Meta Meta `json:"meta"`
 	// Errors 错误提示，如 xx字段不能为空等
 	Errors []ErrorItem `json:"errors"`
-	Time   string      `json:"-"`
 }
 
 // Meta 元数据
@@ -49,7 +48,6 @@ func New() *Response {
 		Data:   nil,
 		Meta:   Meta{RequestId: uuid.NewV4().String()},
 		Errors: []ErrorItem{},
-		Time:   "",
 	}
 }
 
@@ -58,8 +56,11 @@ func ResultJson(ctx *gin.Context, code int, msg string, data interface{}) {
 		Code: code,
 		Msg:  msg,
 		Data: data,
-		Time: time.Now().Format(global.YYYYMMDDHHIISS),
+		Meta: Meta{
+			RequestId: strconv.FormatInt(time.Now().UnixNano(), 10),
+		},
 	})
+	return
 }
 
 func Ok(ctx *gin.Context) {
