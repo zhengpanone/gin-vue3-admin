@@ -41,7 +41,7 @@ func Register(ctx *gin.Context) {
 // @ID /v1/user/changePassword
 // @Accept  json
 // @Produce  json
-// @Router /v1/user/changePassword [post]
+// @Router /v1/api/changePassword [post]
 func ChangePassword(ctx *gin.Context) {
 	var changePassword request.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
@@ -72,7 +72,7 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router /v1/user/login [post]
+// @Router /v1/api/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam request.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
