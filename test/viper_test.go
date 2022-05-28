@@ -1,8 +1,9 @@
 package test
 
 import (
-	"gin-api-learn/server/global"
 	"testing"
+
+	"github.com/zhengpanone/gin-api-learn/global"
 
 	"github.com/spf13/viper"
 )

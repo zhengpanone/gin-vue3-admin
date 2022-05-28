@@ -17,7 +17,7 @@ type RegisterParam struct {
 
 type ChangePasswordParam struct {
 	Username    string `json:"username"`    // 用户名
-	Password    string `json:"password""`   // 密码
+	Password    string `json:"password"`    // 密码
 	NewPassword string `json:"newPassword"` // 新密码
 }
 

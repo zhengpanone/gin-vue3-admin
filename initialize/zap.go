@@ -1,11 +1,13 @@
 package initialize
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/utils"
+	"fmt"
 	"path"
 	"strings"
 	"time"
+
+	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-api-learn/utils"
 
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
@@ -100,6 +102,7 @@ func getLumberjackWriteSyncer() zapcore.WriteSyncer {
 
 // 获取日志文件路径
 func getLogFile() string {
+	fmt.Println(global.GVA_CONFIG.Log)
 	fileFormat := time.Now().Format(global.GVA_CONFIG.Log.FileFormat)
 	fileName := strings.Join([]string{
 		global.GVA_CONFIG.Log.FilePrefix,
