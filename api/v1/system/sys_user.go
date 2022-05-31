@@ -81,7 +81,6 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 		return
 	}
 	if store.Verify(loginParam.CaptchaID, loginParam.Captcha, true) {
-
 		user, err := userService.LoginPwd(&loginParam)
 		if err != nil {
 			global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
@@ -91,6 +90,8 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 			b.tokenNext(ctx, *user)
 		}
 
+	} else {
+		response.ErrorWithMsg(ctx, "验证码校验失败")
 	}
 
 }

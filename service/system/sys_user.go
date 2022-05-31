@@ -1,6 +1,7 @@
 package system
 
 import (
+	"errors"
 	"fmt"
 	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-api-learn/global"
@@ -22,8 +23,8 @@ type UserService struct {
 func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *system.SysUser, err error) {
 	var user system.SysUser
 	err = global.GlobalMysqlClient.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
-	if err == nil {
-		// TODO 查询目录
+	if err != nil {
+		return nil, errors.New("密码错误")
 	}
 	return &user, err
 }
