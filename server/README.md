@@ -24,6 +24,7 @@ mkdir gin-vue3-admin && cd gin-vue3-admin && go mod init gin-vue3-admin
 ### air运行项目
 
 ```shell
+go install github.com/cosmtrek/air@latest
 cd server && air
 ```
 
