@@ -1,4 +1,4 @@
-module github.com/zhengpanone/gin-api-learn
+module github.com/zhengpanone/gin-vue3-admin
 
 go 1.17
 

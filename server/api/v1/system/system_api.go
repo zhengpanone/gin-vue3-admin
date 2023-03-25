@@ -1,9 +1,10 @@
 package system
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
 	"strings"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

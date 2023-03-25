@@ -2,13 +2,14 @@ package utils
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/request"
-	"go.uber.org/zap"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/request"
+	"go.uber.org/zap"
 )
 
 type JWT struct {
@@ -69,7 +70,7 @@ func (j *JWT) CreateClaims(baseClaims request.BaseClaims) request.CustomClaims {
 	return claims
 }
 
-//CreateToken 创建一个Token
+// CreateToken 创建一个Token
 func (j *JWT) CreateToken(claims request.CustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(global.GVA_CONFIG.JWT.SigningKey))

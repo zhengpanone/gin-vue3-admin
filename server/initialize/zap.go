@@ -6,8 +6,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/utils"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"

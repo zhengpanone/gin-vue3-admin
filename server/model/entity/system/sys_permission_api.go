@@ -1,6 +1,6 @@
 package system
 
-import "github.com/zhengpanone/gin-api-learn/global"
+import "github.com/zhengpanone/gin-vue3-admin/global"
 
 type SysPermissionApi struct {
 	global.BaseModel

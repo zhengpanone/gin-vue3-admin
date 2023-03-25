@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/zhengpanone/gin-api-learn/router/system"
+	"github.com/zhengpanone/gin-vue3-admin/router/system"
 )
 
 type RouterGroup struct {

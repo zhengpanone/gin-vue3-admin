@@ -2,7 +2,7 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 )
 
 // FindMenuByUserId

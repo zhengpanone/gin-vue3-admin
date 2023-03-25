@@ -3,10 +3,11 @@ package system
 import (
 	"errors"
 	"fmt"
+
 	uuid "github.com/satori/go.uuid"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/entity/system"
-	"github.com/zhengpanone/gin-api-learn/model/request"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	"github.com/zhengpanone/gin-vue3-admin/model/request"
 
 	"gorm.io/gorm"
 )

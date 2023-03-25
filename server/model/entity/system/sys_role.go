@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-vue3-admin/global"
 )
 
 // SysRole 角色表
@@ -21,7 +21,7 @@ type SysUserRole struct {
 	SysRole SysRole `gorm:"foreignkey:RoleID"`
 }
 
-//SysRoleMenu 角色-菜单关系表
+// SysRoleMenu 角色-菜单关系表
 type SysRoleMenu struct {
 	RoleID string `json:"roleId" gorm:"comment:角色ID"`
 	MenuID string `json:"menuID" gorm:"comment:"`

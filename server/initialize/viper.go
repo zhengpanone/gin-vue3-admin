@@ -3,7 +3,8 @@ package initialize
 import (
 	"flag"
 	"fmt"
-	"github.com/zhengpanone/gin-api-learn/global"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"

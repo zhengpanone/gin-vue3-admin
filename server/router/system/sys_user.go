@@ -2,8 +2,8 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zhengpanone/gin-api-learn/api/v1/system"
-	"github.com/zhengpanone/gin-api-learn/middleware"
+	"github.com/zhengpanone/gin-vue3-admin/api/v1/system"
+	"github.com/zhengpanone/gin-vue3-admin/middleware"
 )
 
 func InitUserRouter(engine *gin.Engine) {

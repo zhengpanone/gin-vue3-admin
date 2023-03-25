@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
-	"github.com/zhengpanone/gin-api-learn/model/dao"
-	"github.com/zhengpanone/gin-api-learn/model/request"
-	"github.com/zhengpanone/gin-api-learn/utils"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	"github.com/zhengpanone/gin-vue3-admin/model/dao"
+	"github.com/zhengpanone/gin-vue3-admin/model/request"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 )
 
 // JWTAuthMiddleware JWT中间件

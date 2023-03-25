@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
 	"os"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
 )
 
 // DirExist 判断目录是否存在,存在返回true

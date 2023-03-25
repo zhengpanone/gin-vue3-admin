@@ -2,7 +2,8 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/zhengpanone/gin-api-learn/global"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
 )
 
 func InitConfig() {

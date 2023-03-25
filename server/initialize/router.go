@@ -4,11 +4,11 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	_ "github.com/zhengpanone/gin-api-learn/docs"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/middleware"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
-	"github.com/zhengpanone/gin-api-learn/router"
+	_ "github.com/zhengpanone/gin-vue3-admin/docs"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/middleware"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	"github.com/zhengpanone/gin-vue3-admin/router"
 )
 
 // InitRouters 初始化总路由

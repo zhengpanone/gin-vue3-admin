@@ -2,8 +2,9 @@ package initialize
 
 import (
 	"context"
+
 	"github.com/go-redis/redis/v8"
-	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-vue3-admin/global"
 )
 
 func InitRedis() {

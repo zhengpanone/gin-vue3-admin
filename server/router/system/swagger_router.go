@@ -1,7 +1,7 @@
 package system
 
 import (
-	_ "github.com/zhengpanone/gin-api-learn/docs"
+	_ "github.com/zhengpanone/gin-vue3-admin/docs"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

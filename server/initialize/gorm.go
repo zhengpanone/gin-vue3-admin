@@ -2,8 +2,9 @@ package initialize
 
 import (
 	"fmt"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/entity/system"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 
 	"log"
 	"os"

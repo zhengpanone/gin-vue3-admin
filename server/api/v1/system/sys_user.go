@@ -2,12 +2,13 @@ package system
 
 import (
 	"fmt"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
-	"github.com/zhengpanone/gin-api-learn/model/entity/system"
-	"github.com/zhengpanone/gin-api-learn/model/request"
-	systemRes "github.com/zhengpanone/gin-api-learn/model/system/response"
-	"github.com/zhengpanone/gin-api-learn/utils"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	"github.com/zhengpanone/gin-vue3-admin/model/request"
+	systemRes "github.com/zhengpanone/gin-vue3-admin/model/system/response"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

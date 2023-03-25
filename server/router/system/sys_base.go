@@ -2,7 +2,7 @@ package system
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "github.com/zhengpanone/gin-api-learn/api/v1"
+	v1 "github.com/zhengpanone/gin-vue3-admin/api/v1"
 )
 
 type BaseRouter struct{}

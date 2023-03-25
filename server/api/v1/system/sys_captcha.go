@@ -3,9 +3,9 @@ package system
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/model/common/response"
-	systemRes "github.com/zhengpanone/gin-api-learn/model/system/response"
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	systemRes "github.com/zhengpanone/gin-vue3-admin/model/system/response"
 	"go.uber.org/zap"
 )
 

@@ -18,7 +18,7 @@
 ### 初始化项目
 
 ```shell
-mkdir gin-api-learn && cd gin-api-learn && go mod init gin-api-learn
+mkdir gin-vue3-admin && cd gin-vue3-admin && go mod init gin-vue3-admin
 ```
 
 ### air运行项目

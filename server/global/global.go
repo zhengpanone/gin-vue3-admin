@@ -2,12 +2,13 @@ package global
 
 import (
 	"github.com/go-redis/redis/v8"
-	"github.com/zhengpanone/gin-api-learn/config"
+	"github.com/zhengpanone/gin-vue3-admin/config"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
 
-/**
+/*
+*
 全局常量和变量
 */
 const (

@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-vue3-admin/global"
 )
 
 // SysUser 用户表

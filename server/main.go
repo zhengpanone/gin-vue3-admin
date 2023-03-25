@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/zhengpanone/gin-api-learn/core"
-	"github.com/zhengpanone/gin-api-learn/initialize"
+	"github.com/zhengpanone/gin-vue3-admin/core"
+	"github.com/zhengpanone/gin-vue3-admin/initialize"
 )
 
 // @title gin api learn

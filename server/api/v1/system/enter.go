@@ -1,7 +1,7 @@
 package system
 
 import (
-	"github.com/zhengpanone/gin-api-learn/service"
+	"github.com/zhengpanone/gin-vue3-admin/service"
 )
 
 type ApiGroup struct {

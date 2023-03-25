@@ -2,7 +2,7 @@ github地址：https://gitee.com/zhengpanone/shop-admin.git
 
 npm init vite@latest
 
-cd gin-api-learn-web && npm run dev
+cd gin-vue3-admin-web && npm run dev
 
 ## eslint
 

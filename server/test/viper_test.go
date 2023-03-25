@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/zhengpanone/gin-api-learn/global"
+	"github.com/zhengpanone/gin-vue3-admin/global"
 
 	"github.com/spf13/viper"
 )

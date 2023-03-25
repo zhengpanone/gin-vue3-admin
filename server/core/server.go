@@ -2,8 +2,9 @@ package core
 
 import (
 	"fmt"
-	"github.com/zhengpanone/gin-api-learn/global"
-	"github.com/zhengpanone/gin-api-learn/initialize"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/initialize"
 
 	"net/http"
 	"time"

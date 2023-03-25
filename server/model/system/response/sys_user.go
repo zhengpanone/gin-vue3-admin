@@ -1,6 +1,6 @@
 package response
 
-import "github.com/zhengpanone/gin-api-learn/model/entity/system"
+import "github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 
 type LoginResponse struct {
 	User      system.SysUser `json:"user"`
