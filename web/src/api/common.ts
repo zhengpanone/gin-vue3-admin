@@ -6,7 +6,7 @@ import type{ ICaptchaInfo, ILoginResponse } from './types/common'
 export const getCaptcha = () => {
   return request<ICaptchaInfo>({
     method: 'GET',
-    url: '/api/captcha',
+    url: '/api/admin/captcha',
     params: { stamp: Date.now() },
     responseType: 'json'
   })
@@ -20,7 +20,7 @@ export const login = (data: {
 }) => {
   return request<ILoginResponse>({
     method: 'POST',
-    url: '/api/login',
+    url: '/api/admin/login',
     data
   })
 }
