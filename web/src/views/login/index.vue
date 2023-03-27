@@ -77,11 +77,12 @@ import { Key, User, Lock } from '@element-plus/icons-vue'
 import { getCaptcha, login } from '@/api/common'
 import type { ICaptchaInfo } from '@/api/types/common'
 import { onMounted, reactive, ref } from 'vue'
-import { ElForm } from 'element-plus'
-
+import type {IElForm,IFormRule} from '@/types/element-plus'
 import { useRouter } from 'vue-router'
+import { indexStore} from '@/store/index'
+
 const router = useRouter()
-const form = ref<InstanceType<typeof ElForm>|null>(null)
+const form = ref<IElForm|null>(null)
 
 const captchaSrc = ref <ICaptchaInfo['pic_path']>()
 const user = reactive({
@@ -103,7 +104,7 @@ const loadCaptcha = async () => {
 }
 
 const loading = ref(false)
-const rules = ref({
+const rules = ref<IFormRule>({
   username: [{ required: true, message: '请输入账号', trigger: 'change' }],
   password: [{ required: true, message: '请输入密码', trigger: 'change' }],
   captcha: [{ required: true, message: '请输入验证码', trigger: 'change' }]
@@ -118,7 +119,12 @@ const handleSubmit = async () => {
   // 验证通过,展示loading
   loading.value = true
   // 请求提交
-  const loginData = await login(user)
+  const loginData = await login(user).finally(() => {
+    loading.value = false
+  })
+  const store = indexStore()
+
+  store.setUser(loginData.data.userInfo)
   router.replace({
     name: 'home'
   })

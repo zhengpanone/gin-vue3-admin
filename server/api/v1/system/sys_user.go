@@ -130,6 +130,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
 		User:      user,
 		Token:     token,
+		UserInfo:  systemRes.UserInfo{Id: user.ID, Account: user.Username, HeadPic: ""},
 		ExpiresAt: claims.ExpiresAt,
 		Menus:     menus,
 	}, "登录成功")
