@@ -14,27 +14,6 @@ import (
 	"go.uber.org/zap"
 )
 
-// Register
-// @Tags SysUser
-// @Summary 用户注册
-// @Description 用户注册
-// @ID /v1/user/register
-// @Accept  json
-// @Produce  application/json
-// @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
-// @Router /v1/user/register [post]
-func Register(ctx *gin.Context) {
-	// 绑定参数
-	var registerParam request.RegisterParam
-	_ = ctx.ShouldBindJSON(&registerParam)
-	register, err := userService.Register(&registerParam)
-	if err != nil {
-		response.ErrorWithMsg(ctx, "注册失败")
-		return
-	}
-	response.OkWithData(ctx, register)
-}
-
 // ChangePassword
 // @Tags SysUser
 // @Summary 更改密码
@@ -65,15 +44,36 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 
 }
 
+// Register
+// @Tags Base
+// @Summary 用户注册
+// @Description 用户注册
+// @ID /v1/api/admin/register
+// @Accept  json
+// @Produce  application/json
+// @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
+// @Router /v1/api/admin/register [post]
+func (b *BaseApi) Register(ctx *gin.Context) {
+	// 绑定参数
+	var registerParam request.RegisterParam
+	_ = ctx.ShouldBindJSON(&registerParam)
+	register, err := userService.Register(&registerParam)
+	if err != nil {
+		response.ErrorWithMsg(ctx, "注册失败")
+		return
+	}
+	response.OkWithData(ctx, register)
+}
+
 // Login
 // @Tags Base
 // @Summary 用户登录
 // @Description 用户登录
-// @ID /v1/user/login
+// @ID /v1/api/admin/login
 // @Accept json
 // @Produce json
 // @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router /v1/api/login [post]
+// @Router /v1/api/admin/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam request.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
@@ -110,10 +110,28 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 		response.ErrorWithMsg(ctx, "获取token失败")
 	}
 	user.Token = token
+	menus := []systemRes.Menus{}
+	menus = append(menus, systemRes.Menus{
+		Path:   "首页",
+		Title:  "首页",
+		Header: "首页",
+	})
+	menus = append(menus, systemRes.Menus{
+		Path:   "商品",
+		Title:  "商品",
+		Header: "商品",
+		Children: []systemRes.Menus{
+			{Title: "商品列表"},
+			{Title: "商品分类"},
+			{Title: "商品规格"},
+			{Title: "商品评论"},
+		},
+	})
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
 		User:      user,
 		Token:     token,
 		ExpiresAt: claims.ExpiresAt,
+		Menus:     menus,
 	}, "登录成功")
 }
 

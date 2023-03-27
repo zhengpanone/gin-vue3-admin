@@ -119,7 +119,6 @@ const handleSubmit = async () => {
   loading.value = true
   // 请求提交
   const loginData = await login(user)
-  console.log(loginData)
   router.replace({
     name: 'home'
   })

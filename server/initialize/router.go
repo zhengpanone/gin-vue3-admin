@@ -30,6 +30,12 @@ func InitRouters() *gin.Engine {
 	{
 		systemRouter.InitBaseRouter(PublicGroup) // 注册基础功能路由，不做鉴权
 	}
+	PrivateGroup := Router.Group("")
+	PrivateGroup.Use(middleware.JWTAuthMiddleware())
+	{
+		systemRouter.InitUserRouter(PrivateGroup)
+	}
+
 	global.GVA_LOG.Info("router register success")
 	return Router
 }

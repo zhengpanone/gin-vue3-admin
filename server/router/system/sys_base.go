@@ -8,12 +8,14 @@ import (
 type BaseRouter struct{}
 
 func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
-	baseRouter := Router.Group("/v1/api/admin")
+	baseRouter := Router.Group("/v1/api")
 	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
 	{
-		baseRouter.POST("login", baseApi.Login)
-		baseRouter.GET("captcha", baseApi.Captcha)
-		baseRouter.GET("config", baseApi.GetConfig)
+		baseRouter.POST("admin/login", baseApi.Login)       // 用户登录
+		baseRouter.POST("admin/register", baseApi.Register) // 用户注册
+		baseRouter.GET("captcha", baseApi.Captcha)          // 获取图片验证码
+		baseRouter.GET("config", baseApi.GetConfig)         // 获取配置
+
 	}
 	return baseRouter
 }

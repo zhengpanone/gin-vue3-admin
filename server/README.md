@@ -31,12 +31,14 @@ cd server && air
 ### gin swagger
 
 ```shell
-go get -u github.com/swaggo/swag/cmd/swag
+go install github.com/swaggo/swag/cmd/swag@latest
 go get -u github.com/swaggo/gin-swagger
 go get -u github.com/swaggo/files
 go get -u github.com/alecthomas/template
 ```
 
 项目根目录下 命令行 执行命令 swag init
+
+ http://localhost:8099/swagger/index.html 
 
 https://www.cnblogs.com/you-men/p/14054348.html
