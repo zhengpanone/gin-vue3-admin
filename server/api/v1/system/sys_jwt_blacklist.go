@@ -7,6 +7,7 @@ import (
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 	"go.uber.org/zap"
 )
 
@@ -21,7 +22,7 @@ type JwtApi struct{}
 // @Router    /jwt/jsonInBlacklist [post]
 func (j *JwtApi) JsonInBlacklist(c *gin.Context) {
 	fmt.Println(c.Request.Header)
-	token := c.Request.Header.Get("x-token")
+	token, _ := utils.GetToken(c)
 	jwt := system.JwtBlacklist{Jwt: token}
 	err := jwtService.JsonInBlacklist(jwt)
 	if err != nil {
