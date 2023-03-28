@@ -3,6 +3,8 @@ package initialize
 import (
 	"flag"
 	"fmt"
+	"github.com/songzhibin97/gkit/cache/local_cache"
+	"time"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
 
@@ -37,4 +39,7 @@ func InitViperConfig() {
 	}
 	// 设置配置文件
 	global.GVA_CONFIG.App.ConfigFile = configFile
+	global.BlackCache = local_cache.NewCache(
+		local_cache.SetDefaultExpire(time.Second * time.Duration(global.GVA_CONFIG.JWT.ExpireTime)),
+	)
 }

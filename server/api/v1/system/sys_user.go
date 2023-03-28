@@ -116,14 +116,17 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
 	claims := j.CreateClaims(request.BaseClaims{
 		Username: user.Username,
+		UUID:     user.UUID,
+		UserID:   user.ID,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
 		global.GVA_LOG.Sugar().Error("登录失败,Token生成异常：%s", err)
 		response.ErrorWithMsg(ctx, "获取token失败")
+		return
 	}
 	user.Token = token
-	menus := []systemRes.Menus{}
+	var menus []systemRes.Menus
 	menus = append(menus, systemRes.Menus{
 		Path:   "首页",
 		Title:  "首页",
@@ -143,7 +146,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
 		User:      user,
 		Token:     token,
-		UserInfo:  systemRes.UserInfo{Id: user.ID, Account: user.Username, HeadPic: ""},
+		UserInfo:  systemRes.UserInfo{Id: user.UUID.String(), Account: user.Username, HeadPic: ""},
 		ExpiresAt: claims.ExpiresAt,
 		Menus:     menus,
 	}, "登录成功")

@@ -3,6 +3,7 @@ package system
 import (
 	"errors"
 	"fmt"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-vue3-admin/global"
@@ -37,20 +38,22 @@ func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *syste
 //@return: user *system.SysUser,err error
 
 func (userService *UserService) Register(param *request.RegisterParam) (*system.SysUser, error) {
-	user := system.SysUser{
-		Username: param.Username,
-		Phone:    param.Phone,
-		Password: param.Password,
-	}
-	global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
-		// tx.Where("username = ?", user.Username).First()
 
+	var user system.SysUser
+	err := global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
+		if !errors.Is(tx.Where("username = ?", param.Username).First(&user).Error, gorm.ErrRecordNotFound) {
+			return errors.New("用户名已经注册")
+		}
+		user = system.SysUser{
+			Username: param.Username,
+			Password: utils.MD5V([]byte(param.Password)),
+			UUID:     uuid.NewV4(),
+		}
 		if err := tx.Create(&user).Error; err != nil {
 			global.GVA_LOG.Sugar().Errorf("新增用户失败：%s", err)
 			return err
 		}
 		userInfo := system.SysUserInfo{
-			UserID:   user.ID,
 			Birthday: param.Birthday,
 			Address:  param.Address,
 		}
@@ -61,7 +64,7 @@ func (userService *UserService) Register(param *request.RegisterParam) (*system.
 		user.UserInfo = userInfo
 		return nil
 	})
-	return &user, nil
+	return &user, err
 }
 
 // ChangePassword 更改密码

@@ -29,7 +29,7 @@ const handleLogout = () => {
     cancelButtonText: '取消'
   }).then(async () => {
     // 确认发送退出请求
-    let token = getItem<string>('token') as string
+    const token = getItem<string>('token') as string
     await logout(token)
     // 跳转到登录页
     router.push({
@@ -45,7 +45,6 @@ const handleLogout = () => {
       message: '已取消退出'
     })
   })
-
 }
 </script>
 <style scoped></style>

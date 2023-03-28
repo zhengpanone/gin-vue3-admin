@@ -101,5 +101,6 @@ func sysTable() {
 	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
 	_ = setTableOption("菜单表").AutoMigrate(&system.SysPermissionMenu{})
 	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysRoleMenu{})
+	_ = setTableOption("角色菜单表").AutoMigrate(&system.JwtBlacklist{})
 
 }

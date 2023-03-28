@@ -1,8 +1,6 @@
 package system
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
@@ -21,7 +19,6 @@ type JwtApi struct{}
 // @Success   200  {object}  response.Response{msg=string}  "jwt加入黑名单"
 // @Router    /jwt/jsonInBlacklist [post]
 func (j *JwtApi) JsonInBlacklist(c *gin.Context) {
-	fmt.Println(c.Request.Header)
 	token, _ := utils.GetToken(c)
 	jwt := system.JwtBlacklist{Jwt: token}
 	err := jwtService.JsonInBlacklist(jwt)
