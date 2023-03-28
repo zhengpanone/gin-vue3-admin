@@ -6,7 +6,7 @@ export interface ICaptchaInfo{
 export interface IUserInfo{
   id: number
   account: string
-  head_pic:string
+  headPic:string
 }
 
 export interface IMenu{
@@ -22,7 +22,7 @@ export interface ILoginResponse{
   expiresAt: number
   menus: IMenu[]
   unique_auth: string[]
-  user_info: IUserInfo
+  userInfo: IUserInfo
   logo: string
   logo_square: string
   version: string

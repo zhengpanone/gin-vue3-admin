@@ -36,10 +36,10 @@
 </template>
 <script lang="ts" setup>
 import { Setting, Location } from '@element-plus/icons-vue'
-import { useMainStore } from '@/store/index'
+import { indexStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
 
-const store = useMainStore()
+const store = indexStore()
 
 const { isCollapse } = storeToRefs(store)
 </script>

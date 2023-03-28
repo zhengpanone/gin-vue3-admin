@@ -34,6 +34,7 @@ func InitRouters() *gin.Engine {
 	PrivateGroup.Use(middleware.JWTAuthMiddleware())
 	{
 		systemRouter.InitUserRouter(PrivateGroup)
+		systemRouter.InitJwtRouter(PrivateGroup)
 	}
 
 	global.GVA_LOG.Info("router register success")

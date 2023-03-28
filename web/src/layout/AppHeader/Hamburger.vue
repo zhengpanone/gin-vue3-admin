@@ -18,8 +18,8 @@
 </template>
 <script lang="ts" setup>
 import { Fold, Expand } from '@element-plus/icons-vue'
-import { useMainStore } from '@/store/index'
-const store = useMainStore()
+import { indexStore } from '@/store/index'
+const store = indexStore()
 const handleCollapse = () => {
   store.setIsCollapse()
 }

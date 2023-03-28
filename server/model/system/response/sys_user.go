@@ -8,9 +8,14 @@ type LoginResponse struct {
 	User      system.SysUser `json:"user"`
 	Token     string         `json:"token"`
 	ExpiresAt int64          `json:"expiresAt"`
+	UserInfo  UserInfo       `json:"userInfo"`
 	Menus     []Menus        `json:"menus"`
 }
-
+type UserInfo struct {
+	Id      string `json:"id"`
+	Account string `json:"account"`
+	HeadPic string `json:"headPic"`
+}
 type Menus struct {
 	Path     string  `json:"path"`
 	Title    string  `json:"title"`

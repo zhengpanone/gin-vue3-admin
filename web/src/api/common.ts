@@ -24,3 +24,11 @@ export const login = (data: {
     data
   })
 }
+
+export const logout = (token:string) => {
+  return request({
+    method: 'POST',
+    url: '/api/jwt/jwtInBlacklist',
+    headers: {'x-token': token}
+  })
+}

@@ -6,8 +6,10 @@ import (
 
 type ApiGroup struct {
 	BaseApi
+	JwtApi
 }
 
 var (
 	userService = service.ServiceGroupApp.SystemServiceGroup.UserService
+	jwtService  = service.ServiceGroupApp.SystemServiceGroup.JwtService
 )
