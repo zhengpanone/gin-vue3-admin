@@ -65,6 +65,19 @@ func (b *BaseApi) Register(ctx *gin.Context) {
 	response.OkWithData(ctx, register)
 }
 
+// Logout
+// @Tags Base
+// @Summary 用户退出
+// @Description 退出登录
+// @ID /v1/api/admin/logout
+// @Accept json
+// @Produce json
+// @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
+// @Router /v1/api/admin/logout [post]
+func (b *BaseApi) Logout(c *gin.Context) {
+
+}
+
 // Login
 // @Tags Base
 // @Summary 用户登录

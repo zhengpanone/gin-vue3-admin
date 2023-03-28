@@ -1,39 +1,27 @@
 <template>
   <div class="login-container">
-    <el-form
-      class="login-form"
-      :rules="rules"
-      ref="form"
-      :model="user"
-      @submit.prevent="handleSubmit"
-    >
+    <el-form class="login-form" :rules="rules" ref="form" :model="user" @submit.prevent="handleSubmit">
       <div class="login-form-header">
-        <img
-          class="login-logo"
-          src="@/assets/login_logo.png"
-          alt="logo"
-        >
+        <img class="login-logo" src="@/assets/login_logo.png" alt="logo">
       </div>
       <el-form-item prop="username">
-        <el-input
-          v-model="user.username"
-          placeholder="请输入用户名"
-        >
+        <el-input v-model="user.username" placeholder="请输入用户名">
           <template #prefix>
             <i class="el-input_icon ">
-              <el-icon><User /></el-icon>
+              <el-icon>
+                <User />
+              </el-icon>
             </i>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input
-          v-model="user.password"
-          placeholder="请输入密码"
-        >
+        <el-input v-model="user.password" placeholder="请输入密码">
           <template #prefix>
             <i class="el-input__icon ">
-              <el-icon><Lock /></el-icon>
+              <el-icon>
+                <Lock />
+              </el-icon>
             </i>
           </template>
         </el-input>
@@ -41,31 +29,20 @@
 
       <el-form-item prop="captcha">
         <div class="imgcode-wrap">
-          <el-input
-            v-model="user.captcha"
-            placeholder="请输入验证码"
-          >
+          <el-input v-model="user.captcha" placeholder="请输入验证码">
             <template #prefix>
               <i class="el-input_icon">
-                <el-icon><Key /></el-icon>
+                <el-icon>
+                  <Key />
+                </el-icon>
               </i>
             </template>
           </el-input>
-          <img
-            class="imgcode"
-            alt="验证码"
-            :src="captchaSrc"
-            @click="loadCaptcha"
-          >
+          <img class="imgcode" alt="验证码" :src="captchaSrc" @click="loadCaptcha">
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button
-          class="submit-button"
-          type="primary"
-          :loading="loading"
-          native-type="submit"
-        >
+        <el-button class="submit-button" type="primary" :loading="loading" native-type="submit">
           登录
         </el-button>
       </el-form-item>
@@ -77,14 +54,15 @@ import { Key, User, Lock } from '@element-plus/icons-vue'
 import { getCaptcha, login } from '@/api/common'
 import type { ICaptchaInfo } from '@/api/types/common'
 import { onMounted, reactive, ref } from 'vue'
-import type {IElForm,IFormRule} from '@/types/element-plus'
+import type { IElForm, IFormRule } from '@/types/element-plus'
 import { useRouter } from 'vue-router'
-import { indexStore} from '@/store/index'
+import { indexStore } from '@/store/index'
+import { setItem } from '@/utils/storage'
 
 const router = useRouter()
-const form = ref<IElForm|null>(null)
+const form = ref<IElForm | null>(null)
 
-const captchaSrc = ref <ICaptchaInfo['pic_path']>()
+const captchaSrc = ref<ICaptchaInfo['pic_path']>()
 const user = reactive({
   username: 'admin',
   password: '123456',
@@ -125,6 +103,7 @@ const handleSubmit = async () => {
   const store = indexStore()
 
   store.setUser(loginData.data.userInfo)
+  setItem('token', loginData.data.token)
   router.replace({
     name: 'home'
   })
@@ -150,6 +129,7 @@ const handleSubmit = async () => {
   border-radius: 6px;
   background: #fff;
   min-width: 350px;
+
   .login-form__header {
     display: flex;
     justify-content: center;
@@ -175,10 +155,12 @@ const handleSubmit = async () => {
     width: 271px;
     height: 74px;
   }
+
   .imgcode-wrap {
     display: flex;
     align-items: center;
     width: 100%;
+
     .imgcode {
       height: 37px;
     }
