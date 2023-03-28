@@ -30,7 +30,6 @@ const handleLogout = () => {
   }).then(async () => {
     // 确认发送退出请求
     let token = getItem<string>('token') as string
-    console.log(token)
     await logout(token)
     // 跳转到登录页
     router.push({

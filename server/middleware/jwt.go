@@ -14,7 +14,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 	return func(ctx *gin.Context) {
 		// 获取参数中的token
 		token, err := utils.GetToken(ctx)
-		global.GVA_LOG.Sugar().Info("token:%s", token)
+		global.GVA_LOG.Sugar().Infof("token:%s", token)
 		if err != nil {
 			response.ErrorWithMsg(ctx, err.Error())
 			// 中断请求
