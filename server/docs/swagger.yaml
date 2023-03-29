@@ -1,0 +1,259 @@
+basePath: /
+definitions:
+  request.LoginParam:
+    properties:
+      captcha:
+        description: 验证码
+        type: string
+      captchaID:
+        description: 验证码ID
+        type: string
+      password:
+        description: 密码
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  request.RegisterParam:
+    properties:
+      address:
+        description: 地址
+        type: string
+      birthday:
+        description: 生日
+        type: string
+      email:
+        description: 邮箱
+        type: string
+      nickName:
+        description: 昵称
+        maxLength: 32
+        minLength: 3
+        type: string
+      password:
+        description: 密码
+        type: string
+      phone:
+        description: 手机号码
+        type: string
+      roleID:
+        type: string
+      username:
+        description: 用户名
+        type: string
+    required:
+    - nickName
+    - password
+    - phone
+    - username
+    type: object
+  request.RoleParam:
+    properties:
+      parentId:
+        description: 父角色ID
+        type: string
+      remark:
+        description: 备注
+        type: string
+      roleName:
+        description: 角色名
+        type: string
+    required:
+    - roleName
+    type: object
+  response.ErrorItem:
+    properties:
+      error:
+        type: string
+      key:
+        type: string
+    type: object
+  response.Meta:
+    properties:
+      request_id:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      code:
+        description: 业务状态码
+        type: integer
+      data:
+        description: 响应数据
+      errors:
+        description: Errors 错误提示，如 xx字段不能为空等
+        items:
+          $ref: '#/definitions/response.ErrorItem'
+        type: array
+      meta:
+        allOf:
+        - $ref: '#/definitions/response.Meta'
+        description: Meta 源数据,存储如请求ID,分页等信息
+      msg:
+        description: 提示信息
+        type: string
+    type: object
+  response.SysCaptchaResponse:
+    properties:
+      captcha_id:
+        type: string
+      captcha_length:
+        type: integer
+      pic_path:
+        type: string
+    type: object
+info:
+  contact:
+    name: go-swagger帮助文档
+    url: https://github.com/swaggo/swag/blob/master/README_zh-CN.md
+  description: This is gin learn api docs.
+  license:
+    name: Apache 2.0
+  title: gin api learn
+  version: 0.0.1
+paths:
+  /jwt/jsonInBlacklist:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: jwt加入黑名单
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      summary: jwt加入黑名单
+      tags:
+      - Jwt
+  /v1/api/admin/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录
+      operationId: /v1/api/admin/login
+      parameters:
+      - description: 用户名,密码,验证码,验证码ID
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginParam'
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户登录
+      tags:
+      - Base
+  /v1/api/admin/logout:
+    post:
+      consumes:
+      - application/json
+      description: 退出登录
+      operationId: /v1/api/admin/logout
+      parameters:
+      - description: 用户名,密码,验证码,验证码ID
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginParam'
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户退出
+      tags:
+      - Base
+  /v1/api/admin/register:
+    post:
+      consumes:
+      - application/json
+      description: 用户注册
+      operationId: /v1/api/admin/register
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.RegisterParam'
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户注册
+      tags:
+      - Base
+  /v1/api/captcha:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 生成验证码,返回包括随机数id,base64,验证码长度
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.SysCaptchaResponse'
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 生成验证码
+      tags:
+      - Base
+  /v1/api/changePassword:
+    post:
+      consumes:
+      - application/json
+      description: 更改密码
+      operationId: /v1/user/changePassword
+      produces:
+      - application/json
+      responses: {}
+      summary: 更改密码
+      tags:
+      - SysUser
+  /v1/api/config:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      summary: 获取配置
+      tags:
+      - Base
+  /v1/api/role/addRole:
+    post:
+      consumes:
+      - application/json
+      description: 创建角色
+      operationId: /v1/api/role/register
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.RoleParam'
+      produces:
+      - application/json
+      responses: {}
+      summary: 创建角色
+      tags:
+      - RoleApi
+swagger: "2.0"

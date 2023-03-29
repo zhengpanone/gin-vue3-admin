@@ -22,7 +22,7 @@ import (
 // @Accept  json
 // @Produce  json
 // @Router /v1/api/changePassword [post]
-func ChangePassword(ctx *gin.Context) {
+func (b *BaseApi) ChangePassword(ctx *gin.Context) {
 	var changePassword request.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
 	if changePassword.Username == "" || changePassword.Password == "" || changePassword.NewPassword == "" {
@@ -152,7 +152,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	}, "登录成功")
 }
 
-func GetUser(ctx *gin.Context) {
+func (b *BaseApi) GetUser(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	response.OkWithData(ctx, user)
 }

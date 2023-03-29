@@ -99,8 +99,10 @@ func sysTable() {
 	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
 	_ = setTableOption("角色表").AutoMigrate(&system.SysRole{})
 	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
-	_ = setTableOption("菜单表").AutoMigrate(&system.SysPermissionMenu{})
-	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysRoleMenu{})
-	_ = setTableOption("角色菜单表").AutoMigrate(&system.JwtBlacklist{})
+	_ = setTableOption("角色权限表").AutoMigrate(&system.SysRolePermission{})
+	_ = setTableOption("权限菜单表").AutoMigrate(&system.SysPermissionMenu{})
+	_ = setTableOption("权限url表").AutoMigrate(&system.SysPermissionApi{})
+	_ = setTableOption("权限按钮表").AutoMigrate(&system.SysPermissionPoint{})
+	_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
 
 }
