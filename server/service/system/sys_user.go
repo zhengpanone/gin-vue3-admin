@@ -3,12 +3,12 @@ package system
 import (
 	"errors"
 	"fmt"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
-	"github.com/zhengpanone/gin-vue3-admin/model/request"
 
 	"gorm.io/gorm"
 )
@@ -22,7 +22,7 @@ type UserService struct {
 //@param: u *request.LoginParam
 //@return: userInfo *system.SysUser, err error
 
-func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *system.SysUser, err error) {
+func (userService *UserService) LoginPwd(u *systemReq.LoginParam) (userInfo *system.SysUser, err error) {
 	var user system.SysUser
 	err = global.GlobalMysqlClient.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
 	if err != nil {
@@ -37,7 +37,7 @@ func (userService *UserService) LoginPwd(u *request.LoginParam) (userInfo *syste
 //@param: param *request.RegisterParam
 //@return: user *system.SysUser,err error
 
-func (userService *UserService) Register(param *request.RegisterParam) (*system.SysUser, error) {
+func (userService *UserService) Register(param *systemReq.RegisterParam) (*system.SysUser, error) {
 
 	var user system.SysUser
 	err := global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
@@ -68,7 +68,7 @@ func (userService *UserService) Register(param *request.RegisterParam) (*system.
 }
 
 // ChangePassword 更改密码
-func (userService *UserService) ChangePassword(param request.ChangePasswordParam) error {
+func (userService *UserService) ChangePassword(param systemReq.ChangePasswordParam) error {
 	result := global.GlobalMysqlClient.Where("username=? and password=?", param.Username, param.Password).First(param)
 	fmt.Println(result)
 	return result.Error

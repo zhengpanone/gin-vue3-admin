@@ -5,7 +5,7 @@ import (
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 	"github.com/zhengpanone/gin-vue3-admin/model/dao"
-	"github.com/zhengpanone/gin-vue3-admin/model/request"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 )
 
@@ -38,7 +38,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 }
 
 // 设置数据到上下文
-func setContextData(ctx *gin.Context, customClaim *request.CustomClaims, token string) {
+func setContextData(ctx *gin.Context, customClaim *systemReq.CustomClaims, token string) {
 	userDao := &dao.UserDao{
 		ID:   customClaim.UserID,
 		UUID: customClaim.UUID,

@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	"github.com/zhengpanone/gin-vue3-admin/model/request"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 )
 
-func GetClaims(c *gin.Context) (*request.CustomClaims, error) {
+func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
 	token := c.Request.Header.Get("x-token")
 	j := NewJWT()
 	claims, err := j.ParseToken(token)
@@ -28,7 +28,7 @@ func GetUserUuid(c *gin.Context) (userID string) {
 			return cl.UUID.String()
 		}
 	} else {
-		waitUse := claims.(*request.CustomClaims)
+		waitUse := claims.(*systemReq.CustomClaims)
 		return waitUse.UUID.String()
 	}
 }

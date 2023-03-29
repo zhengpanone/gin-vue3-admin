@@ -2,11 +2,11 @@ package system
 
 import (
 	"fmt"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
-	"github.com/zhengpanone/gin-vue3-admin/model/request"
 	systemRes "github.com/zhengpanone/gin-vue3-admin/model/system/response"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 
@@ -23,7 +23,7 @@ import (
 // @Produce  json
 // @Router /v1/api/changePassword [post]
 func (b *BaseApi) ChangePassword(ctx *gin.Context) {
-	var changePassword request.ChangePasswordParam
+	var changePassword systemReq.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
 	if changePassword.Username == "" || changePassword.Password == "" || changePassword.NewPassword == "" {
 		response.ErrorWithMsg(ctx, "用户名、密码、新密码不能为空")
@@ -55,7 +55,7 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 // @Router /v1/api/admin/register [post]
 func (b *BaseApi) Register(ctx *gin.Context) {
 	// 绑定参数
-	var registerParam request.RegisterParam
+	var registerParam systemReq.RegisterParam
 	_ = ctx.ShouldBindJSON(&registerParam)
 	register, err := userService.Register(&registerParam)
 	if err != nil {
@@ -88,7 +88,7 @@ func (b *BaseApi) Logout(c *gin.Context) {
 // @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
 // @Router /v1/api/admin/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
-	var loginParam request.LoginParam
+	var loginParam systemReq.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
 	if loginParam.Username == "" || loginParam.Password == "" {
 		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
@@ -114,7 +114,7 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	// 生成Token
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
-	claims := j.CreateClaims(request.BaseClaims{
+	claims := j.CreateClaims(systemReq.BaseClaims{
 		Username: user.Username,
 		UUID:     user.UUID,
 		UserID:   user.ID,

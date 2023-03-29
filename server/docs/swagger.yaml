@@ -18,6 +18,18 @@ definitions:
     - password
     - username
     type: object
+  request.PageInfo:
+    properties:
+      keyword:
+        description: 关键字
+        type: string
+      page:
+        description: 页码
+        type: integer
+      pageSize:
+        description: 每页大小
+        type: integer
+    type: object
   request.RegisterParam:
     properties:
       address:
@@ -90,8 +102,7 @@ definitions:
           $ref: '#/definitions/response.ErrorItem'
         type: array
       meta:
-        allOf:
-        - $ref: '#/definitions/response.Meta'
+        $ref: '#/definitions/response.Meta'
         description: Meta 源数据,存储如请求ID,分页等信息
       msg:
         description: 提示信息
@@ -242,7 +253,7 @@ paths:
       consumes:
       - application/json
       description: 创建角色
-      operationId: /v1/api/role/register
+      operationId: /v1/api/role/addRole
       parameters:
       - description: body
         in: body
@@ -254,6 +265,25 @@ paths:
       - application/json
       responses: {}
       summary: 创建角色
+      tags:
+      - RoleApi
+  /v1/api/role/pageRole:
+    post:
+      consumes:
+      - application/json
+      description: 分页获取角色
+      operationId: /v1/api/role/pageRole
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageInfo'
+      produces:
+      - application/json
+      responses: {}
+      summary: 分页获取角色
       tags:
       - RoleApi
 swagger: "2.0"

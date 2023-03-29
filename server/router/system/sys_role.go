@@ -12,6 +12,7 @@ func (r *RoleRouter) InitRoleRouter(Router *gin.RouterGroup) (R gin.IRouter) {
 	roleApi := v1.ApiGroupApp.SystemApiGroup.RoleApi
 	{
 		roleRouter.POST("addRole", roleApi.CreateRole) // 创建角色
+		roleRouter.POST("pageRole", roleApi.PageRole)  // 分页获取角色
 	}
 	return roleRouter
 }

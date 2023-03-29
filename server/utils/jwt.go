@@ -2,13 +2,13 @@ package utils
 
 import (
 	"errors"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	"github.com/zhengpanone/gin-vue3-admin/model/request"
 	"go.uber.org/zap"
 )
 
@@ -56,8 +56,8 @@ func GetToken(ctx *gin.Context) (string, error) {
 	}
 	return "", errors.New("从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在TOKEN且claims是否为规定结构")
 }
-func (j *JWT) CreateClaims(baseClaims request.BaseClaims) request.CustomClaims {
-	claims := request.CustomClaims{
+func (j *JWT) CreateClaims(baseClaims systemReq.BaseClaims) systemReq.CustomClaims {
+	claims := systemReq.CustomClaims{
 		BaseClaims: baseClaims,
 		BufferTime: global.GVA_CONFIG.JWT.BufferTime, //缓冲时间1天 缓冲时间内会获得新的token刷新令牌 此时一个用户会存在两个有效令牌 但是前端只留一个 另一个会丢失
 		StandardClaims: jwt.StandardClaims{
@@ -71,15 +71,15 @@ func (j *JWT) CreateClaims(baseClaims request.BaseClaims) request.CustomClaims {
 }
 
 // CreateToken 创建一个Token
-func (j *JWT) CreateToken(claims request.CustomClaims) (string, error) {
+func (j *JWT) CreateToken(claims systemReq.CustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString([]byte(global.GVA_CONFIG.JWT.SigningKey))
 }
 
 // ParseToken 解析JWT
-func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
+func (j *JWT) ParseToken(tokenString string) (*systemReq.CustomClaims, error) {
 
-	token, err := jwt.ParseWithClaims(tokenString, &request.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
+	token, err := jwt.ParseWithClaims(tokenString, &systemReq.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return j.SigningKey, nil
 	})
 	if err != nil {
@@ -101,7 +101,7 @@ func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
 	if token != nil {
 		// 断言
 		//验证
-		if claims, ok := token.Claims.(*request.CustomClaims); ok && token.Valid {
+		if claims, ok := token.Claims.(*systemReq.CustomClaims); ok && token.Valid {
 			return claims, nil
 		}
 		return nil, TokenInvalid
