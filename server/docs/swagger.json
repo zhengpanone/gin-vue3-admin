@@ -236,7 +236,7 @@
         },
         "/v1/api/role/pageRole": {
             "post": {
-                "description": "分页获取角色",
+                "description": "更新角色",
                 "consumes": [
                     "application/json"
                 ],
@@ -246,8 +246,8 @@
                 "tags": [
                     "RoleApi"
                 ],
-                "summary": "分页获取角色",
-                "operationId": "/v1/api/role/pageRole",
+                "summary": "更新角色",
+                "operationId": "/v1/api/role/update/:id",
                 "parameters": [
                     {
                         "description": "body",
@@ -408,7 +408,11 @@
                 },
                 "meta": {
                     "description": "Meta 源数据,存储如请求ID,分页等信息",
-                    "$ref": "#/definitions/response.Meta"
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    ]
                 },
                 "msg": {
                     "description": "提示信息",

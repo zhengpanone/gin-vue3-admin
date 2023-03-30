@@ -3,8 +3,9 @@ package initialize
 import (
 	"flag"
 	"fmt"
-	"github.com/songzhibin97/gkit/cache/local_cache"
 	"time"
+
+	"github.com/songzhibin97/gkit/cache/local_cache"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
 
@@ -31,11 +32,11 @@ func InitViperConfig() {
 	v.OnConfigChange(func(in fsnotify.Event) {
 		fmt.Println("配置文件发生改变")
 		if err := v.Unmarshal(&global.GVA_CONFIG); err != nil {
-			panic(fmt.Errorf("配置重置失败:%s\n", err))
+			panic(fmt.Errorf("配置重置失败:%s", err))
 		}
 	})
 	if err := v.Unmarshal(&global.GVA_CONFIG); err != nil {
-		panic(fmt.Errorf("配置重载失败:%s\n", err))
+		panic(fmt.Errorf("配置重载失败:%s", err))
 	}
 	// 设置配置文件
 	global.GVA_CONFIG.App.ConfigFile = configFile
