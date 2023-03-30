@@ -7,12 +7,11 @@ import (
 // SysRole 角色表
 type SysRole struct {
 	global.BaseModel
-	RoleID     string     `json:"uuid" gorm:"column:role_id;not null;unique;primary_key;comment:角色ID;"` // 角色ID
-	RoleName   string     `json:"roleName" gorm:"column:role_name;comment:角色名称"`                        // 角色名
-	ParentId   string     `json:"parentId" gorm:"column:parent_id;comment:父角色ID"`                       // 父角色ID
-	Remark     string     `json:"remark" gorm:"comment:备注"`
-	Children   []SysRole  `json:"children" gorm:"-"`
-	SysRoleIds []*SysRole `json:"roleIds" gorm:"many2many:role_id;"`
+	RoleID   string    `json:"uuid" gorm:"column:role_id;not null;unique;primary_key;comment:角色ID;"` // 角色ID
+	RoleName string    `json:"roleName" gorm:"column:role_name;comment:角色名称"`                        // 角色名
+	ParentId string    `json:"parentId" gorm:"column:parent_id;comment:父角色ID"`                       // 父角色ID
+	Remark   string    `json:"remark" gorm:"comment:备注"`
+	Children []SysRole `json:"children" gorm:"-"`
 }
 
 // SysUserRole 用户-角色

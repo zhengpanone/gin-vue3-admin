@@ -37,7 +37,8 @@ func (roleService *SysRoleService) PageRole(info request.PageInfo) (list interfa
 		return
 	}
 	var role []system.SysRole
-	err = db.Limit(limit).Offset(offset).Preload("SysRoleIds").Where("parent_id=?", "0").Find(&role).Error
+	err = db.Limit(limit).Offset(offset).Where("parent_id=?", "0").Find(&role).Error
+	info.PageSize = len(role)
 	for k := range role {
 		roleService.findChildrenRole(&role[k])
 	}
@@ -45,7 +46,7 @@ func (roleService *SysRoleService) PageRole(info request.PageInfo) (list interfa
 }
 
 func (roleService *SysRoleService) findChildrenRole(role *system.SysRole) {
-	_ = global.GlobalMysqlClient.Preload("SysRoleIds").Where("parent_id=?", role.RoleID).First(&role.Children).Error
+	_ = global.GlobalMysqlClient.Where("parent_id=?", role.RoleID).First(&role.Children).Error
 	if len(role.Children) > 0 {
 		for k := range role.Children {
 			roleService.findChildrenRole(&role.Children[k])
