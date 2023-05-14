@@ -53,3 +53,17 @@ func (roleService *SysRoleService) findChildrenRole(role *system.SysRole) {
 		}
 	}
 }
+
+func (roleService *SysRoleService) DeleteRole(id string) error {
+	var data []system.SysRole
+	global.GlobalMysqlClient.Model(&system.SysRole{}).Where("id=?", id).Find(&data)
+	if len(data) == 0 {
+		return errors.New("id没有找到，删除失败")
+	}
+	global.GlobalMysqlClient.Delete(&data)
+	return nil
+}
+
+func (roleService *SysRoleService) UpdateRole() error {
+	return nil
+}

@@ -219,7 +219,6 @@
                     "RoleApi"
                 ],
                 "summary": "创建角色",
-                "operationId": "/v1/api/role/addRole",
                 "parameters": [
                     {
                         "description": "body",
@@ -234,9 +233,68 @@
                 "responses": {}
             }
         },
+        "/v1/api/role/delete/:id": {
+            "delete": {
+                "description": "删除角色",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RoleApi"
+                ],
+                "summary": "删除角色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "角色ID",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/api/role/pageRole": {
             "post": {
-                "description": "更新角色",
+                "description": "分页获取角色",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "RoleApi"
+                ],
+                "summary": "分页获取角色",
+                "parameters": [
+                    {
+                        "description": "body",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.PageInfo"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/v1/api/role/update": {
+            "put": {
+                "description": "update role",
                 "consumes": [
                     "application/json"
                 ],
@@ -247,7 +305,6 @@
                     "RoleApi"
                 ],
                 "summary": "更新角色",
-                "operationId": "/v1/api/role/update/:id",
                 "parameters": [
                     {
                         "description": "body",
@@ -408,11 +465,7 @@
                 },
                 "meta": {
                     "description": "Meta 源数据,存储如请求ID,分页等信息",
-                    "allOf": [
-                        {
-                            "$ref": "#/definitions/response.Meta"
-                        }
-                    ]
+                    "$ref": "#/definitions/response.Meta"
                 },
                 "msg": {
                     "description": "提示信息",

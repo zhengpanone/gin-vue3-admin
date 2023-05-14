@@ -25,10 +25,10 @@ func GetUserUuid(c *gin.Context) (userID string) {
 		if cl, err := GetClaims(c); err != nil {
 			return uuid.UUID{}.String()
 		} else {
-			return cl.UUID.String()
+			return cl.UserID
 		}
 	} else {
 		waitUse := claims.(*systemReq.CustomClaims)
-		return waitUse.UUID.String()
+		return waitUse.UserID
 	}
 }

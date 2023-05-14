@@ -6,7 +6,7 @@ import (
 )
 
 // FindMenuByUserId
-// @Tags FindMenuByUserId
+// @Tags    FindMenuByUserId
 // @Summary 根据用户ID查找该用户的菜单
 func FindMenuByUserId(ctx *gin.Context) {
 	userId, _ := ctx.Get("userId")

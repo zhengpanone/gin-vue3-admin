@@ -40,8 +40,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 // 设置数据到上下文
 func setContextData(ctx *gin.Context, customClaim *systemReq.CustomClaims, token string) {
 	userDao := &dao.UserDao{
-		ID:   customClaim.UserID,
-		UUID: customClaim.UUID,
+		UserID: customClaim.UserID,
 	}
 	user, err := userDao.FindUser()
 	if err != nil {

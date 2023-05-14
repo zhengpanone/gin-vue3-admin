@@ -1,12 +1,8 @@
 package response
 
 import (
-	"net/http"
-	"strconv"
-	"time"
-
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
+	"net/http"
 )
 
 const (
@@ -15,7 +11,7 @@ const (
 	TOKEN_EXPIRE = -2
 )
 
-//Response  响应结构体
+// Response  响应结构体
 type Response struct {
 	// 业务状态码
 	Code int `json:"code"`
@@ -23,10 +19,6 @@ type Response struct {
 	Msg string `json:"msg"`
 	// 响应数据
 	Data interface{} `json:"data"`
-	// Meta 源数据,存储如请求ID,分页等信息
-	Meta Meta `json:"meta"`
-	// Errors 错误提示，如 xx字段不能为空等
-	Errors []ErrorItem `json:"errors"`
 }
 
 // Meta 元数据
@@ -43,11 +35,9 @@ type ErrorItem struct {
 
 func New() *Response {
 	return &Response{
-		Code:   200,
-		Msg:    "",
-		Data:   nil,
-		Meta:   Meta{RequestId: uuid.NewV4().String()},
-		Errors: []ErrorItem{},
+		Code: 200,
+		Msg:  "",
+		Data: nil,
 	}
 }
 
@@ -56,9 +46,6 @@ func ResultJson(ctx *gin.Context, code int, msg string, data interface{}) {
 		Code: code,
 		Msg:  msg,
 		Data: data,
-		Meta: Meta{
-			RequestId: strconv.FormatInt(time.Now().UnixNano(), 10),
-		},
 	})
 	return
 }
@@ -79,7 +66,7 @@ func OkWithDataAndMsg(ctx *gin.Context, data interface{}, msg string) {
 	ResultJson(ctx, SUCCESS, msg, data)
 }
 
-//Error 错误信息
+// ErrorWithMsg 错误信息
 func ErrorWithMsg(ctx *gin.Context, msg string) {
 	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }

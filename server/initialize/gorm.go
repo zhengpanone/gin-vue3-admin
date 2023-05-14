@@ -50,6 +50,7 @@ func InitGorm() {
 	}), gormConfig)
 	if err != nil {
 		panic(fmt.Sprintf("创建mysql客户端失败：%s", err))
+
 	}
 	global.GlobalMysqlClient = client
 	if mysqlConfig.AutoMigrate {

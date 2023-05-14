@@ -11,11 +11,11 @@ import (
 )
 
 // GetConfig
-// @Tags Base
+// @Tags    Base
 // @Summary 获取配置
-// @accept application/json
+// @accept  application/json
 // @Produce application/json
-// @Router /v1/api/config [get]
+// @Router  /v1/api/config [get]
 func (b *BaseApi) GetConfig(ctx *gin.Context) {
 	// Sugar模式
 	global.GVA_LOG.Sugar().Infof("日志写入测试:%v", strings.Repeat("hello\t", 6))

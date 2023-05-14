@@ -5,6 +5,7 @@ import (
 	"fmt"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
+	"strings"
 
 	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-vue3-admin/global"
@@ -47,7 +48,7 @@ func (userService *UserService) Register(param *systemReq.RegisterParam) (*syste
 		user = system.SysUser{
 			Username: param.Username,
 			Password: utils.MD5V([]byte(param.Password)),
-			UUID:     uuid.NewV4(),
+			UserID:   strings.ReplaceAll(uuid.NewV4().String(), "-", ""),
 		}
 		if err := tx.Create(&user).Error; err != nil {
 			global.GVA_LOG.Sugar().Errorf("新增用户失败：%s", err)

@@ -15,13 +15,13 @@ import (
 )
 
 // ChangePassword
-// @Tags SysUser
-// @Summary 更改密码
+// @Tags        SysUser
+// @Summary     更改密码
 // @Description 更改密码
-// @ID /v1/user/changePassword
-// @Accept  json
-// @Produce  json
-// @Router /v1/api/changePassword [post]
+// @ID          /v1/user/changePassword
+// @Accept      json
+// @Produce     json
+// @Router      /v1/api/changePassword [post]
 func (b *BaseApi) ChangePassword(ctx *gin.Context) {
 	var changePassword systemReq.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
@@ -45,14 +45,14 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 }
 
 // Register
-// @Tags Base
-// @Summary 用户注册
+// @Tags        Base
+// @Summary     用户注册
 // @Description 用户注册
-// @ID /v1/api/admin/register
-// @Accept  json
-// @Produce  application/json
-// @Param data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
-// @Router /v1/api/admin/register [post]
+// @ID          /v1/api/admin/register
+// @Accept      json
+// @Produce     application/json
+// @Param       data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
+// @Router      /v1/api/admin/register [post]
 func (b *BaseApi) Register(ctx *gin.Context) {
 	// 绑定参数
 	var registerParam systemReq.RegisterParam
@@ -66,27 +66,27 @@ func (b *BaseApi) Register(ctx *gin.Context) {
 }
 
 // Logout
-// @Tags Base
-// @Summary 用户退出
+// @Tags        Base
+// @Summary     用户退出
 // @Description 退出登录
-// @ID /v1/api/admin/logout
-// @Accept json
-// @Produce json
-// @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router /v1/api/admin/logout [post]
+// @ID          /v1/api/admin/logout
+// @Accept      json
+// @Produce     json
+// @Param       data body request.LoginParam true "用户名,密码,验证码,验证码ID"
+// @Router      /v1/api/admin/logout [post]
 func (b *BaseApi) Logout(c *gin.Context) {
 
 }
 
 // Login
-// @Tags Base
-// @Summary 用户登录
+// @Tags        Base
+// @Summary     用户登录
 // @Description 用户登录
-// @ID /v1/api/admin/login
-// @Accept json
-// @Produce json
-// @Param data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router /v1/api/admin/login [post]
+// @ID          /v1/api/admin/login
+// @Accept      json
+// @Produce     json
+// @Param       data body request.LoginParam true "用户名,密码,验证码,验证码ID"
+// @Router      /v1/api/admin/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam systemReq.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
@@ -116,8 +116,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
 	claims := j.CreateClaims(systemReq.BaseClaims{
 		Username: user.Username,
-		UUID:     user.UUID,
-		UserID:   user.ID,
+		UserID:   user.UserID,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
@@ -146,7 +145,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
 		User:      user,
 		Token:     token,
-		UserInfo:  systemRes.UserInfo{Id: user.UUID.String(), Account: user.Username, HeadPic: ""},
+		UserInfo:  systemRes.UserInfo{Id: user.UserID, Account: user.Username, HeadPic: ""},
 		ExpiresAt: claims.ExpiresAt,
 		Menus:     menus,
 	}, "登录成功")

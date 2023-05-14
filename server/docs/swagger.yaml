@@ -102,8 +102,7 @@ definitions:
           $ref: '#/definitions/response.ErrorItem'
         type: array
       meta:
-        allOf:
-        - $ref: '#/definitions/response.Meta'
+        $ref: '#/definitions/response.Meta'
         description: Meta 源数据,存储如请求ID,分页等信息
       msg:
         description: 提示信息
@@ -254,7 +253,6 @@ paths:
       consumes:
       - application/json
       description: 创建角色
-      operationId: /v1/api/role/addRole
       parameters:
       - description: body
         in: body
@@ -268,12 +266,50 @@ paths:
       summary: 创建角色
       tags:
       - RoleApi
+  /v1/api/role/delete/:id:
+    delete:
+      consumes:
+      - application/json
+      description: 删除角色
+      parameters:
+      - description: 角色ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 删除角色
+      tags:
+      - RoleApi
   /v1/api/role/pageRole:
     post:
       consumes:
       - application/json
-      description: 更新角色
-      operationId: /v1/api/role/update/:id
+      description: 分页获取角色
+      parameters:
+      - description: body
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageInfo'
+      produces:
+      - application/json
+      responses: {}
+      summary: 分页获取角色
+      tags:
+      - RoleApi
+  /v1/api/role/update:
+    put:
+      consumes:
+      - application/json
+      description: update role
       parameters:
       - description: body
         in: body
