@@ -16,7 +16,7 @@ func (roleService *SysRoleService) CreateRole(r systemReq.RoleParam) (role syste
 	roleDao := dao.SysRoleDao{}
 	// 查找父级id是否存在
 	var parentRole system.SysRole
-	if errors.Is(global.GlobalMysqlClient.Where("role_id=?", r.ParentId).First(&parentRole).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.GVA_DB.Where("role_id=?", r.ParentId).First(&parentRole).Error, gorm.ErrRecordNotFound) {
 		r.ParentId = "0"
 	}
 	role = system.SysRole{
@@ -32,7 +32,7 @@ func (roleService *SysRoleService) CreateRole(r systemReq.RoleParam) (role syste
 func (roleService *SysRoleService) PageRole(info request.PageInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
-	db := global.GlobalMysqlClient.Model(&system.SysRole{})
+	db := global.GVA_DB.Model(&system.SysRole{})
 	if err = db.Where("parent_id=?", "0").Count(&total).Error; total == 0 || err != nil {
 		return
 	}
@@ -46,7 +46,7 @@ func (roleService *SysRoleService) PageRole(info request.PageInfo) (list interfa
 }
 
 func (roleService *SysRoleService) findChildrenRole(role *system.SysRole) {
-	_ = global.GlobalMysqlClient.Where("parent_id=?", role.RoleID).First(&role.Children).Error
+	_ = global.GVA_DB.Where("parent_id=?", role.RoleID).First(&role.Children).Error
 	if len(role.Children) > 0 {
 		for k := range role.Children {
 			roleService.findChildrenRole(&role.Children[k])
@@ -56,11 +56,11 @@ func (roleService *SysRoleService) findChildrenRole(role *system.SysRole) {
 
 func (roleService *SysRoleService) DeleteRole(id string) error {
 	var data []system.SysRole
-	global.GlobalMysqlClient.Model(&system.SysRole{}).Where("id=?", id).Find(&data)
+	global.GVA_DB.Model(&system.SysRole{}).Where("id=?", id).Find(&data)
 	if len(data) == 0 {
 		return errors.New("id没有找到，删除失败")
 	}
-	global.GlobalMysqlClient.Delete(&data)
+	global.GVA_DB.Delete(&data)
 	return nil
 }
 

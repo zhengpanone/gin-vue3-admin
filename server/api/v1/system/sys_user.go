@@ -116,7 +116,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
 	claims := j.CreateClaims(systemReq.BaseClaims{
 		Username: user.Username,
-		UserID:   user.UserID,
+		UserID:   user.UUID,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {
@@ -145,7 +145,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
 		User:      user,
 		Token:     token,
-		UserInfo:  systemRes.UserInfo{Id: user.UserID, Account: user.Username, HeadPic: ""},
+		UserInfo:  systemRes.UserInfo{Id: user.UUID, Account: user.Username, HeadPic: ""},
 		ExpiresAt: claims.ExpiresAt,
 		Menus:     menus,
 	}, "登录成功")

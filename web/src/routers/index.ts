@@ -3,6 +3,7 @@ import AppLayout from '@/layout/AppLayout.vue'
 import productRoutes from './modules/product'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { indexStore } from '@/store/index'
 
 const routes:RouteRecordRaw[] = [
   {
@@ -14,7 +15,8 @@ const routes:RouteRecordRaw[] = [
         name: 'home',
         component: () => import('../views/home/index.vue'),
         meta: {
-          title: '首页'
+          title: '首页',
+          requireAuth: true,
         }
       },
       productRoutes
@@ -35,7 +37,14 @@ const router = createRouter({
 // 导航守卫
 
 // 全局前置守卫
-router.beforeEach(() => {
+router.beforeEach((to,from) => {
+  const store = indexStore()
+  if(to.meta.requireAuth && !store.$state.user){
+    return{
+      path: '/login',
+      query: {redirect: to.fullPath}
+    }
+  }
   nprogress.start() // 页面加载进度条
 })
 // 全局后置守卫

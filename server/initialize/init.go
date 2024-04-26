@@ -15,9 +15,9 @@ func InitConfig() {
 }
 
 func CloseResource() {
-	// TODO 关闭资源
-	if global.GlobalMysqlClient != nil {
-		db, _ := global.GlobalMysqlClient.DB()
+	//  关闭资源
+	if global.GVA_DB != nil {
+		db, _ := global.GVA_DB.DB()
 		_ = db.Close()
 	}
 

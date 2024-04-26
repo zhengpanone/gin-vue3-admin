@@ -1,6 +1,7 @@
 package response
 
 import (
+	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 )
 
@@ -12,9 +13,9 @@ type LoginResponse struct {
 	Menus     []Menus        `json:"menus"`
 }
 type UserInfo struct {
-	Id      string `json:"id"`
-	Account string `json:"account"`
-	HeadPic string `json:"headPic"`
+	Id      uuid.UUID `json:"id"`
+	Account string    `json:"account"`
+	HeadPic string    `json:"headPic"`
 }
 type Menus struct {
 	Path     string  `json:"path"`

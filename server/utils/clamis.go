@@ -2,7 +2,7 @@ package utils
 
 import (
 	"github.com/gin-gonic/gin"
-	uuid "github.com/satori/go.uuid"
+	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 )
@@ -20,10 +20,10 @@ func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
 }
 
 // GetUserUuid 从Gin的Context中获取从jwt解析出来的用户UUID
-func GetUserUuid(c *gin.Context) (userID string) {
+func GetUserUuid(c *gin.Context) (userID uuid.UUID) {
 	if claims, exists := c.Get("claims"); !exists {
 		if cl, err := GetClaims(c); err != nil {
-			return uuid.UUID{}.String()
+			return uuid.UUID{}
 		} else {
 			return cl.UserID
 		}

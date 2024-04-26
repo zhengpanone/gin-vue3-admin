@@ -52,19 +52,19 @@ func InitGorm() {
 		panic(fmt.Sprintf("创建mysql客户端失败：%s", err))
 
 	}
-	global.GlobalMysqlClient = client
+	global.GVA_DB = client
 	if mysqlConfig.AutoMigrate {
-		AutoMigrate()
+		RegisterTables()
 	}
 }
 
 func setTableOption(tableComment string) *gorm.DB {
 	value := fmt.Sprintf("ENGINE=InnoDB COMMENT='%s'", tableComment)
-	return global.GlobalMysqlClient.Set("gorm:table_options", value)
+	return global.GVA_DB.Set("gorm:table_options", value)
 
 }
 
-func AutoMigrate() {
+func RegisterTables() {
 	// 创建用户相关表
 	sysTable()
 }
@@ -95,15 +95,22 @@ func setNewLogger(gConfig *gorm.Config) {
 }
 
 func sysTable() {
-	// 用户账户表
+
 	_ = setTableOption("用户表").AutoMigrate(&system.SysUser{})
 	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
-	_ = setTableOption("角色表").AutoMigrate(&system.SysRole{})
-	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
-	_ = setTableOption("角色权限表").AutoMigrate(&system.SysRolePermission{})
-	_ = setTableOption("权限菜单表").AutoMigrate(&system.SysPermissionMenu{})
-	_ = setTableOption("权限url表").AutoMigrate(&system.SysPermissionApi{})
-	_ = setTableOption("权限按钮表").AutoMigrate(&system.SysPermissionPoint{})
-	_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
+	_ = setTableOption("角色表").AutoMigrate(&system.SysAuthority{})
+	_ = setTableOption("菜单表").AutoMigrate(&system.SysBaseMenu{})
+	_ = setTableOption("菜单参数表").AutoMigrate(&system.SysBaseMenuParameter{})
+
+	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysAuthorityMenu{})
+	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserAuthority{})
+
+	_ = setTableOption("菜单按钮表").AutoMigrate(&system.SysBaseMenuBtn{})
+
+	// 用户账户表
+	//_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
+	//_ = setTableOption("角色权限表").AutoMigrate(&system.SysRolePermission{})
+
+	//_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
 
 }

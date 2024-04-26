@@ -18,7 +18,7 @@ const (
 
 var (
 	GVA_CONFIG        config.ServerConfig
-	GlobalMysqlClient *gorm.DB      // mysql客户端
+	GVA_DB            *gorm.DB      // mysql客户端
 	GlobalRedisClient *redis.Client // redis客户端
 	GVA_LOG           *zap.Logger   // 日志
 	BlackCache        local_cache.Cache

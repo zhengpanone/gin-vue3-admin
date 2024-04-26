@@ -2,11 +2,9 @@ package dao
 
 import (
 	"errors"
-	uuid "github.com/satori/go.uuid"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 	"gorm.io/gorm"
-	"strings"
 )
 
 type SysRoleDao struct{}
@@ -18,11 +16,11 @@ type SysRoleDao struct{}
 // @return:      r system.SysRole, err error
 func (sr *SysRoleDao) AddRole(r system.SysRole) (system.SysRole, error) {
 	var role system.SysRole
-	if !errors.Is(global.GlobalMysqlClient.Where("role_name=?", r.RoleName).First(&role).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.GVA_DB.Where("role_name=?", r.RoleName).First(&role).Error, gorm.ErrRecordNotFound) {
 		return r, errors.New("角色已存在")
 	}
-	r.RoleID = strings.ReplaceAll(uuid.NewV4().String(), "-", "")
-	err := global.GlobalMysqlClient.Create(&r).Error
+	//r.RoleID = strings.ReplaceAll(uuid.NewV4().String(), "-", "")
+	err := global.GVA_DB.Create(&r).Error
 	return r, err
 }
 
@@ -33,6 +31,6 @@ func (sr *SysRoleDao) AddRole(r system.SysRole) (system.SysRole, error) {
 // @return:      r system.SysRole, err error
 func (sr *SysRoleDao) FindRole(role system.SysRole) system.SysRole {
 	var r system.SysRole
-	global.GlobalMysqlClient.Where("role_name=?", role.RoleName).First(&r)
+	global.GVA_DB.Where("role_name=?", role.RoleName).First(&r)
 	return r
 }

@@ -1,6 +1,7 @@
 package request
 
 import (
+	"github.com/gofrs/uuid/v5"
 	"github.com/golang-jwt/jwt"
 )
 
@@ -11,7 +12,7 @@ type CustomClaims struct {
 }
 
 type BaseClaims struct {
-	UserID   string // UserId
+	UserID   uuid.UUID // UserId
 	Username string
 	NickName string
 	RoleId   string

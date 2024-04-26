@@ -13,7 +13,7 @@ type JwtService struct{}
 // @param:       jwtList system.JwtBlacklist
 // @return:      err error
 func (j *JwtService) JsonInBlacklist(jwtList system.JwtBlacklist) (err error) {
-	err = global.GlobalMysqlClient.Create(&jwtList).Error
+	err = global.GVA_DB.Create(&jwtList).Error
 	if err != nil {
 		return
 	}

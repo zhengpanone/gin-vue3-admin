@@ -3,13 +3,11 @@ package system
 import (
 	"errors"
 	"fmt"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
-	"github.com/zhengpanone/gin-vue3-admin/utils"
-	"strings"
-
-	uuid "github.com/satori/go.uuid"
+	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	"github.com/zhengpanone/gin-vue3-admin/utils"
 
 	"gorm.io/gorm"
 )
@@ -25,7 +23,7 @@ type UserService struct {
 
 func (userService *UserService) LoginPwd(u *systemReq.LoginParam) (userInfo *system.SysUser, err error) {
 	var user system.SysUser
-	err = global.GlobalMysqlClient.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
+	err = global.GVA_DB.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
 	if err != nil {
 		return nil, errors.New("密码错误")
 	}
@@ -41,14 +39,14 @@ func (userService *UserService) LoginPwd(u *systemReq.LoginParam) (userInfo *sys
 func (userService *UserService) Register(param *systemReq.RegisterParam) (*system.SysUser, error) {
 
 	var user system.SysUser
-	err := global.GlobalMysqlClient.Transaction(func(tx *gorm.DB) error {
+	err := global.GVA_DB.Transaction(func(tx *gorm.DB) error {
 		if !errors.Is(tx.Where("username = ?", param.Username).First(&user).Error, gorm.ErrRecordNotFound) {
 			return errors.New("用户名已经注册")
 		}
 		user = system.SysUser{
 			Username: param.Username,
 			Password: utils.MD5V([]byte(param.Password)),
-			UserID:   strings.ReplaceAll(uuid.NewV4().String(), "-", ""),
+			UUID:     uuid.Must(uuid.NewV4()),
 		}
 		if err := tx.Create(&user).Error; err != nil {
 			global.GVA_LOG.Sugar().Errorf("新增用户失败：%s", err)
@@ -70,7 +68,7 @@ func (userService *UserService) Register(param *systemReq.RegisterParam) (*syste
 
 // ChangePassword 更改密码
 func (userService *UserService) ChangePassword(param systemReq.ChangePasswordParam) error {
-	result := global.GlobalMysqlClient.Where("username=? and password=?", param.Username, param.Password).First(param)
+	result := global.GVA_DB.Where("username=? and password=?", param.Username, param.Password).First(param)
 	fmt.Println(result)
 	return result.Error
 }
@@ -79,6 +77,6 @@ func (userService *UserService) ChangePassword(param systemReq.ChangePasswordPar
 // TODO
 func (userService *UserService) GetUserInfo(uuid uuid.UUID) (user system.SysUser, err error) {
 	var sysUser system.SysUser
-	//err = global.GlobalMysqlClient.Preload("")
+	//err = global.GVA_DB.Preload("")
 	return sysUser, err
 }
