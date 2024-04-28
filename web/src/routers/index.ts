@@ -5,7 +5,7 @@ import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { indexStore } from '@/store/index'
 
-const routes:RouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: AppLayout,
@@ -37,12 +37,12 @@ const router = createRouter({
 // 导航守卫
 
 // 全局前置守卫
-router.beforeEach((to,from) => {
+router.beforeEach((to, from) => {
   const store = indexStore()
-  if(to.meta.requireAuth && !store.$state.user){
-    return{
+  if (to.meta.requireAuth && !store.$state.user) {
+    return {
       path: '/login',
-      query: {redirect: to.fullPath}
+      query: { redirect: to.fullPath }
     }
   }
   nprogress.start() // 页面加载进度条
