@@ -10,10 +10,11 @@ import (
 type SysRoleDao struct{}
 
 // AddRole @author: [zhengpanone](https://github.com/zhengpanone)
-// @function:    AddRole
-// @description: 添加角色
-// @param:       role system.SysRole
-// @return:      r system.SysRole, err error
+//
+//	@function:		AddRole
+//	@description:	添加角色
+//	@param:			role system.SysRole
+//	@return:		r system.SysRole, err error
 func (sr *SysRoleDao) AddRole(r system.SysRole) (system.SysRole, error) {
 	var role system.SysRole
 	if !errors.Is(global.GVA_DB.Where("role_name=?", r.RoleName).First(&role).Error, gorm.ErrRecordNotFound) {
@@ -25,10 +26,11 @@ func (sr *SysRoleDao) AddRole(r system.SysRole) (system.SysRole, error) {
 }
 
 // FindRole @author: [zhengpanone](https://github.com/zhengpanone)
-// @function:    FindRole
-// @description: 查找角色
-// @param:       role system.SysRole
-// @return:      r system.SysRole, err error
+//
+//	@function:		FindRole
+//	@description:	查找角色
+//	@param:			role system.SysRole
+//	@return:		r system.SysRole, err error
 func (sr *SysRoleDao) FindRole(role system.SysRole) system.SysRole {
 	var r system.SysRole
 	global.GVA_DB.Where("role_name=?", role.RoleName).First(&r)

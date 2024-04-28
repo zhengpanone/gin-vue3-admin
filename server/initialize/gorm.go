@@ -98,6 +98,7 @@ func sysTable() {
 
 	_ = setTableOption("用户表").AutoMigrate(&system.SysUser{})
 	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
+	_ = setTableOption("用户信息表").AutoMigrate(&system.JwtBlacklist{})
 	_ = setTableOption("角色表").AutoMigrate(&system.SysAuthority{})
 	_ = setTableOption("菜单表").AutoMigrate(&system.SysBaseMenu{})
 	_ = setTableOption("菜单参数表").AutoMigrate(&system.SysBaseMenuParameter{})

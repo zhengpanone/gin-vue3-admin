@@ -12,12 +12,14 @@ import (
 type JwtApi struct{}
 
 // JsonInBlacklist
-// @Tags    Jwt
-// @Summary jwt加入黑名单
-// @accept  application/json
-// @Produce application/json
-// @Success 200 {object} response.Response{msg=string} "jwt加入黑名单"
-// @Router  /jwt/jsonInBlacklist [post]
+//
+//	@Tags		Jwt
+//	@Summary	jwt加入黑名单
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Success	200	{object}	response.Response{msg=string}	"jwt加入黑名单"
+//	@Router		/v1/api/jwt/jsonInBlacklist [post]
 func (j *JwtApi) JsonInBlacklist(c *gin.Context) {
 	token, _ := utils.GetToken(c)
 	jwt := system.JwtBlacklist{Jwt: token}
@@ -27,5 +29,6 @@ func (j *JwtApi) JsonInBlacklist(c *gin.Context) {
 		response.ErrorWithMsg(c, "jwt作废失败")
 		return
 	}
+	utils.ClearToken(c)
 	response.OkWithMsg(c, "jwt作废成功")
 }

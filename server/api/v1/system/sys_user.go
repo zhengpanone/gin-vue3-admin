@@ -15,13 +15,14 @@ import (
 )
 
 // ChangePassword
-// @Tags        SysUser
-// @Summary     更改密码
-// @Description 更改密码
-// @ID          /v1/user/changePassword
-// @Accept      json
-// @Produce     json
-// @Router      /v1/api/changePassword [post]
+//
+//	@Tags			SysUser
+//	@Summary		更改密码
+//	@Description	更改密码
+//	@ID				/v1/user/changePassword
+//	@Accept			json
+//	@Produce		json
+//	@Router			/v1/api/changePassword [post]
 func (b *BaseApi) ChangePassword(ctx *gin.Context) {
 	var changePassword systemReq.ChangePasswordParam
 	_ = ctx.ShouldBindJSON(&changePassword)
@@ -45,14 +46,15 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 }
 
 // Register
-// @Tags        Base
-// @Summary     用户注册
-// @Description 用户注册
-// @ID          /v1/api/admin/register
-// @Accept      json
-// @Produce     application/json
-// @Param       data body request.RegisterParam true "body" #[username,密码,手机号码] body [string,string,string] [required,required,required] "[system.SysUser]"
-// @Router      /v1/api/admin/register [post]
+//
+//	@Tags			Base
+//	@Summary		用户注册
+//	@Description	用户注册
+//	@ID				/v1/api/admin/register
+//	@Accept			json
+//	@Produce		application/json
+//	@Param			data	body	request.RegisterParam	true	"body"	#[username,密码,手机号码]	body	[string,string,string]	[required,required,required]	"[system.SysUser]"
+//	@Router			/v1/api/admin/register [post]
 func (b *BaseApi) Register(ctx *gin.Context) {
 	// 绑定参数
 	var registerParam systemReq.RegisterParam
@@ -66,27 +68,29 @@ func (b *BaseApi) Register(ctx *gin.Context) {
 }
 
 // Logout
-// @Tags        Base
-// @Summary     用户退出
-// @Description 退出登录
-// @ID          /v1/api/admin/logout
-// @Accept      json
-// @Produce     json
-// @Param       data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router      /v1/api/admin/logout [post]
+//
+//	@Tags			Base
+//	@Summary		用户退出
+//	@Description	退出登录
+//	@ID				/v1/api/admin/logout
+//	@Accept			json
+//	@Produce		json
+//	@Param			data	body	request.LoginParam	true	"用户名,密码,验证码,验证码ID"
+//	@Router			/v1/api/admin/logout [post]
 func (b *BaseApi) Logout(c *gin.Context) {
 
 }
 
 // Login
-// @Tags        Base
-// @Summary     用户登录
-// @Description 用户登录
-// @ID          /v1/api/admin/login
-// @Accept      json
-// @Produce     json
-// @Param       data body request.LoginParam true "用户名,密码,验证码,验证码ID"
-// @Router      /v1/api/admin/login [post]
+//
+//	@Tags			Base
+//	@Summary		用户登录
+//	@Description	用户登录
+//	@ID				/v1/api/admin/login
+//	@Accept			json
+//	@Produce		json
+//	@Param			data	body	request.LoginParam	true	"用户名,密码,验证码,验证码ID"
+//	@Router			/v1/api/admin/login [post]
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam systemReq.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)

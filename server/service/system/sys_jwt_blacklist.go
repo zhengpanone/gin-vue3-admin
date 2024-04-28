@@ -7,11 +7,11 @@ import (
 
 type JwtService struct{}
 
-// @author:      [piexlmax](https://github.com/piexlmax)
-// @function:    JsonInBlacklist
-// @description: 拉黑jwt
-// @param:       jwtList system.JwtBlacklist
-// @return:      err error
+// @author:		[piexlmax](https://github.com/piexlmax)
+// @function:		JsonInBlacklist
+// @description:	拉黑jwt
+// @param:			jwtList system.JwtBlacklist
+// @return:		err error
 func (j *JwtService) JsonInBlacklist(jwtList system.JwtBlacklist) (err error) {
 	err = global.GVA_DB.Create(&jwtList).Error
 	if err != nil {

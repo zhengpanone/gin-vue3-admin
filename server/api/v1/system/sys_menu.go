@@ -15,14 +15,15 @@ type AuthorityMenuApi struct {
 }
 
 // AddBaseMenu
-// @Tags      Menu
-// @Summary   新增菜单
-// @Security  ApiKeyAuth
-// @accept    application/json
-// @Produce   application/json
-// @Param     data  body      system.SysBaseMenu             true  "路由path, 父菜单ID, 路由name, 对应前端文件路径, 排序标记"
-// @Success   200   {object}  response.Response{msg=string}  "新增菜单"
-// @Router    /v1/api/menu/addBaseMenu [post]
+//
+//	@Tags		Menu
+//	@Summary	新增菜单
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		system.SysBaseMenu				true	"路由path, 父菜单ID, 路由name, 对应前端文件路径, 排序标记"
+//	@Success	200		{object}	response.Response{msg=string}	"新增菜单"
+//	@Router		/v1/api/menu/addBaseMenu [post]
 func (a *AuthorityMenuApi) AddBaseMenu(c *gin.Context) {
 	var menu system.SysBaseMenu
 	err := c.ShouldBindJSON(&menu)
@@ -40,14 +41,15 @@ func (a *AuthorityMenuApi) AddBaseMenu(c *gin.Context) {
 }
 
 // GetMenu godoc
-// @Tags AuthorityMenu
-// @Summary   获取用户动态路由
-// @Description  根据用户ID获取菜单
-// @Security  ApiKeyAuth
-// @Produce   application/json
-// @Param     data  body      request.Empty  true  "空"
-// @Success   200   {object}  response.Response{data=response.SysMenusResponse,msg=string}  "获取用户动态路由,返回包括系统菜单详情列表"
-// @Router    /v1/api/menu/getMenu [post]
+//
+//	@Tags			AuthorityMenu
+//	@Summary		获取用户动态路由
+//	@Description	根据用户ID获取菜单
+//	@Security		ApiKeyAuth
+//	@Produce		application/json
+//	@Param			data	body		request.Empty													true	"空"
+//	@Success		200		{object}	response.Response{data=response.SysMenusResponse,msg=string}	"获取用户动态路由,返回包括系统菜单详情列表"
+//	@Router			/v1/api/menu/getMenu [post]
 func (a *AuthorityMenuApi) GetMenu(c *gin.Context) {
 	menus, err := menuService.GetMenuTree(utils.GetUserAuthorityId(c))
 	if err != nil {
@@ -62,14 +64,15 @@ func (a *AuthorityMenuApi) GetMenu(c *gin.Context) {
 }
 
 // GetMenuList
-// @Tags      Menu
-// @Summary   分页获取基础menu列表
-// @Security  ApiKeyAuth
-// @accept    application/json
-// @Produce   application/json
-// @Param     data  body      request.PageInfo                                        true  "页码, 每页大小"
-// @Success   200   {object}  response.Response{data=response.PageResult,msg=string}  "分页获取基础menu列表,返回包括列表,总数,页码,每页数量"
-// @Router    /v1/api/menu/getMenuList [post]
+//
+//	@Tags		Menu
+//	@Summary	分页获取基础menu列表
+//	@Security	ApiKeyAuth
+//	@accept		application/json
+//	@Produce	application/json
+//	@Param		data	body		request.PageInfo										true	"页码, 每页大小"
+//	@Success	200		{object}	response.Response{data=response.PageResult,msg=string}	"分页获取基础menu列表,返回包括列表,总数,页码,每页数量"
+//	@Router		/v1/api/menu/getMenuList [post]
 func (a *AuthorityMenuApi) GetMenuList(c *gin.Context) {
 	var pageInfo request.PageInfo
 	err := c.ShouldBindJSON(&pageInfo)

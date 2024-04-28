@@ -5,7 +5,21 @@ import (
 	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	"net"
 )
+
+func ClearToken(c *gin.Context) {
+	//
+	host, _, err := net.SplitHostPort(c.Request.Host)
+	if err != nil {
+		host = c.Request.Host
+	}
+	if net.ParseIP(host) != nil {
+		c.SetCookie("x-token", "", -1, "/", "", false, false)
+	} else {
+		c.SetCookie("x-token", "", -1, "/", host, false, false)
+	}
+}
 
 func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
 	token := c.Request.Header.Get("x-token")

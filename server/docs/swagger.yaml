@@ -317,25 +317,6 @@ info:
   title: gin api learn
   version: 0.0.1
 paths:
-  /jwt/jsonInBlacklist:
-    post:
-      consumes:
-      - application/json
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: jwt加入黑名单
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
-      summary: jwt加入黑名单
-      tags:
-      - Jwt
   /v1/api/admin/login:
     post:
       consumes:
@@ -438,6 +419,27 @@ paths:
       summary: 获取配置
       tags:
       - Base
+  /v1/api/jwt/jsonInBlacklist:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: jwt加入黑名单
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: jwt加入黑名单
+      tags:
+      - Jwt
   /v1/api/menu/addBaseMenu:
     post:
       consumes:

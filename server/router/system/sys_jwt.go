@@ -8,7 +8,7 @@ import (
 type JwtRouter struct{}
 
 func (j *JwtRouter) InitJwtRouter(Router *gin.RouterGroup) {
-	jwtRouter := Router.Group("/v1/api/jwt")
+	jwtRouter := Router.Group("jwt")
 	jwtApi := v1.ApiGroupApp.SystemApiGroup.JwtApi
 	{
 		jwtRouter.POST("jwtInBlacklist", jwtApi.JsonInBlacklist) // jwt加入黑名单

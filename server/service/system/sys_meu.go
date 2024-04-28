@@ -65,10 +65,10 @@ func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[ui
 	return treeMap, err
 }
 
-// @function: getChildrenList
-// @description: 获取子菜单
-// @param: menu *model.SysMenu, treeMap map[string][]model.SysMenu
-// @return: err error
+// @function:		getChildrenList
+// @description:	获取子菜单
+// @param:			menu *model.SysMenu, treeMap map[string][]model.SysMenu
+// @return:		err error
 func (menuService *MenuService) getChildrenList(menu *system.SysMenu, treeMap map[uint][]system.SysMenu) (err error) {
 	menu.Children = treeMap[menu.MenuId]
 	for i := 0; i < len(menu.Children); i++ {
