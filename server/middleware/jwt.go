@@ -21,6 +21,12 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 			ctx.Abort()
 			return
 		}
+		if token == "" {
+			response.NoAuth(ctx, "未登录或非法访问")
+			ctx.Abort()
+			return
+		}
+		// TODO 黑名单
 		// 验证Token
 		j := utils.NewJWT()
 		userClaim, err := j.ParseToken(token)
@@ -40,7 +46,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 // 设置数据到上下文
 func setContextData(ctx *gin.Context, customClaim *systemReq.CustomClaims, token string) {
 	userDao := &dao.UserDao{
-		UserID: customClaim.UserID,
+		UserID: customClaim.UUID,
 	}
 	user, err := userDao.FindUser()
 	if err != nil {

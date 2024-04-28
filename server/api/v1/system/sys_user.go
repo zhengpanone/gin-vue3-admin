@@ -116,7 +116,7 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 	j := &utils.JWT{SigningKey: []byte(global.GVA_CONFIG.JWT.SigningKey)}
 	claims := j.CreateClaims(systemReq.BaseClaims{
 		Username: user.Username,
-		UserID:   user.UUID,
+		UUID:     user.UUID,
 	})
 	token, err := j.CreateToken(claims)
 	if err != nil {

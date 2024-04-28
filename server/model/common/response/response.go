@@ -74,3 +74,9 @@ func ErrorWithMsg(ctx *gin.Context, msg string) {
 func ErrorWithToken(ctx *gin.Context, msg string) {
 	ResultJson(ctx, TOKEN_EXPIRE, msg, map[string]interface{}{})
 }
+
+func NoAuth(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusUnauthorized, Response{
+		401, message, nil,
+	})
+}

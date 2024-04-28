@@ -104,7 +104,7 @@ func sysTable() {
 
 	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysAuthorityMenu{})
 	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserAuthority{})
-
+	_ = setTableOption("用户角色表").AutoMigrate(&system.SysAuthorityBtn{})
 	_ = setTableOption("菜单按钮表").AutoMigrate(&system.SysBaseMenuBtn{})
 
 	// 用户账户表

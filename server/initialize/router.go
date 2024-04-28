@@ -31,11 +31,12 @@ func InitRouters() *gin.Engine {
 		systemRouter.InitBaseRouter(PublicGroup) // 注册基础功能路由，不做鉴权
 		systemRouter.InitRoleRouter(PublicGroup)
 	}
-	PrivateGroup := Router.Group("")
+	PrivateGroup := Router.Group("/v1/api")
 	PrivateGroup.Use(middleware.JWTAuthMiddleware())
 	{
 		systemRouter.InitUserRouter(PrivateGroup)
 		systemRouter.InitJwtRouter(PrivateGroup)
+		systemRouter.InitMenuRouter(PrivateGroup) // 注册menu路由
 
 	}
 

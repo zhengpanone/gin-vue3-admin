@@ -66,7 +66,7 @@ func (r *RoleApi) PageRole(c *gin.Context) {
 // @Accept      json
 // @Produce     application/json
 // @Param       id query string true "角色ID"
-// @Success 200 {object} response.Response DeleteRole 返回结果 200 类型（object就是结构体） 类型 注释
+// @Success 200 {object} response.Response 返回结果 200 类型（object就是结构体） 类型 注释
 // @Router      /v1/api/role/delete/:id [delete]
 func (r *RoleApi) DeleteRole(c *gin.Context) {
 	id := c.Param("id")

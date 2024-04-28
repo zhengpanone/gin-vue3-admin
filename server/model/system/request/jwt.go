@@ -12,8 +12,9 @@ type CustomClaims struct {
 }
 
 type BaseClaims struct {
-	UserID   uuid.UUID // UserId
-	Username string
-	NickName string
-	RoleId   string
+	UUID        uuid.UUID // UserId
+	ID          uint
+	Username    string
+	NickName    string
+	AuthorityId uint
 }

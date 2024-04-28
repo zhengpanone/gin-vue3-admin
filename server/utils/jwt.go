@@ -30,7 +30,15 @@ func NewJWT() *JWT {
 }
 
 func GetToken(ctx *gin.Context) (string, error) {
-	token := ctx.Request.Header.Get("TOKEN")
+	token, _ := ctx.Cookie("x-token")
+	if token != "" {
+		return token, nil
+	}
+	token = ctx.Request.Header.Get("x-token")
+	if token != "" {
+		return token, nil
+	}
+	token = ctx.Request.Header.Get("TOKEN")
 	if token != "" {
 		return token, nil
 	}
@@ -56,6 +64,7 @@ func GetToken(ctx *gin.Context) (string, error) {
 	}
 	return "", errors.New("从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在TOKEN且claims是否为规定结构")
 }
+
 func (j *JWT) CreateClaims(baseClaims systemReq.BaseClaims) systemReq.CustomClaims {
 	claims := systemReq.CustomClaims{
 		BaseClaims: baseClaims,
