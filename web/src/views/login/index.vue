@@ -97,19 +97,23 @@ const handleSubmit = async () => {
   // 验证通过,展示loading
   loading.value = true
   // 请求提交
-  const loginData = await login(toRaw(user)).finally(() => {
+
+  try {
+    const loginData = await login(toRaw(user))
+    const store = indexStore()
+
+    store.setUser(loginData.data.userInfo)
+    setItem('token', loginData.data.token)
+    router.replace({
+      name: 'home'
+    })
+    // 处理响应
+    console.log('handleSubmit')
+  } catch (error) {
+    loadCaptcha()
+  } finally {
     loading.value = false
-  })
-  const store = indexStore()
-
-  store.setUser(loginData.data.userInfo)
-  setItem('token', loginData.data.token)
-  router.replace({
-    name: 'home'
-  })
-  // 处理响应
-
-  console.log('handleSubmit')
+  }
 }
 
 </script>
