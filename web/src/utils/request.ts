@@ -28,6 +28,10 @@ request.interceptors.request.use((config) => {
 })
 // 响应拦截器
 request.interceptors.response.use((response) => {
+
+  if(!response.data.code || response.data.code===200){
+    return response
+  }
   // 统一处理接口响应错误 如 token过期,服务端异常
   // token失效
   if (response.data.code == -2) {
@@ -52,12 +56,13 @@ request.interceptors.response.use((response) => {
     })
     return Promise.reject(response)
 
-  } else if (response.data.code !== 200) {
-    ElMessage.error(response.data.msg || '请求失败，请稍后重试')
-    // 手动返回promise异常
-    return Promise.reject(response.data)
   }
-  return response
+  // 其他错误情况
+  ElMessage.error(response.data.msg || '请求失败，请稍后重试')
+  // 手动返回promise异常
+  return Promise.reject(response.data)
+
+
 }, (error) => {
   return Promise.reject(error)
 })
