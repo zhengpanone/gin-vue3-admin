@@ -75,11 +75,12 @@ import {getCaptcha, login} from "@/api/common";
 import type {ICaptchaInfo} from "@/api/types/common";
 import {onMounted, reactive, ref, toRaw} from "vue";
 import type {IElForm, IFormRule} from "@/types/element-plus";
-import {useRouter} from "vue-router";
+import {useRouter,useRoute} from "vue-router";
 import {indexStore} from "@/store/index";
 import {setItem} from "@/utils/storage";
 
 const router = useRouter();
+const route = useRoute()
 const form = ref<IElForm | null>(null);
 
 const captchaSrc = ref<ICaptchaInfo["pic_path"]>();
@@ -122,9 +123,11 @@ const handleSubmit = async () => {
     const store = indexStore();
 
     store.setUser({...loginData.data.userInfo, token: loginData.data.token});
-    await router.replace({
-      name: "home",
-    });
+    let redirect = route.query.redirect || '/'
+    if (typeof redirect !== 'string'){
+      redirect = '/'
+    }
+    await router.replace(redirect);
     // 处理响应
     console.log("handleSubmit");
   } catch (error) {

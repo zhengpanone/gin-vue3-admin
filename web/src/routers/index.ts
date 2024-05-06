@@ -37,11 +37,12 @@ const router = createRouter({
 // 导航守卫
 
 // 全局前置守卫
-router.beforeEach((to, from) => {
+router.beforeEach((to,  ) => {
   const store = indexStore()
   if (to.meta.requireAuth && !store.$state.user) {
     return {
       path: '/login',
+        // 保存我们所在的位置，以便以后可以回到当前页
       query: { redirect: to.fullPath }
     }
   }
