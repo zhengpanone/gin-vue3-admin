@@ -20,13 +20,18 @@ export const login = (data: {
     captcha: string,
     captchaId: string
 }) => {
-    const md5 = new Md5()
-    md5.appendStr(data.password)
-    data.password = md5.end() as string
+
+        const md5 = new Md5()
+        md5.appendStr(data.password)
+        const passwordMD5 = md5.end() as string
+
     return request<ILoginResponse>({
         method: 'POST',
         url: '/api/admin/login',
-        data
+        data: {
+            ...data,
+            password: passwordMD5
+        }
     })
 }
 
