@@ -1,26 +1,36 @@
 <template>
   <div class="login-container">
-    <el-form class="login-form" :rules="rules" ref="form" :model="user" @submit.prevent="handleSubmit">
+    <el-form
+        class="login-form"
+        :rules="rules"
+        ref="form"
+        :model="user"
+        @submit.prevent="handleSubmit"
+    >
       <div class="login-form-header">
-        <img class="login-logo" src="@/assets/login_logo.png" alt="logo">
+        <img class="login-logo" src="@/assets/login_logo.png" alt="logo"/>
       </div>
       <el-form-item prop="username">
         <el-input v-model="user.username" placeholder="请输入用户名">
           <template #prefix>
-            <i class="el-input_icon ">
+            <i class="el-input_icon">
               <el-icon>
-                <User />
+                <User/>
               </el-icon>
             </i>
           </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <el-input v-model="user.password" type="password" placeholder="请输入密码">
+        <el-input
+            v-model="user.password"
+            type="password"
+            placeholder="请输入密码"
+        >
           <template #prefix>
-            <i class="el-input__icon ">
+            <i class="el-input__icon">
               <el-icon>
-                <Lock />
+                <Lock/>
               </el-icon>
             </i>
           </template>
@@ -33,16 +43,26 @@
             <template #prefix>
               <i class="el-input_icon">
                 <el-icon>
-                  <Key />
+                  <Key/>
                 </el-icon>
               </i>
             </template>
           </el-input>
-          <img class="imgcode" alt="验证码" :src="captchaSrc" @click="loadCaptcha">
+          <img
+              class="imgcode"
+              alt="验证码"
+              :src="captchaSrc"
+              @click="loadCaptcha"
+          />
         </div>
       </el-form-item>
       <el-form-item>
-        <el-button class="submit-button" type="primary" :loading="loading" native-type="submit">
+        <el-button
+            class="submit-button"
+            type="primary"
+            :loading="loading"
+            native-type="submit"
+        >
           登录
         </el-button>
       </el-form-item>
@@ -50,72 +70,69 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Key, User, Lock } from '@element-plus/icons-vue'
-import { getCaptcha, login } from '@/api/common'
-import type { ICaptchaInfo } from '@/api/types/common'
-import {onMounted, reactive, ref, toRaw} from 'vue'
-import type { IElForm, IFormRule } from '@/types/element-plus'
-import { useRouter } from 'vue-router'
-import { indexStore } from '@/store/index'
-import { setItem } from '@/utils/storage'
+import {Key, Lock, User} from "@element-plus/icons-vue";
+import {getCaptcha, login} from "@/api/common";
+import type {ICaptchaInfo} from "@/api/types/common";
+import {onMounted, reactive, ref, toRaw} from "vue";
+import type {IElForm, IFormRule} from "@/types/element-plus";
+import {useRouter} from "vue-router";
+import {indexStore} from "@/store/index";
+import {setItem} from "@/utils/storage";
 
-const router = useRouter()
-const form = ref<IElForm | null>(null)
+const router = useRouter();
+const form = ref<IElForm | null>(null);
 
-const captchaSrc = ref<ICaptchaInfo['pic_path']>()
+const captchaSrc = ref<ICaptchaInfo["pic_path"]>();
 const user = reactive({
-  username: 'admin',
-  password: '123456',
-  captcha: '',
-  captchaId: ''
-
-})
+  username: "admin",
+  password: "admin",
+  captcha: "",
+  captchaId: "",
+});
 onMounted(() => {
-  loadCaptcha()
-})
+  loadCaptcha();
+});
 
 const loadCaptcha = async () => {
   await getCaptcha().then((res) => {
-    captchaSrc.value = res.data.pic_path
-    user.captchaId = res.data.captcha_id
-  })
-}
+    captchaSrc.value = res.data.pic_path;
+    user.captchaId = res.data.captcha_id;
+  });
+};
 
-const loading = ref(false)
+const loading = ref(false);
 const rules = ref<IFormRule>({
-  username: [{ required: true, message: '请输入账号', trigger: 'change' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'change' }],
-  captcha: [{ required: true, message: '请输入验证码', trigger: 'change' }]
-})
+  username: [{required: true, message: "请输入账号", trigger: "change"}],
+  password: [{required: true, message: "请输入密码", trigger: "change"}],
+  captcha: [{required: true, message: "请输入验证码", trigger: "change"}],
+});
 
 const handleSubmit = async () => {
   // 表单验证
-  const valid = await form.value?.validate()
+  const valid = await form.value?.validate();
   if (!valid) {
-    return false
+    return false;
   }
   // 验证通过,展示loading
-  loading.value = true
+  loading.value = true;
   // 请求提交
 
   try {
-    const loginData = await login(toRaw(user))
-    const store = indexStore()
+    const loginData = await login(toRaw(user));
+    const store = indexStore();
 
-    store.setUser(loginData.data.userInfo)
-    setItem('token', loginData.data.token)
-    router.replace({
-      name: 'home'
-    })
+    store.setUser({...loginData.data.userInfo, token: loginData.data.token});
+    await router.replace({
+      name: "home",
+    });
     // 处理响应
-    console.log('handleSubmit')
+    console.log("handleSubmit");
   } catch (error) {
-    loadCaptcha()
+    loadCaptcha();
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-
+};
 </script>
 
 <style lang="scss" scoped>

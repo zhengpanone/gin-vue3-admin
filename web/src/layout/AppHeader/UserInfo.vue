@@ -18,7 +18,9 @@ import { indexStore } from '@/store/index'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { logout } from '@/api/common'
-import { getItem } from '@/utils/storage'
+import {getItem, removeItem} from '@/utils/storage'
+import {USER} from "@/utils/constants";
+import {IUserInfo} from "@/api/types/common";
 const store = indexStore()
 const router = useRouter()
 const handleLogout = () => {
@@ -29,10 +31,12 @@ const handleLogout = () => {
     cancelButtonText: '取消'
   }).then(async () => {
     // 确认发送退出请求
-    const token = getItem<string>('token') as string
-    await logout(token)
+    const userInfo = getItem<{token:string} & IUserInfo>(USER)
+    await logout(userInfo?.token).then(()=>{
+      removeItem(USER)
+    })
     // 跳转到登录页
-    router.push({
+    await router.push({
       name: 'login'
     })
     ElMessage({

@@ -29,7 +29,7 @@ export const login = (data: {
   })
 }
 
-export const logout = (token:string) => {
+export const logout = (token: string | undefined) => {
   return request({
     method: 'POST',
     url: '/api/jwt/jwtInBlacklist',

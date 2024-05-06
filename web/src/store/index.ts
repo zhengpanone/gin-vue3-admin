@@ -1,28 +1,27 @@
 import { defineStore } from 'pinia'
 import { IUserInfo } from '@/api/types/common'
 import { setItem, getItem } from '@/utils/storage'
-import { USER} from '@/utils/constants'
+import { USER } from '@/utils/constants'
 
 const state = {
   name: null,
   isCollapse: false,
-  user: getItem<IUserInfo>(USER)
+  user: getItem<{token: string} & IUserInfo>(USER)
 }
 
 export type State = typeof state
 
-
 export const indexStore = defineStore({
   id: 'index',
-  state: () => {return state},
+  state: () => { return state },
   getters: {},
   actions: {
-    setIsCollapse () {
+    setIsCollapse() {
       this.isCollapse = !this.isCollapse
     },
-    setUser(user: IUserInfo| null) {
+    setUser(user: {token:string} & IUserInfo | null) {
       this.user = user
-      setItem(USER,user)
+      setItem(USER, user)
     }
   }
 })

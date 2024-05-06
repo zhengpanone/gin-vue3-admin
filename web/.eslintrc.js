@@ -14,7 +14,8 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
-    'vue/multi-word-component-names': 0
+    'vue/multi-word-component-names': 0,
+    'space-before-function-paren': 0
   },
   globals: {
     defineProps: 'readonly',
