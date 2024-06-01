@@ -5,7 +5,12 @@ import (
 	"github.com/zhengpanone/gin-vue3-admin/initialize"
 )
 
-// @title			gin api learn
+//go:generate go env -w GO111MODULE=on
+//go:generate go env -w GOPROXY=https://goproxy.cn,direct
+//go:generate go mod tidy
+//go:generate go mod download
+
+// @title			gin swagger API接口文档
 // @version		0.0.1
 // @description	This is gin learn api docs.
 // @license.name	Apache 2.0

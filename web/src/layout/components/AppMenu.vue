@@ -32,6 +32,17 @@
         商品评论
       </el-menu-item>
     </el-sub-menu>
+
+    <el-sub-menu index="/system">
+      <template #title>
+        <el-icon><Location /></el-icon>
+        <span>系统管理</span>
+      </template>
+
+      <el-menu-item index="/system/user-list">
+        用户管理
+      </el-menu-item>
+    </el-sub-menu>
   </el-menu>
 </template>
 <script lang="ts" setup>

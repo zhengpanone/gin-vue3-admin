@@ -314,9 +314,39 @@ info:
   description: This is gin learn api docs.
   license:
     name: Apache 2.0
-  title: gin api learn
+  title: gin swagger API接口文档
   version: 0.0.1
 paths:
+  /user/getUserList:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 页码, 每页大小
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.PageInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 分页获取用户列表,返回包括列表,总数,页码,每页数量
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.PageResult'
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 分页获取用户列表
+      tags:
+      - SysUser
   /v1/api/admin/login:
     post:
       consumes:
@@ -332,7 +362,11 @@ paths:
           $ref: '#/definitions/request.LoginParam'
       produces:
       - application/json
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
       summary: 用户登录
       tags:
       - Base

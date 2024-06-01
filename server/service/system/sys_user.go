@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
@@ -79,4 +80,22 @@ func (userService *UserService) GetUserInfo(uuid uuid.UUID) (user system.SysUser
 	var sysUser system.SysUser
 	//err = global.GVA_DB.Preload("")
 	return sysUser, err
+}
+
+//@function: GetUserInfoList
+//@description: 分页获取数据
+//@param: info request.PageInfo
+//@return: err error, list interface{}, total int64
+
+func (userService *UserService) GetUserInfoList(info request.PageInfo) (list interface{}, total int64, err error) {
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+	db := global.GVA_DB.Model(&system.SysUser{})
+	var userList []system.SysUser
+	err = db.Count(&total).Error
+	if err != nil {
+		return
+	}
+	err = db.Limit(limit).Offset(offset).Preload("Authorities").Preload("Authority").Find(&userList).Error
+	return userList, total, err
 }

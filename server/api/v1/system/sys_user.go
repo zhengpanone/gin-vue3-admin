@@ -2,6 +2,7 @@ package system
 
 import (
 	"fmt"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
@@ -61,7 +62,7 @@ func (b *BaseApi) Register(ctx *gin.Context) {
 	_ = ctx.ShouldBindJSON(&registerParam)
 	register, err := userService.Register(&registerParam)
 	if err != nil {
-		response.ErrorWithMsg(ctx, "注册失败")
+		response.ErrorWithMsg(ctx, "注册失败"+err.Error())
 		return
 	}
 	response.OkWithData(ctx, register)
@@ -83,14 +84,15 @@ func (b *BaseApi) Logout(c *gin.Context) {
 
 // Login
 //
-//	@Tags			Base
-//	@Summary		用户登录
-//	@Description	用户登录
-//	@ID				/v1/api/admin/login
-//	@Accept			json
-//	@Produce		json
-//	@Param			data	body	request.LoginParam	true	"用户名,密码,验证码,验证码ID"
-//	@Router			/v1/api/admin/login [post]
+//		@Tags			Base
+//		@Summary		用户登录
+//		@Description	用户登录
+//		@ID				/v1/api/admin/login
+//		@Accept			json
+//		@Produce		application/json
+//		@Param			data	body	request.LoginParam	true	"用户名,密码,验证码,验证码ID"
+//	 	@Router			/v1/api/admin/login [post]
+//		@Success  		200 {object} response.Response(data=systemRes.LoginResponse, msg=string) "返回包括用户信息，token过期时间"
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam systemReq.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
@@ -158,4 +160,39 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 func (b *BaseApi) GetUser(ctx *gin.Context) {
 	user, _ := ctx.Get("user")
 	response.OkWithData(ctx, user)
+}
+
+// GetUserList
+// @Tags      SysUser
+// @Summary   分页获取用户列表
+// @Security  ApiKeyAuth
+// @accept    application/json
+// @Produce   application/json
+// @Param     data  body      request.PageInfo                                        true  "页码, 每页大小"
+// @Success   200   {object}  response.Response{data=response.PageResult,msg=string}  "分页获取用户列表,返回包括列表,总数,页码,每页数量"
+// @Router    /user/getUserList [post]
+func (b *BaseApi) GetUserList(c *gin.Context) {
+	var pageInfo request.PageInfo
+	err := c.ShouldBindJSON(&pageInfo)
+	if err != nil {
+		response.ErrorWithMsg(c, err.Error())
+		return
+	}
+	//err = utils.Verify(pageInfo, utils.PageInfoVerify)
+	if err != nil {
+		response.ErrorWithMsg(c, err.Error())
+		return
+	}
+	list, total, err := userService.GetUserInfoList(pageInfo)
+	if err != nil {
+		global.GVA_LOG.Error("获取失败!", zap.Error(err))
+		response.ErrorWithMsg(c, "获取失败")
+		return
+	}
+	response.OkWithDataAndMsg(c, response.PageResult{
+		List:     list,
+		Total:    total,
+		Page:     pageInfo.Page,
+		PageSize: pageInfo.PageSize,
+	}, "获取成功")
 }

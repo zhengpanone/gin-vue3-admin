@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import AppLayout from '@/layout/AppLayout.vue'
 import productRoutes from './modules/product'
+import userRoutes from './modules/admin'
 import nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 import { indexStore } from '@/store/index'
@@ -19,7 +20,8 @@ const routes: RouteRecordRaw[] = [
           requireAuth: true,
         }
       },
-      productRoutes
+      productRoutes,
+      userRoutes
     ]
 
   },

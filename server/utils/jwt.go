@@ -4,6 +4,7 @@ import (
 	"errors"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -87,7 +88,7 @@ func (j *JWT) CreateToken(claims systemReq.CustomClaims) (string, error) {
 
 // ParseToken 解析JWT
 func (j *JWT) ParseToken(tokenString string) (*systemReq.CustomClaims, error) {
-
+	tokenString = strings.Fields(tokenString)[1]
 	token, err := jwt.ParseWithClaims(tokenString, &systemReq.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return j.SigningKey, nil
 	})

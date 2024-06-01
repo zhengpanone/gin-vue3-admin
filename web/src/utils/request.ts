@@ -29,13 +29,13 @@ request.interceptors.request.use((config) => {
 // 响应拦截器
 request.interceptors.response.use((response) => {
 
-  if(!response.data.code || response.data.code===200){
+  if (!response.data.code || response.data.code === 200) {
     return response
   }
   // 统一处理接口响应错误 如 token过期,服务端异常
   // token失效
   if (response.data.code == -2) {
-    if(isRefreshing) return Promise.reject(response)
+    if (isRefreshing) return Promise.reject(response)
     isRefreshing = true
     // 清除本地过期token
     // 跳转到登录页面
@@ -74,6 +74,7 @@ interface ResponseData<T = any> {
   meta: string,
   errors: [{ key: string, error: string }],
 }
+
 // request 不支持泛型
 // request.get post put支持响应数据泛型
 // 后端封装了一层数据,导致访问比较麻烦,所以自己封装了一个request
