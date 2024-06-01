@@ -24,6 +24,7 @@ func InitRouters() *gin.Engine {
 	PublicGroup := Router.Group("")
 	{
 		PublicGroup.GET("/health", func(c *gin.Context) {
+			//response.WrapContext(c).Success(nil)
 			response.Ok(c)
 		})
 	}

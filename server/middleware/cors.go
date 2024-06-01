@@ -3,11 +3,12 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"strings"
 )
 
-//https://www.cnblogs.com/you-men/p/14054348.html
-
+// CORS https://www.cnblogs.com/you-men/p/14054348.html
+// CORS 跨域中间件
 func CORS() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		method := ctx.Request.Method
@@ -37,8 +38,8 @@ func CORS() gin.HandlerFunc {
 			ctx.Header("Access-Control-Allow-Credentials", "true")
 		}
 		//允许类型校验
-		if method == "OPTIONS" {
-			ctx.AbortWithStatus(204)
+		if method == "OPTIONS" || method == "HEAD" {
+			ctx.AbortWithStatus(http.StatusNoContent)
 			return
 		}
 		ctx.Next()

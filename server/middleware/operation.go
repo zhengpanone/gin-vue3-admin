@@ -25,7 +25,7 @@ func OperationRecord() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body []byte
 		var userId int
-		if c.Request.Method != http.MethodGet {
+		/*if c.Request.Method != http.MethodGet {
 			var err error
 			body, err = io.ReadAll(c.Request.Body)
 			if err != nil {
@@ -45,7 +45,8 @@ func OperationRecord() gin.HandlerFunc {
 				}
 			}
 			body, _ = json.Marshal(&m)
-		}
+		}*/
+		body = getRequestBody(c)
 		claims, _ := utils.GetClaims(c)
 		if claims != nil && claims.BaseClaims.ID != 0 {
 			userId = int(claims.BaseClaims.ID)
@@ -105,6 +106,39 @@ func OperationRecord() gin.HandlerFunc {
 			global.GVA_LOG.Error("create operation record error:", zap.Error(err))
 		}
 	}
+}
+
+func getRequestBody(c *gin.Context) []byte {
+	var body []byte
+	switch c.Request.Method {
+	case http.MethodGet:
+		query := c.Request.URL.RawQuery
+		query, _ = url.QueryUnescape(query)
+		split := strings.Split(query, "&")
+		m := make(map[string]string)
+		for _, v := range split {
+			kv := strings.Split(v, "=")
+			if len(kv) == 2 {
+				m[kv[0]] = kv[1]
+			}
+		}
+		body, _ = json.Marshal(&m)
+		return body
+	case http.MethodPost:
+		fallthrough
+	case http.MethodPut:
+		fallthrough
+	case http.MethodPatch:
+		var err error
+		body, err = io.ReadAll(c.Request.Body)
+		if err != nil {
+			global.GVA_LOG.Error("read body from request err:", zap.Error(err))
+			return nil
+		}
+		c.Request.Body = io.NopCloser(bytes.NewBuffer(body))
+		return body
+	}
+	return nil
 }
 
 type responseBodyWriter struct {
