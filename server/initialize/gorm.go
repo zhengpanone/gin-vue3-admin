@@ -1,7 +1,10 @@
 package initialize
 
 import (
+	"context"
 	"fmt"
+	"go.uber.org/zap"
+	"time"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
@@ -11,7 +14,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
+	gormLogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
 
@@ -37,8 +40,10 @@ func InitGorm() {
 		PrepareStmt: mysqlConfig.Gorm.PreparedStmt,
 		//在AutoMigrate 或 CreateTable 时，GORM 会自动创建外键约束，若要禁用该特性，可将其设置为 true
 		DisableForeignKeyConstraintWhenMigrating: mysqlConfig.Gorm.CloseForeignKey,
+		// 设置日志的第一种方式
+		//Logger:                                   loggerCallback{logger: global.GVA_LOG},
 	}
-	// 是否覆盖默认是sql配置
+	// 设置日志的第二中方式 是否覆盖默认是sql配置
 	if mysqlConfig.Gorm.CoverLogger {
 		setNewLogger(gormConfig)
 	}
@@ -58,6 +63,44 @@ func InitGorm() {
 	}
 }
 
+// https://blog.csdn.net/weixin_43357992/article/details/134452231
+
+// loggerCallback 实现了 GORM 的回调接口
+type loggerCallback struct {
+	logger *zap.Logger
+}
+
+// LogMode 使用 Zap 打印 SQL 语句
+func (l loggerCallback) LogMode(level gormLogger.LogLevel) gormLogger.Interface {
+	return l
+}
+
+// Info 使用 Zap 打印 SQL 语句
+func (l loggerCallback) Info(ctx context.Context, msg string, data ...interface{}) {
+	l.logger.Info(fmt.Sprintf(msg, data...))
+}
+
+// Warn 使用 Zap 打印 SQL 语句
+func (l loggerCallback) Warn(ctx context.Context, msg string, data ...interface{}) {
+	l.logger.Warn(fmt.Sprintf(msg, data...))
+}
+
+// Error 使用 Zap 打印 SQL 语句
+func (l loggerCallback) Error(ctx context.Context, msg string, data ...interface{}) {
+	l.logger.Error(fmt.Sprintf(msg, data...))
+}
+
+// Trace 使用 Zap 打印 SQL 语句
+func (l loggerCallback) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
+	if err != nil {
+		sql, rows := fc()
+		l.logger.Error("gorm trace error", zap.Error(err), zap.String("sql", sql), zap.Int64("rows", rows))
+	} else {
+		sql, rows := fc()
+		l.logger.Debug("gorm trace", zap.String("sql", sql), zap.Int64("rows", rows), zap.Duration("elapsed", time.Since(begin)))
+	}
+}
+
 func setTableOption(tableComment string) *gorm.DB {
 	value := fmt.Sprintf("ENGINE=InnoDB COMMENT='%s'", tableComment)
 	return global.GVA_DB.Set("gorm:table_options", value)
@@ -73,18 +116,18 @@ func RegisterTables() {
 func setNewLogger(gConfig *gorm.Config) {
 	logPath := global.GVA_CONFIG.Log.Path
 	file, _ := os.OpenFile(logPath+"/sql.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, os.ModePerm)
-	logLevelMap := map[string]logger.LogLevel{
-		"error": logger.Error,
-		"info":  logger.Info,
-		"warn":  logger.Warn,
+	logLevelMap := map[string]gormLogger.LogLevel{
+		"error": gormLogger.Error,
+		"info":  gormLogger.Info,
+		"warn":  gormLogger.Warn,
 	}
-	var logLevel logger.LogLevel
+	var logLevel gormLogger.LogLevel
 	var ok bool
 
 	if logLevel, ok = logLevelMap[global.GVA_CONFIG.Mysql.LogLevel]; !ok {
-		logLevel = logger.Error
+		logLevel = gormLogger.Error
 	}
-	newLogger := logger.New(log.New(file, "\r\n", log.LstdFlags), logger.Config{
+	newLogger := gormLogger.New(log.New(file, "\r\n", log.LstdFlags), gormLogger.Config{
 		SlowThreshold:             global.GVA_CONFIG.Mysql.SlowSql,                   //慢SQL时间
 		LogLevel:                  logLevel,                                          // 记录日志级别
 		IgnoreRecordNotFoundError: global.GVA_CONFIG.Mysql.IgnoreRecordNotFoundError, // 是否忽略ErrRecordNotFound(未查到记录错误)
