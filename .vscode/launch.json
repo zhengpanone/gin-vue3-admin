@@ -10,6 +10,17 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}/server/main.go"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "gin-vue3-admin-web",
+            "url": "http://localhost:3000",
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}/web",
         }
     ]
 }
