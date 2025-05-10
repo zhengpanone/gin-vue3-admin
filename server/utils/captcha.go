@@ -29,7 +29,7 @@ func (cap *CaptchaResult) GenerateCaptcha() (*CaptchaResult, error) {
 	driver = driverString.ConvertFonts()*/
 
 	captcha := base64Captcha.NewCaptcha(driver, store)
-	id, b64s, err := captcha.Generate()
+	id, b64s, _, err := captcha.Generate()
 	if err != nil {
 		return &CaptchaResult{}, err
 	}

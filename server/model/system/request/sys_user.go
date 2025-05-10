@@ -1,5 +1,7 @@
 package request
 
+import "github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+
 // 参数校验 github.com/go-playground/validator
 
 // 注册参数
@@ -26,4 +28,16 @@ type LoginParam struct {
 	Password  string `json:"password" binding:"required,gt=6"` // 密码
 	Captcha   string `json:"captcha"`                          // 验证码
 	CaptchaID string `json:"captchaID"`                        // 验证码ID
+}
+
+type ChangeUserInfo struct {
+	ID           uint                  `gorm:"primarykey"`                                                                           // 主键ID
+	NickName     string                `json:"nickName" gorm:"default:系统用户;comment:用户昵称"`                                            // 用户昵称
+	Phone        string                `json:"phone"  gorm:"comment:用户手机号"`                                                          // 用户手机号
+	AuthorityIds []uint                `json:"authorityIds" gorm:"-"`                                                                // 角色ID
+	Email        string                `json:"email"  gorm:"comment:用户邮箱"`                                                           // 用户邮箱
+	HeaderImg    string                `json:"headerImg" gorm:"default:https://qmplusimg.henrongyi.top/gva_header.jpg;comment:用户头像"` // 用户头像
+	SideMode     string                `json:"sideMode"  gorm:"comment:用户侧边主题"`                                                      // 用户侧边主题
+	Enable       int                   `json:"enable" gorm:"comment:冻结用户"`                                                           //冻结用户
+	Authorities  []system.SysAuthority `json:"-" gorm:"many2many:sys_user_authority;"`
 }

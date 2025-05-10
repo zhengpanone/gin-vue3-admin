@@ -1,6 +1,6 @@
 # 工作目录
 root = "."
-tmp_dir = "./tmp"
+tmp_dir = "tmp"
 
 [build]
   bin = "./tmp/main.exe"
@@ -20,7 +20,7 @@ tmp_dir = "./tmp"
   exclude_dir = ["assets", "tmp", "vendor"]
   # 排除以下文件
   exclude_file = [".idea"]
-  exclude_regex = ["_test.go"]
+  exclude_regex = ["_test\\.go"]
   exclude_unchanged = false
 
 

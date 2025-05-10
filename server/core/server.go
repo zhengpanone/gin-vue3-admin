@@ -41,5 +41,6 @@ func RunServer() {
 
 func printServerInfo() {
 	appConfig := global.GVA_CONFIG.App
+	// http://127.0.0.1:8099/swagger/index.html
 	fmt.Printf("\n【 当前环境: %s 当前版本: %s 接口地址: http://%s 】\n", appConfig.Env, appConfig.Version, appConfig.Addr)
 }

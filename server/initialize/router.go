@@ -16,6 +16,7 @@ func InitRouters() *gin.Engine {
 	Router := gin.Default()
 	systemRouter := router.RouterGroupApp.System
 	global.GVA_LOG.Info("use middleware logger")
+	// http://127.0.0.1:8099/swagger/index.html
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.GVA_LOG.Info("register swagger handler")
 	Router.Use(middleware.CORS())

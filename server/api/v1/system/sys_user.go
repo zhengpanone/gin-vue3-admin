@@ -2,6 +2,7 @@ package system
 
 import (
 	"fmt"
+
 	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 
@@ -195,4 +196,28 @@ func (b *BaseApi) GetUserList(c *gin.Context) {
 		Page:     pageInfo.Page,
 		PageSize: pageInfo.PageSize,
 	}, "获取成功")
+}
+
+// SetUserInfo
+// @Tags      SysUser
+// @Summary   设置用户信息
+// @Security  ApiKeyAuth
+// @accept    application/json
+// @Produce   application/json
+// @Param     data  body      system.SysUser                                             true  "ID, 用户名, 昵称, 头像链接"
+// @Success   200   {object}  response.Response{data=map[string]interface{},msg=string}  "设置用户信息"
+// @Router    /user/setUserInfo [put]
+func (b *BaseApi) SetUserInfo(c *gin.Context) {
+	var user systemReq.ChangeUserInfo
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		response.ErrorWithMsg(c, err.Error())
+		return
+	}
+	// err = utils.Verify(user, utils.IdVerify)
+	// if err != nil {
+	// 	response.ErrorWithMsg(err.Error(), c)
+	// 	return
+	// }
+
 }
