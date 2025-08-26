@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
@@ -22,9 +24,17 @@ func ClearToken(c *gin.Context) {
 }
 
 func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
-	token := c.Request.Header.Get("x-token")
+	token := c.Request.Header.Get("X-Token")
+	if token == "" {
+		token = c.GetHeader("Authorization")
+	}
+	if token == "" {
+		return nil, errors.New("请求头中获取不到token")
+	}
+
 	j := NewJWT()
 	claims, err := j.ParseToken(token)
+	fmt.Printf("t4est%s", "userClaim")
 	if err != nil {
 		global.GVA_LOG.Error("从Gin的Context中获取从jwt解析信息失败, 请检查请求头是否存在x-token且claims是否为规定结构")
 		return nil, err

@@ -2,17 +2,15 @@ package system
 
 import (
 	"fmt"
-
-	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
-
+	"github.com/gin-gonic/gin"
 	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	systemRes "github.com/zhengpanone/gin-vue3-admin/model/system/response"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 
-	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 )
 
@@ -96,7 +94,11 @@ func (b *BaseApi) Logout(c *gin.Context) {
 //		@Success  		200 {object} response.Response(data=systemRes.LoginResponse, msg=string) "返回包括用户信息，token过期时间"
 func (b *BaseApi) Login(ctx *gin.Context) {
 	var loginParam systemReq.LoginParam
-	_ = ctx.ShouldBindJSON(&loginParam)
+	//key := ctx.ClientIP()
+	err := ctx.ShouldBindJSON(&loginParam)
+	if err != nil {
+		response.ErrorWithMsg(ctx, "参数绑定失败")
+	}
 	if loginParam.Username == "" || loginParam.Password == "" {
 		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
 		return

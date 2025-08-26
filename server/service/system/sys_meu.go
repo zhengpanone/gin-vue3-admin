@@ -41,6 +41,9 @@ func (menuService *MenuService) getMenuTreeMap(authorityId uint) (treeMap map[ui
 	for i := range SysAuthorityMenus {
 		MenuIds = append(MenuIds, SysAuthorityMenus[i].MenuId)
 	}
+	if len(MenuIds) == 0 {
+		return nil, nil
+	}
 	err = global.GVA_DB.Where("id in (?)", MenuIds).Order("sort").Preload("Parameters").Find(&baseMenu).Error
 	if err != nil {
 		return
