@@ -9,23 +9,26 @@ import (
 	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
-
 	"gorm.io/gorm"
 )
 
 type UserService struct {
 }
 
-//@author: [zhengpanone](https://github.com/zhengpanone)
-//@function: LoginPwd
-//@description: 用户登录
-//@param: u *request.LoginParam
-//@return: userInfo *system.SysUser, err error
-
+// LoginPwd
+// @author: [zhengpanone](https://github.com/zhengpanone)
+// @function: LoginPwd
+// @description: 用户登录
+// @param: u *request.LoginParam
+// @return: userInfo *system.SysUser, err error
 func (userService *UserService) LoginPwd(u *systemReq.LoginParam) (userInfo *system.SysUser, err error) {
 	var user system.SysUser
-	err = global.GVA_DB.Where("username=? and password=?", u.Username, u.Password).First(&user).Error
+	err = global.GVA_DB.Where("username=?", u.Username).First(&user).Error
 	if err != nil {
+		return nil, errors.New("用户不存在")
+	}
+	checkResult := utils.CheckPasswordHash(u.Password, user.Password)
+	if checkResult {
 		return nil, errors.New("密码错误")
 	}
 	return &user, err
@@ -44,9 +47,10 @@ func (userService *UserService) Register(param *systemReq.RegisterParam) (*syste
 		if !errors.Is(tx.Where("username = ?", param.Username).First(&user).Error, gorm.ErrRecordNotFound) {
 			return errors.New("用户名已经注册")
 		}
+		bcryptPassword, _ := utils.BcryptPassword(param.Password)
 		user = system.SysUser{
 			Username: param.Username,
-			Password: utils.MD5V([]byte(param.Password)),
+			Password: bcryptPassword,
 			UUID:     uuid.Must(uuid.NewV4()),
 		}
 		if err := tx.Create(&user).Error; err != nil {

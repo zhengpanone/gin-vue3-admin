@@ -58,6 +58,7 @@ jwt:
 
 # captcha configuration
 captcha:
+  enable: false
   key-long: 6
   img-width: 240
   img-height: 80

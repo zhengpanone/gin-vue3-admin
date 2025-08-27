@@ -14,16 +14,11 @@ const (
 
 // Response  响应结构体
 type Response struct {
-	// 业务状态码
-	Code int `json:"code"`
-	// 提示信息
-	Msg string `json:"msg"`
-	// 响应数据
-	Data interface{} `json:"data"`
+	Code int         `json:"code"` // 业务状态码
+	Msg  string      `json:"msg"`  // 提示信息
+	Data interface{} `json:"data"` // 响应数据
 	// Meta 源数据,存储如请求ID,分页等信息
-	Meta Meta `json:"meta"`
-	// Errors 错误提示，如 xx字段不能为空等
-	Errors []ErrorItem `json:"errors"`
+	Meta Meta `json:"meta"` // 元数据
 }
 
 // Meta 元数据
@@ -47,15 +42,13 @@ func New() *Response {
 		Meta: Meta{
 			RequestId: requestId.String(),
 		},
-		Errors: []ErrorItem{},
 	}
 }
 
-func ResultJson(ctx *gin.Context, code int, msg string, errors []ErrorItem, data interface{}) {
+func ResultJson(ctx *gin.Context, code int, msg string, data interface{}) {
 	response := New()
 	response.Code = code
 	response.Msg = msg
-	response.Errors = errors
 	response.Data = data
 	ctx.JSON(http.StatusOK, response)
 	return
@@ -91,35 +84,35 @@ func (wrapper *Wrapper) Error(statusCode int, message string) {
 }
 
 func Ok(ctx *gin.Context) {
-	ResultJson(ctx, SUCCESS, "请求成功", nil, map[string]interface{}{})
+	ResultJson(ctx, SUCCESS, "请求成功", map[string]interface{}{})
 }
 
 func OkWithMsg(ctx *gin.Context, msg string) {
-	ResultJson(ctx, SUCCESS, msg, nil, nil)
+	ResultJson(ctx, SUCCESS, msg, nil)
 }
 
 func OkWithData(ctx *gin.Context, data interface{}) {
-	ResultJson(ctx, SUCCESS, "请求成功", nil, data)
+	ResultJson(ctx, SUCCESS, "请求成功", data)
 }
 
 func OkWithDataAndMsg(ctx *gin.Context, data interface{}, msg string) {
-	ResultJson(ctx, SUCCESS, msg, nil, data)
+	ResultJson(ctx, SUCCESS, msg, data)
 }
 
 // ErrorWithMsg 错误信息
 func ErrorWithMsg(ctx *gin.Context, msg string) {
-	ResultJson(ctx, ERROR, msg, nil, map[string]interface{}{})
+	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }
 
 // ErrorWithMsg 错误信息
-func ErrorWithMsgAndErrors(ctx *gin.Context, msg string, errors []ErrorItem) {
-	ResultJson(ctx, ERROR, msg, errors, map[string]interface{}{})
+func ErrorWithMsgAndErrors(ctx *gin.Context, msg string) {
+	ResultJson(ctx, ERROR, msg, map[string]interface{}{})
 }
 
 func ErrorWithToken(ctx *gin.Context, msg string) {
-	ResultJson(ctx, TOKEN_EXPIRE, msg, nil, map[string]interface{}{})
+	ResultJson(ctx, TOKEN_EXPIRE, msg, map[string]interface{}{})
 }
 
 func NoAuth(ctx *gin.Context, message string) {
-	ResultJson(ctx, http.StatusUnauthorized, message, nil, nil)
+	ResultJson(ctx, http.StatusUnauthorized, message, nil)
 }

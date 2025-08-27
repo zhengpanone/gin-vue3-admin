@@ -16,7 +16,7 @@ import (
 
 // ChangePassword
 //
-//	@Tags			SysUser
+//	@Tags			登陆注册
 //	@Summary		更改密码
 //	@Description	更改密码
 //	@ID				/v1/user/changePassword
@@ -47,7 +47,7 @@ func (b *BaseApi) GetUserInfo(ctx *gin.Context) {
 
 // Register
 //
-//	@Tags			Base
+//	@Tags			登陆注册
 //	@Summary		用户注册
 //	@Description	用户注册
 //	@ID				/v1/api/admin/register
@@ -69,7 +69,7 @@ func (b *BaseApi) Register(ctx *gin.Context) {
 
 // Logout
 //
-//	@Tags			Base
+//	@Tags			登陆注册
 //	@Summary		用户退出
 //	@Description	退出登录
 //	@ID				/v1/api/admin/logout
@@ -83,7 +83,7 @@ func (b *BaseApi) Logout(c *gin.Context) {
 
 // Login
 //
-//		@Tags			Base
+//		@Tags			登陆注册
 //		@Summary		用户登录
 //		@Description	用户登录
 //		@ID				/v1/api/admin/login
@@ -98,23 +98,25 @@ func (b *BaseApi) Login(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&loginParam)
 	if err != nil {
 		response.ErrorWithMsg(ctx, "参数绑定失败")
+		return
 	}
 	if loginParam.Username == "" || loginParam.Password == "" {
 		response.ErrorWithMsg(ctx, "用户名和密码不能为空！")
 		return
 	}
-	if store.Verify(loginParam.CaptchaID, loginParam.Captcha, true) {
-		user, err := userService.LoginPwd(&loginParam)
-		if err != nil {
-			global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
-			response.ErrorWithMsg(ctx, "登录失败,账号或密码错误")
+	if global.GVA_CONFIG.Captcha.Enable == true {
+		if !store.Verify(loginParam.CaptchaID, loginParam.Captcha, true) {
+			response.ErrorWithMsg(ctx, "验证码校验失败")
 			return
-		} else {
-			b.tokenNext(ctx, *user)
 		}
-
+	}
+	user, err := userService.LoginPwd(&loginParam)
+	if err != nil {
+		global.GVA_LOG.Error("登录失败", zap.Any("user", loginParam))
+		response.ErrorWithMsg(ctx, err.Error())
+		return
 	} else {
-		response.ErrorWithMsg(ctx, "验证码校验失败")
+		b.tokenNext(ctx, *user)
 	}
 
 }
@@ -152,7 +154,6 @@ func (b *BaseApi) tokenNext(ctx *gin.Context, user system.SysUser) {
 		},
 	})
 	response.OkWithDataAndMsg(ctx, systemRes.LoginResponse{
-		User:      user,
 		Token:     token,
 		UserInfo:  systemRes.UserInfo{Id: user.UUID, Account: user.Username, HeadPic: ""},
 		ExpiresAt: claims.ExpiresAt,

@@ -29,16 +29,16 @@ func InitCasbin() {
 		}
 		text := `
 		[request_definition]
-		r = sub, obj, act
+		r = sub, obj, act # sub=主体（用户/角色），obj=资源，act=动作
 		
 		[policy_definition]
-		p = sub, obj, act
+		p = sub, obj, act # sub=角色，obj=资源路径，act=动作
 		
 		[role_definition]
-		g = _, _
+		g = _, _ # g = 用户 -> 角色 绑定关系
 		
 		[policy_effect]
-		e = some(where (p.eft == allow))
+		e = some(where (p.eft == allow)) # allow优先
 		
 		[matchers]
 		m = r.sub == p.sub && keyMatch2(r.obj,p.obj) && r.act == p.act

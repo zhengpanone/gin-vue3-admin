@@ -49,7 +49,7 @@ definitions:
         minLength: 3
         type: string
       password:
-        description: 密码
+        description: 明文加密后的密码
         type: string
       phone:
         description: 手机号码
@@ -79,6 +79,11 @@ definitions:
     required:
     - roleName
     type: object
+  response.Meta:
+    properties:
+      request_id:
+        type: string
+    type: object
   response.PageResult:
     properties:
       list: {}
@@ -96,6 +101,10 @@ definitions:
         type: integer
       data:
         description: 响应数据
+      meta:
+        allOf:
+        - $ref: '#/definitions/response.Meta'
+        description: Meta 源数据,存储如请求ID,分页等信息
       msg:
         description: 提示信息
         type: string
@@ -307,6 +316,88 @@ definitions:
       sort:
         type: integer
     type: object
+  system.SysUser:
+    properties:
+      ID:
+        description: 主键ID
+        type: integer
+      UpdateAt:
+        description: 使用时间戳毫秒数填充更新时间
+        type: string
+      activeColor:
+        description: 活跃颜色
+        type: string
+      authorities:
+        items:
+          $ref: '#/definitions/system.SysAuthority'
+        type: array
+      authority:
+        allOf:
+        - $ref: '#/definitions/system.SysAuthority'
+        description: '`gorm:"foreignKey:关联表的结构体字段;references:当前表的结构体字段;`'
+      authorityId:
+        description: 用户角色ID
+        type: integer
+      baseColor:
+        description: 基础颜色
+        type: string
+      createAt:
+        description: 使用时间戳秒数填充创建时间
+        type: string
+      email:
+        description: 用户邮箱
+        type: string
+      enable:
+        description: 用户是否被冻结 1正常 2冻结
+        type: integer
+      headerImg:
+        description: 用户头像
+        type: string
+      nickName:
+        description: 用户昵称
+        type: string
+      phone:
+        description: 用户手机号
+        type: string
+      sex:
+        enum:
+        - female
+        - male
+        type: string
+      sideMode:
+        description: 用户侧边主题
+        type: string
+      status:
+        type: string
+      token:
+        type: string
+      userInfo:
+        $ref: '#/definitions/system.SysUserInfo'
+      userName:
+        description: 用户登录名
+        type: string
+      uuid:
+        description: 用户UUID
+        type: string
+    type: object
+  system.SysUserInfo:
+    properties:
+      ID:
+        description: 主键ID
+        type: integer
+      UpdateAt:
+        description: 使用时间戳毫秒数填充更新时间
+        type: string
+      address:
+        type: string
+      birthday:
+        type: string
+      createAt:
+        description: 使用时间戳秒数填充创建时间
+        type: string
+      userID:
+        type: string
+    type: object
 info:
   contact:
     name: go-swagger帮助文档
@@ -347,6 +438,37 @@ paths:
       summary: 分页获取用户列表
       tags:
       - SysUser
+  /user/setUserInfo:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID, 用户名, 昵称, 头像链接
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/system.SysUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 设置用户信息
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  additionalProperties: true
+                  type: object
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 设置用户信息
+      tags:
+      - SysUser
   /v1/api/admin/login:
     post:
       consumes:
@@ -369,7 +491,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: 用户登录
       tags:
-      - Base
+      - 登陆注册
   /v1/api/admin/logout:
     post:
       consumes:
@@ -388,7 +510,7 @@ paths:
       responses: {}
       summary: 用户退出
       tags:
-      - Base
+      - 登陆注册
   /v1/api/admin/register:
     post:
       consumes:
@@ -407,7 +529,7 @@ paths:
       responses: {}
       summary: 用户注册
       tags:
-      - Base
+      - 登陆注册
   /v1/api/captcha:
     get:
       consumes:
@@ -430,7 +552,7 @@ paths:
       - ApiKeyAuth: []
       summary: 生成验证码
       tags:
-      - Base
+      - 登陆注册
   /v1/api/changePassword:
     post:
       consumes:
@@ -442,7 +564,7 @@ paths:
       responses: {}
       summary: 更改密码
       tags:
-      - SysUser
+      - 登陆注册
   /v1/api/config:
     get:
       consumes:

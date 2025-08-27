@@ -15,7 +15,7 @@ type BaseApi struct{}
 
 // Captcha
 //
-//	@Tags		Base
+//	@Tags		登陆注册
 //	@Summary	生成验证码
 //	@Security	ApiKeyAuth
 //	@accept		application/json

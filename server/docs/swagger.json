@@ -67,6 +67,60 @@
                 }
             }
         },
+        "/user/setUserInfo": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SysUser"
+                ],
+                "summary": "设置用户信息",
+                "parameters": [
+                    {
+                        "description": "ID, 用户名, 昵称, 头像链接",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/system.SysUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "设置用户信息",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "additionalProperties": true
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/api/admin/login": {
             "post": {
                 "description": "用户登录",
@@ -77,7 +131,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Base"
+                    "登陆注册"
                 ],
                 "summary": "用户登录",
                 "operationId": "/v1/api/admin/login",
@@ -112,7 +166,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Base"
+                    "登陆注册"
                 ],
                 "summary": "用户退出",
                 "operationId": "/v1/api/admin/logout",
@@ -140,7 +194,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Base"
+                    "登陆注册"
                 ],
                 "summary": "用户注册",
                 "operationId": "/v1/api/admin/register",
@@ -172,7 +226,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Base"
+                    "登陆注册"
                 ],
                 "summary": "生成验证码",
                 "responses": {
@@ -210,7 +264,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "SysUser"
+                    "登陆注册"
                 ],
                 "summary": "更改密码",
                 "operationId": "/v1/user/changePassword",
@@ -613,7 +667,7 @@
                     "minLength": 3
                 },
                 "password": {
-                    "description": "密码",
+                    "description": "明文加密后的密码",
                     "type": "string"
                 },
                 "phone": {
@@ -649,6 +703,14 @@
                 }
             }
         },
+        "response.Meta": {
+            "type": "object",
+            "properties": {
+                "request_id": {
+                    "type": "string"
+                }
+            }
+        },
         "response.PageResult": {
             "type": "object",
             "properties": {
@@ -673,6 +735,14 @@
                 },
                 "data": {
                     "description": "响应数据"
+                },
+                "meta": {
+                    "description": "Meta 源数据,存储如请求ID,分页等信息",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/response.Meta"
+                        }
+                    ]
                 },
                 "msg": {
                     "description": "提示信息",
@@ -978,6 +1048,123 @@
                 },
                 "sort": {
                     "type": "integer"
+                }
+            }
+        },
+        "system.SysUser": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "UpdateAt": {
+                    "description": "使用时间戳毫秒数填充更新时间",
+                    "type": "string"
+                },
+                "activeColor": {
+                    "description": "活跃颜色",
+                    "type": "string"
+                },
+                "authorities": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.SysAuthority"
+                    }
+                },
+                "authority": {
+                    "description": "`gorm:\"foreignKey:关联表的结构体字段;references:当前表的结构体字段;`",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/system.SysAuthority"
+                        }
+                    ]
+                },
+                "authorityId": {
+                    "description": "用户角色ID",
+                    "type": "integer"
+                },
+                "baseColor": {
+                    "description": "基础颜色",
+                    "type": "string"
+                },
+                "createAt": {
+                    "description": "使用时间戳秒数填充创建时间",
+                    "type": "string"
+                },
+                "email": {
+                    "description": "用户邮箱",
+                    "type": "string"
+                },
+                "enable": {
+                    "description": "用户是否被冻结 1正常 2冻结",
+                    "type": "integer"
+                },
+                "headerImg": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "nickName": {
+                    "description": "用户昵称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机号",
+                    "type": "string"
+                },
+                "sex": {
+                    "type": "string",
+                    "enum": [
+                        "female",
+                        "male"
+                    ]
+                },
+                "sideMode": {
+                    "description": "用户侧边主题",
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                },
+                "userInfo": {
+                    "$ref": "#/definitions/system.SysUserInfo"
+                },
+                "userName": {
+                    "description": "用户登录名",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "用户UUID",
+                    "type": "string"
+                }
+            }
+        },
+        "system.SysUserInfo": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "主键ID",
+                    "type": "integer"
+                },
+                "UpdateAt": {
+                    "description": "使用时间戳毫秒数填充更新时间",
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "birthday": {
+                    "type": "string"
+                },
+                "createAt": {
+                    "description": "使用时间戳秒数填充创建时间",
+                    "type": "string"
+                },
+                "userID": {
+                    "type": "string"
                 }
             }
         }

@@ -49,6 +49,19 @@
 import { Setting, Location } from '@element-plus/icons-vue'
 import { indexStore } from '@/store/index'
 import { storeToRefs } from 'pinia'
+import {getBaseMenuTree} from '@/api/menu'
+import {ref} from "vue";
+
+const menuTreeData = ref([])
+
+const init = async()=>{
+  // 获取所有菜单树
+  const res = await getBaseMenuTree()
+  menuTreeData.value = res.data.menus
+
+}
+
+init()
 
 const store = indexStore()
 

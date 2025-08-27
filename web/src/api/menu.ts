@@ -4,7 +4,7 @@ import request from '@/utils/request'
 // @Produce  application/json
 // @Param 可以什么都不填 调一下即可
 // @Router /api/menu/getMenu [post]
-export const asyncMenu = () => {
+export const getBaseMenuTree = () => {
   return request({
     method: 'POST',
     url: '/api/menu/getMenu'
