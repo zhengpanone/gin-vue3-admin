@@ -11,14 +11,13 @@ type MenuRouter struct{}
 func (m *MenuRouter) InitMenuRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	menuRouter := Router.Group("menu").Use(middleware.OperationRecord())
 	menuRouterWithoutRecord := Router.Group("menu")
-	authorityMenuApi := v1.ApiGroupApp.SystemApiGroup.AuthorityMenuApi
+	menuApi := v1.ApiGroupApp.SystemApiGroup.MenuApi
 	{
-		menuRouter.POST("addBaseMenu", authorityMenuApi.AddBaseMenu) //新增菜单
+		menuRouter.POST("addMenu", menuApi.AddMenu) //新增菜单
 	}
 
 	{
-		menuRouterWithoutRecord.POST("getMenu", authorityMenuApi.GetMenu)         // 获取菜单树
-		menuRouterWithoutRecord.POST("getMenuList", authorityMenuApi.GetMenuList) // 获取菜单树
+		menuRouterWithoutRecord.POST("getMenuList", menuApi.GetMenuList) // 获取菜单树
 	}
 	return menuRouter
 }

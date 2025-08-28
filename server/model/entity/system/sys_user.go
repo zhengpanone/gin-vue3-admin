@@ -7,7 +7,7 @@ import (
 
 // SysUser 用户表
 type SysUser struct {
-	global.BaseModel
+	ID          uint           `gorm:"primarykey;->first" json:"ID"`                                                         // 主键ID
 	UUID        uuid.UUID      `json:"uuid" gorm:"index;comment:用户UUID"`                                                     // 用户UUID
 	Username    string         `json:"userName" gorm:"index;comment:用户登录名"`                                                  // 用户登录名
 	Password    string         `json:"-"  gorm:"comment:用户登录密码"`                                                             // 用户登录密码
@@ -27,10 +27,12 @@ type SysUser struct {
 	UserInfo SysUserInfo `json:"userInfo" gorm:"-"`
 	Token    string      `json:"token" gorm:"-"`
 	Sex      string      `validate:"oneof=female male" gorm:"column:sex;comment:性别"`
+	global.BaseModel
 }
 
 // SysUserInfo 用户信息表
 type SysUserInfo struct {
+	ID       uint   `gorm:"primarykey;->first" json:"ID"` // 主键ID
 	UserID   string `json:"userID"`
 	Birthday string `json:"birthday" gorm:"type:varchar(10);comment:生日"`
 	Address  string `json:"address" gorm:"type:text;comment:地址"`

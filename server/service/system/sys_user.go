@@ -28,7 +28,7 @@ func (userService *UserService) LoginPwd(u *systemReq.LoginParam) (userInfo *sys
 		return nil, errors.New("用户不存在")
 	}
 	checkResult := utils.CheckPasswordHash(u.Password, user.Password)
-	if checkResult {
+	if !checkResult {
 		return nil, errors.New("密码错误")
 	}
 	return &user, err

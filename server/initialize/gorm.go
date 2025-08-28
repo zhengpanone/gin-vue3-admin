@@ -140,20 +140,20 @@ func setNewLogger(gConfig *gorm.Config) {
 func sysTable() {
 
 	_ = setTableOption("用户表").AutoMigrate(&system.SysUser{})
+	_ = setTableOption("角色表").AutoMigrate(&system.SysRole{})
+	_ = setTableOption("菜单表").AutoMigrate(&system.SysMenu{})
 	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
-	_ = setTableOption("用户信息表").AutoMigrate(&system.JwtBlacklist{})
-	_ = setTableOption("角色表").AutoMigrate(&system.SysAuthority{})
-	_ = setTableOption("菜单表").AutoMigrate(&system.SysBaseMenu{})
-	_ = setTableOption("菜单参数表").AutoMigrate(&system.SysBaseMenuParameter{})
+	_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
 
-	_ = setTableOption("角色菜单表").AutoMigrate(&system.SysAuthorityMenu{})
 	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserAuthority{})
-	_ = setTableOption("用户角色表").AutoMigrate(&system.SysAuthorityBtn{})
-	_ = setTableOption("菜单按钮表").AutoMigrate(&system.SysBaseMenuBtn{})
 
 	// 用户账户表
+	//_ = setTableOption("菜单按钮表").AutoMigrate(&system.SysBaseMenuBtn{})
+	// _ = setTableOption("用户角色表").AutoMigrate(&system.SysAuthorityBtn{})
+	//_ = setTableOption("角色表").AutoMigrate(&system.SysAuthority{})
 	//_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserRole{})
 	//_ = setTableOption("角色权限表").AutoMigrate(&system.SysRolePermission{})
+	//_ = setTableOption("菜单参数表").AutoMigrate(&system.SysMenuParameter{})
 
 	//_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
 

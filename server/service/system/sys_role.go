@@ -16,13 +16,13 @@ func (roleService *SysRoleService) CreateRole(r systemReq.RoleParam) (role syste
 	roleDao := dao.SysRoleDao{}
 	// 查找父级id是否存在
 	var parentRole system.SysRole
-	if errors.Is(global.GVA_DB.Where("role_id=?", r.ParentId).First(&parentRole).Error, gorm.ErrRecordNotFound) {
-		r.ParentId = "0"
+	if errors.Is(global.GVA_DB.Where("role_code=?", r.ParentCode).First(&parentRole).Error, gorm.ErrRecordNotFound) {
+		r.ParentCode = "0"
 	}
 	role = system.SysRole{
 		RoleName: r.RoleName,
-		Remark:   r.Remark,
-		ParentId: r.ParentId,
+		RoleDesc: r.RoleDesc,
+		RoleCode: r.RoleCode,
 	}
 	role, err = roleDao.AddRole(role)
 
@@ -46,7 +46,7 @@ func (roleService *SysRoleService) PageRole(info request.PageInfo) (list interfa
 }
 
 func (roleService *SysRoleService) findChildrenRole(role *system.SysRole) {
-	_ = global.GVA_DB.Where("parent_id=?", role.RoleID).First(&role.Children).Error
+	_ = global.GVA_DB.Where("parent_code=?", role.RoleCode).First(&role.Children).Error
 	if len(role.Children) > 0 {
 		for k := range role.Children {
 			roleService.findChildrenRole(&role.Children[k])

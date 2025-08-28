@@ -8,7 +8,7 @@ type ApiGroup struct {
 	BaseApi
 	JwtApi
 	RoleApi
-	AuthorityMenuApi
+	MenuApi
 }
 
 var (

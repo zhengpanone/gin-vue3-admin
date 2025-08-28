@@ -332,7 +332,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/api/menu/addBaseMenu": {
+        "/v1/api/menu/addMenu": {
             "post": {
                 "security": [
                     {
@@ -346,7 +346,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Menu"
+                    "菜单管理"
                 ],
                 "summary": "新增菜单",
                 "parameters": [
@@ -356,7 +356,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/system.SysBaseMenu"
+                            "$ref": "#/definitions/request.AddMenu"
                         }
                     }
                 ],
@@ -371,57 +371,6 @@ const docTemplate = `{
                                 {
                                     "type": "object",
                                     "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/api/menu/getMenu": {
-            "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "根据用户ID获取菜单",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "AuthorityMenu"
-                ],
-                "summary": "获取用户动态路由",
-                "parameters": [
-                    {
-                        "description": "空",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/request.Empty"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "获取用户动态路由,返回包括系统菜单详情列表",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/response.SysMenusResponse"
-                                        },
                                         "msg": {
                                             "type": "string"
                                         }
@@ -496,7 +445,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "RoleApi"
+                    "角色管理"
                 ],
                 "summary": "创建角色",
                 "parameters": [
@@ -523,7 +472,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "RoleApi"
+                    "角色管理"
                 ],
                 "summary": "删除角色",
                 "parameters": [
@@ -555,7 +504,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "RoleApi"
+                    "角色管理"
                 ],
                 "summary": "分页获取角色",
                 "parameters": [
@@ -582,7 +531,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "RoleApi"
+                    "角色管理"
                 ],
                 "summary": "更新角色",
                 "parameters": [
@@ -601,8 +550,30 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "request.Empty": {
-            "type": "object"
+        "request.AddMenu": {
+            "type": "object",
+            "required": [
+                "menuType",
+                "name"
+            ],
+            "properties": {
+                "menuType": {
+                    "description": "菜单类型,1:目录 2:菜单 3:按钮",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "菜单名称",
+                    "type": "string"
+                },
+                "permission": {
+                    "description": "菜单权限标识",
+                    "type": "string"
+                },
+                "sort": {
+                    "description": "菜单排序",
+                    "type": "integer"
+                }
+            }
         },
         "request.LoginParam": {
             "type": "object",
@@ -693,14 +664,19 @@ const docTemplate = `{
         "request.RoleParam": {
             "type": "object",
             "required": [
+                "roleCode",
                 "roleName"
             ],
             "properties": {
-                "parentId": {
-                    "description": "父角色ID",
+                "parentCode": {
+                    "description": "父角色Code",
                     "type": "string"
                 },
-                "remark": {
+                "roleCode": {
+                    "description": "角色code",
+                    "type": "string"
+                },
+                "roleDesc": {
                     "description": "备注",
                     "type": "string"
                 },
@@ -771,17 +747,6 @@ const docTemplate = `{
                 }
             }
         },
-        "response.SysMenusResponse": {
-            "type": "object",
-            "properties": {
-                "menus": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysMenu"
-                    }
-                }
-            }
-        },
         "system.Meta": {
             "type": "object",
             "properties": {
@@ -813,10 +778,6 @@ const docTemplate = `{
         "system.SysAuthority": {
             "type": "object",
             "properties": {
-                "ID": {
-                    "description": "主键ID",
-                    "type": "integer"
-                },
                 "UpdateAt": {
                     "description": "使用时间戳毫秒数填充更新时间",
                     "type": "string"
@@ -852,7 +813,7 @@ const docTemplate = `{
                 "menus": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/system.SysBaseMenu"
+                        "$ref": "#/definitions/system.SysMenu"
                     }
                 },
                 "parentId": {
@@ -861,75 +822,9 @@ const docTemplate = `{
                 }
             }
         },
-        "system.SysBaseMenu": {
-            "type": "object",
-            "properties": {
-                "ID": {
-                    "description": "主键ID",
-                    "type": "integer"
-                },
-                "UpdateAt": {
-                    "description": "使用时间戳毫秒数填充更新时间",
-                    "type": "string"
-                },
-                "authoritys": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysAuthority"
-                    }
-                },
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenu"
-                    }
-                },
-                "component": {
-                    "type": "string"
-                },
-                "createAt": {
-                    "description": "使用时间戳秒数填充创建时间",
-                    "type": "string"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "menuBtn": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenuBtn"
-                    }
-                },
-                "meta": {
-                    "$ref": "#/definitions/system.Meta"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parameters": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenuParameter"
-                    }
-                },
-                "parentId": {
-                    "type": "integer"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "sort": {
-                    "type": "integer"
-                }
-            }
-        },
         "system.SysBaseMenuBtn": {
             "type": "object",
             "properties": {
-                "ID": {
-                    "description": "主键ID",
-                    "type": "integer"
-                },
                 "UpdateAt": {
                     "description": "使用时间戳毫秒数填充更新时间",
                     "type": "string"
@@ -949,13 +844,74 @@ const docTemplate = `{
                 }
             }
         },
-        "system.SysBaseMenuParameter": {
+        "system.SysMenu": {
             "type": "object",
             "properties": {
                 "ID": {
                     "description": "主键ID",
                     "type": "integer"
                 },
+                "UpdateAt": {
+                    "description": "使用时间戳毫秒数填充更新时间",
+                    "type": "string"
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.SysMenu"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "createAt": {
+                    "description": "使用时间戳秒数填充创建时间",
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "menuBtn": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.SysBaseMenuBtn"
+                    }
+                },
+                "menuType": {
+                    "type": "integer"
+                },
+                "meta": {
+                    "$ref": "#/definitions/system.Meta"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parameters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/system.SysMenuParameter"
+                    }
+                },
+                "parentId": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "permission": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "visible": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "system.SysMenuParameter": {
+            "type": "object",
+            "properties": {
                 "UpdateAt": {
                     "description": "使用时间戳毫秒数填充更新时间",
                     "type": "string"
@@ -978,83 +934,6 @@ const docTemplate = `{
                 "value": {
                     "description": "地址栏携带参数的值",
                     "type": "string"
-                }
-            }
-        },
-        "system.SysMenu": {
-            "type": "object",
-            "properties": {
-                "ID": {
-                    "description": "主键ID",
-                    "type": "integer"
-                },
-                "UpdateAt": {
-                    "description": "使用时间戳毫秒数填充更新时间",
-                    "type": "string"
-                },
-                "authoritys": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysAuthority"
-                    }
-                },
-                "btns": {
-                    "type": "object",
-                    "additionalProperties": {
-                        "type": "integer"
-                    }
-                },
-                "children": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysMenu"
-                    }
-                },
-                "component": {
-                    "type": "string"
-                },
-                "createAt": {
-                    "description": "使用时间戳秒数填充创建时间",
-                    "type": "string"
-                },
-                "hidden": {
-                    "type": "boolean"
-                },
-                "menuBtn": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenuBtn"
-                    }
-                },
-                "menu_id": {
-                    "type": "integer"
-                },
-                "meta": {
-                    "$ref": "#/definitions/system.Meta"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "parameters": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenuParameter"
-                    }
-                },
-                "parentId": {
-                    "type": "integer"
-                },
-                "path": {
-                    "type": "string"
-                },
-                "perm": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/system.SysBaseMenuParameter"
-                    }
-                },
-                "sort": {
-                    "type": "integer"
                 }
             }
         },

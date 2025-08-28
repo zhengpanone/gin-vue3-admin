@@ -17,7 +17,7 @@ type SysRoleDao struct{}
 //	@return:		r system.SysRole, err error
 func (sr *SysRoleDao) AddRole(r system.SysRole) (system.SysRole, error) {
 	var role system.SysRole
-	if !errors.Is(global.GVA_DB.Where("role_name=?", r.RoleName).First(&role).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.GVA_DB.Where("role_code=? and paren_code=?", r.RoleName, r.ParentCode).First(&role).Error, gorm.ErrRecordNotFound) {
 		return r, errors.New("角色已存在")
 	}
 	//r.RoleID = strings.ReplaceAll(uuid.NewV4().String(), "-", "")

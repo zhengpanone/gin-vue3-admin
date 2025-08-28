@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/model/common/request"
-	response "github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	sysRes "github.com/zhengpanone/gin-vue3-admin/model/common/response"
 	sysReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
 	"go.uber.org/zap"
 )
@@ -13,7 +13,7 @@ type RoleApi struct{}
 
 // CreateRole
 //
-//	@Tags			RoleApi
+//	@Tags			角色管理
 //	@Summary		创建角色
 //	@Description	创建角色
 //	@Accept			json
@@ -25,15 +25,15 @@ func (r *RoleApi) CreateRole(c *gin.Context) {
 	_ = c.ShouldBindJSON(&roleParam)
 	role, err := roleService.CreateRole(roleParam)
 	if err != nil {
-		response.ErrorWithMsg(c, err.Error())
+		sysRes.ErrorWithMsg(c, err.Error())
 		return
 	}
-	response.OkWithData(c, role)
+	sysRes.OkWithData(c, role)
 }
 
 // PageRole
 //
-//	@Tags			RoleApi
+//	@Tags			角色管理
 //	@Summary		分页获取角色
 //	@Description	分页获取角色
 //	@Accept			json
@@ -44,16 +44,16 @@ func (r *RoleApi) PageRole(c *gin.Context) {
 	var pageInfo request.PageInfo
 	err := c.ShouldBindJSON(&pageInfo)
 	if err != nil {
-		response.ErrorWithMsg(c, err.Error())
+		sysRes.ErrorWithMsg(c, err.Error())
 		return
 	}
 	list, total, err := roleService.PageRole(pageInfo)
 	if err != nil {
 		global.GVA_LOG.Error("获取失败！", zap.Error(err))
-		response.ErrorWithMsg(c, err.Error())
+		sysRes.ErrorWithMsg(c, err.Error())
 		return
 	}
-	response.OkWithDataAndMsg(c, response.PageResult{
+	sysRes.OkWithDataAndMsg(c, sysRes.PageResult{
 		List:     list,
 		Total:    total,
 		Page:     pageInfo.Page,
@@ -63,7 +63,7 @@ func (r *RoleApi) PageRole(c *gin.Context) {
 
 // DeleteRole
 //
-//	@Tags			RoleApi
+//	@Tags			角色管理
 //	@Summary		删除角色
 //	@Description	删除角色
 //	@Accept			json
@@ -75,15 +75,15 @@ func (r *RoleApi) DeleteRole(c *gin.Context) {
 	id := c.Param("id")
 	err := roleService.DeleteRole(id)
 	if err != nil {
-		response.ErrorWithMsg(c, err.Error())
+		sysRes.ErrorWithMsg(c, err.Error())
 		return
 	}
-	response.OkWithData(c, "删除成功")
+	sysRes.OkWithData(c, "删除成功")
 }
 
 // UpdateRole
 //
-//	@Tags			RoleApi
+//	@Tags			角色管理
 //	@Summary		更新角色
 //	@Description	update role
 //	@Accept			json
@@ -92,5 +92,5 @@ func (r *RoleApi) DeleteRole(c *gin.Context) {
 //	@Router			/v1/api/role/update [put]
 func (r *RoleApi) UpdateRole(c *gin.Context) {
 	id := c.Param("id")
-	response.OkWithData(c, id)
+	sysRes.OkWithData(c, id)
 }

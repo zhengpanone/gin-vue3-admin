@@ -1,6 +1,22 @@
 basePath: /
 definitions:
-  request.Empty:
+  request.AddMenu:
+    properties:
+      menuType:
+        description: 菜单类型,1:目录 2:菜单 3:按钮
+        type: integer
+      name:
+        description: 菜单名称
+        type: string
+      permission:
+        description: 菜单权限标识
+        type: string
+      sort:
+        description: 菜单排序
+        type: integer
+    required:
+    - menuType
+    - name
     type: object
   request.LoginParam:
     properties:
@@ -67,16 +83,20 @@ definitions:
     type: object
   request.RoleParam:
     properties:
-      parentId:
-        description: 父角色ID
+      parentCode:
+        description: 父角色Code
         type: string
-      remark:
+      roleCode:
+        description: 角色code
+        type: string
+      roleDesc:
         description: 备注
         type: string
       roleName:
         description: 角色名
         type: string
     required:
+    - roleCode
     - roleName
     type: object
   response.Meta:
@@ -118,13 +138,6 @@ definitions:
       pic_path:
         type: string
     type: object
-  response.SysMenusResponse:
-    properties:
-      menus:
-        items:
-          $ref: '#/definitions/system.SysMenu'
-        type: array
-    type: object
   system.Meta:
     properties:
       activeName:
@@ -147,9 +160,6 @@ definitions:
     type: object
   system.SysAuthority:
     properties:
-      ID:
-        description: 主键ID
-        type: integer
       UpdateAt:
         description: 使用时间戳毫秒数填充更新时间
         type: string
@@ -175,59 +185,14 @@ definitions:
         type: string
       menus:
         items:
-          $ref: '#/definitions/system.SysBaseMenu'
+          $ref: '#/definitions/system.SysMenu'
         type: array
       parentId:
         description: 父角色ID
         type: integer
     type: object
-  system.SysBaseMenu:
-    properties:
-      ID:
-        description: 主键ID
-        type: integer
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      authoritys:
-        items:
-          $ref: '#/definitions/system.SysAuthority'
-        type: array
-      children:
-        items:
-          $ref: '#/definitions/system.SysBaseMenu'
-        type: array
-      component:
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      hidden:
-        type: boolean
-      menuBtn:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuBtn'
-        type: array
-      meta:
-        $ref: '#/definitions/system.Meta'
-      name:
-        type: string
-      parameters:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuParameter'
-        type: array
-      parentId:
-        type: integer
-      path:
-        type: string
-      sort:
-        type: integer
-    type: object
   system.SysBaseMenuBtn:
     properties:
-      ID:
-        description: 主键ID
-        type: integer
       UpdateAt:
         description: 使用时间戳毫秒数填充更新时间
         type: string
@@ -241,11 +206,52 @@ definitions:
       sysBaseMenuID:
         type: integer
     type: object
-  system.SysBaseMenuParameter:
+  system.SysMenu:
     properties:
       ID:
         description: 主键ID
         type: integer
+      UpdateAt:
+        description: 使用时间戳毫秒数填充更新时间
+        type: string
+      children:
+        items:
+          $ref: '#/definitions/system.SysMenu'
+        type: array
+      component:
+        type: string
+      createAt:
+        description: 使用时间戳秒数填充创建时间
+        type: string
+      icon:
+        type: string
+      menuBtn:
+        items:
+          $ref: '#/definitions/system.SysBaseMenuBtn'
+        type: array
+      menuType:
+        type: integer
+      meta:
+        $ref: '#/definitions/system.Meta'
+      name:
+        type: string
+      parameters:
+        items:
+          $ref: '#/definitions/system.SysMenuParameter'
+        type: array
+      parentId:
+        type: integer
+      path:
+        type: string
+      permission:
+        type: string
+      sort:
+        type: integer
+      visible:
+        type: boolean
+    type: object
+  system.SysMenuParameter:
+    properties:
       UpdateAt:
         description: 使用时间戳毫秒数填充更新时间
         type: string
@@ -263,58 +269,6 @@ definitions:
       value:
         description: 地址栏携带参数的值
         type: string
-    type: object
-  system.SysMenu:
-    properties:
-      ID:
-        description: 主键ID
-        type: integer
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      authoritys:
-        items:
-          $ref: '#/definitions/system.SysAuthority'
-        type: array
-      btns:
-        additionalProperties:
-          type: integer
-        type: object
-      children:
-        items:
-          $ref: '#/definitions/system.SysMenu'
-        type: array
-      component:
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      hidden:
-        type: boolean
-      menu_id:
-        type: integer
-      menuBtn:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuBtn'
-        type: array
-      meta:
-        $ref: '#/definitions/system.Meta'
-      name:
-        type: string
-      parameters:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuParameter'
-        type: array
-      parentId:
-        type: integer
-      path:
-        type: string
-      perm:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuParameter'
-        type: array
-      sort:
-        type: integer
     type: object
   system.SysUser:
     properties:
@@ -596,7 +550,7 @@ paths:
       summary: jwt加入黑名单
       tags:
       - Jwt
-  /v1/api/menu/addBaseMenu:
+  /v1/api/menu/addMenu:
     post:
       consumes:
       - application/json
@@ -606,7 +560,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/system.SysBaseMenu'
+          $ref: '#/definitions/request.AddMenu'
       produces:
       - application/json
       responses:
@@ -623,36 +577,7 @@ paths:
       - ApiKeyAuth: []
       summary: 新增菜单
       tags:
-      - Menu
-  /v1/api/menu/getMenu:
-    post:
-      description: 根据用户ID获取菜单
-      parameters:
-      - description: 空
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/request.Empty'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 获取用户动态路由,返回包括系统菜单详情列表
-          schema:
-            allOf:
-            - $ref: '#/definitions/response.Response'
-            - properties:
-                data:
-                  $ref: '#/definitions/response.SysMenusResponse'
-                msg:
-                  type: string
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: 获取用户动态路由
-      tags:
-      - AuthorityMenu
+      - 菜单管理
   /v1/api/menu/getMenuList:
     post:
       consumes:
@@ -700,7 +625,7 @@ paths:
       responses: {}
       summary: 创建角色
       tags:
-      - RoleApi
+      - 角色管理
   /v1/api/role/delete/:id:
     delete:
       consumes:
@@ -721,7 +646,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: 删除角色
       tags:
-      - RoleApi
+      - 角色管理
   /v1/api/role/pageRole:
     post:
       consumes:
@@ -739,7 +664,7 @@ paths:
       responses: {}
       summary: 分页获取角色
       tags:
-      - RoleApi
+      - 角色管理
   /v1/api/role/update:
     put:
       consumes:
@@ -757,5 +682,5 @@ paths:
       responses: {}
       summary: 更新角色
       tags:
-      - RoleApi
+      - 角色管理
 swagger: "2.0"

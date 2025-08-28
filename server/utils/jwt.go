@@ -88,7 +88,7 @@ func (j *JWT) CreateToken(claims systemReq.CustomClaims) (string, error) {
 
 // ParseToken 解析JWT
 func (j *JWT) ParseToken(tokenString string) (*systemReq.CustomClaims, error) {
-	tokenString = strings.Fields(tokenString)[1]
+	tokenString = strings.Fields(tokenString)[0]
 	token, err := jwt.ParseWithClaims(tokenString, &systemReq.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return j.SigningKey, nil
 	})
