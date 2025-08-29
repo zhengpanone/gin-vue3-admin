@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/request"
 	"net"
 )
 

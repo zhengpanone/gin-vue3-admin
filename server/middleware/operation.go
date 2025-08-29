@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
+	"github.com/zhengpanone/gin-vue3-admin/model"
 	"github.com/zhengpanone/gin-vue3-admin/service"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 	"go.uber.org/zap"
@@ -17,7 +17,7 @@ import (
 	"time"
 )
 
-var operationRecordService = service.ServiceGroupApp.SystemServiceGroup.OperationRecordService
+var operationRecordService = service.ServiceGroupApp.OperationRecordService
 
 var bufferSize = 1024
 
@@ -57,7 +57,7 @@ func OperationRecord() gin.HandlerFunc {
 			}
 			userId = id
 		}
-		record := system.SysOperationRecord{
+		record := model.SysOperationRecord{
 			Ip:     c.ClientIP(),
 			Method: c.Request.Method,
 			Path:   c.Request.URL.Path,
