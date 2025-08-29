@@ -3,7 +3,7 @@ package system
 import "github.com/zhengpanone/gin-vue3-admin/global"
 
 type SysMenu struct {
-	ID         uint   `gorm:"primarykey;->first" json:"ID"` // 主键ID
+	ID         string `gorm:"primarykey;->first" json:"ID"` // 主键ID
 	Name       string `json:"name" gorm:"column:name;comment:菜单名称"`
 	Icon       string `json:"icon" gorm:"column:icon;comment:菜单图标"`
 	Path       string `json:"path" gorm:"column:path;comment:路由path"`

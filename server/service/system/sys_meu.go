@@ -16,3 +16,19 @@ func (menuService *MenuService) AddMenu(menu system.SysMenu) error {
 	_, err := menuDao.AddMenu(menu)
 	return err
 }
+
+func (menuService *MenuService) UpdateMenu(menu system.SysMenu) error {
+	menuDao := dao.SysMenuDao{}
+	return menuDao.UpdateMenu(menu)
+}
+
+func (menuService *MenuService) DeleteMenuByIds(ids []interface{}) error {
+	menuDao := dao.SysMenuDao{}
+	return menuDao.DeleteMenuByIds(ids)
+}
+
+func (menuService *MenuService) GetMenuById(id interface{}) (menu system.SysMenu, err error) {
+	menuDao := dao.SysMenuDao{}
+	menu, err = menuDao.GetMenuById(id)
+	return
+}

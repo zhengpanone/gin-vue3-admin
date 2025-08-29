@@ -5,5 +5,8 @@ type PageInfo struct {
 	PageSize int    `json:"pageSize" form:"pageSize"` // 每页大小
 	Keyword  string `json:"keyword" form:"keyword"`   // 关键字
 }
+type CommonIds struct {
+	Ids []interface{} `json:"ids"`
+}
 
 type Empty struct{}

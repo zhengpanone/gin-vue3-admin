@@ -22,3 +22,21 @@ func (sm *SysMenuDao) AddMenu(r system.SysMenu) (system.SysMenu, error) {
 	err := global.GVA_DB.Create(&r).Error
 	return r, err
 }
+
+// UpdateMenu 修改菜单
+func (sm *SysMenuDao) UpdateMenu(menu system.SysMenu) error {
+	err := global.GVA_DB.Model(&system.SysMenu{}).Where("id=?", menu.ID).Updates(&menu).Error
+	return err
+}
+
+// DeleteMenuByIds 根据Ids删除菜单
+func (sm *SysMenuDao) DeleteMenuByIds(Ids []interface{}) error {
+	err := global.GVA_DB.Delete(&system.SysMenu{}, "id in ?", Ids).Error
+	return err
+}
+
+// GetMenuById 根据Id获取菜单详情
+func (sm *SysMenuDao) GetMenuById(Id interface{}) (menu system.SysMenu, err error) {
+	err = global.GVA_DB.Where("id = ?", Id).First(&menu).Error
+	return
+}

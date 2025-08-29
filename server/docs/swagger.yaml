@@ -18,6 +18,41 @@ definitions:
     - menuType
     - name
     type: object
+  request.ChangeUserInfo:
+    properties:
+      authorityIds:
+        description: 角色ID
+        items:
+          type: integer
+        type: array
+      email:
+        description: 用户邮箱
+        type: string
+      enable:
+        description: 冻结用户
+        type: integer
+      headerImg:
+        description: 用户头像
+        type: string
+      id:
+        description: 主键ID
+        type: integer
+      nickName:
+        description: 用户昵称
+        type: string
+      phone:
+        description: 用户手机号
+        type: string
+      sideMode:
+        description: 用户侧边主题
+        type: string
+    type: object
+  request.CommonIds:
+    properties:
+      ids:
+        items: {}
+        type: array
+    type: object
   request.LoginParam:
     properties:
       captcha:
@@ -99,6 +134,31 @@ definitions:
     - roleCode
     - roleName
     type: object
+  request.UpdateMenu:
+    properties:
+      icon:
+        description: 菜单icon
+        type: string
+      id:
+        description: 菜单ID
+        type: integer
+      menuType:
+        description: 菜单类型,1:目录 2:菜单 3:按钮
+        type: integer
+      name:
+        description: 菜单名称
+        type: string
+      permission:
+        description: 菜单权限标识
+        type: string
+      sort:
+        description: 菜单排序
+        type: integer
+    required:
+    - id
+    - menuType
+    - name
+    type: object
   response.Meta:
     properties:
       request_id:
@@ -136,220 +196,6 @@ definitions:
       captcha_length:
         type: integer
       pic_path:
-        type: string
-    type: object
-  system.Meta:
-    properties:
-      activeName:
-        type: string
-      closeTab:
-        description: 自动关闭tab
-        type: boolean
-      defaultMenu:
-        description: 是否是基础路由（开发中）
-        type: boolean
-      icon:
-        description: 菜单图标
-        type: string
-      keepAlive:
-        description: 是否缓存
-        type: boolean
-      title:
-        description: 菜单名
-        type: string
-    type: object
-  system.SysAuthority:
-    properties:
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      authorityId:
-        description: 角色ID
-        type: integer
-      authorityName:
-        description: 角色名
-        type: string
-      children:
-        items:
-          $ref: '#/definitions/system.SysAuthority'
-        type: array
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      dataAuthorityId:
-        items:
-          $ref: '#/definitions/system.SysAuthority'
-        type: array
-      defaultRouter:
-        description: 默认菜单(默认dashboard)
-        type: string
-      menus:
-        items:
-          $ref: '#/definitions/system.SysMenu'
-        type: array
-      parentId:
-        description: 父角色ID
-        type: integer
-    type: object
-  system.SysBaseMenuBtn:
-    properties:
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      desc:
-        type: string
-      name:
-        type: string
-      sysBaseMenuID:
-        type: integer
-    type: object
-  system.SysMenu:
-    properties:
-      ID:
-        description: 主键ID
-        type: integer
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      children:
-        items:
-          $ref: '#/definitions/system.SysMenu'
-        type: array
-      component:
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      icon:
-        type: string
-      menuBtn:
-        items:
-          $ref: '#/definitions/system.SysBaseMenuBtn'
-        type: array
-      menuType:
-        type: integer
-      meta:
-        $ref: '#/definitions/system.Meta'
-      name:
-        type: string
-      parameters:
-        items:
-          $ref: '#/definitions/system.SysMenuParameter'
-        type: array
-      parentId:
-        type: integer
-      path:
-        type: string
-      permission:
-        type: string
-      sort:
-        type: integer
-      visible:
-        type: boolean
-    type: object
-  system.SysMenuParameter:
-    properties:
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      key:
-        description: 地址栏携带参数的key
-        type: string
-      sysBaseMenuID:
-        type: integer
-      type:
-        description: 地址栏携带参数为params还是query
-        type: string
-      value:
-        description: 地址栏携带参数的值
-        type: string
-    type: object
-  system.SysUser:
-    properties:
-      ID:
-        description: 主键ID
-        type: integer
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      activeColor:
-        description: 活跃颜色
-        type: string
-      authorities:
-        items:
-          $ref: '#/definitions/system.SysAuthority'
-        type: array
-      authority:
-        allOf:
-        - $ref: '#/definitions/system.SysAuthority'
-        description: '`gorm:"foreignKey:关联表的结构体字段;references:当前表的结构体字段;`'
-      authorityId:
-        description: 用户角色ID
-        type: integer
-      baseColor:
-        description: 基础颜色
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      email:
-        description: 用户邮箱
-        type: string
-      enable:
-        description: 用户是否被冻结 1正常 2冻结
-        type: integer
-      headerImg:
-        description: 用户头像
-        type: string
-      nickName:
-        description: 用户昵称
-        type: string
-      phone:
-        description: 用户手机号
-        type: string
-      sex:
-        enum:
-        - female
-        - male
-        type: string
-      sideMode:
-        description: 用户侧边主题
-        type: string
-      status:
-        type: string
-      token:
-        type: string
-      userInfo:
-        $ref: '#/definitions/system.SysUserInfo'
-      userName:
-        description: 用户登录名
-        type: string
-      uuid:
-        description: 用户UUID
-        type: string
-    type: object
-  system.SysUserInfo:
-    properties:
-      ID:
-        description: 主键ID
-        type: integer
-      UpdateAt:
-        description: 使用时间戳毫秒数填充更新时间
-        type: string
-      address:
-        type: string
-      birthday:
-        type: string
-      createAt:
-        description: 使用时间戳秒数填充创建时间
-        type: string
-      userID:
         type: string
     type: object
 info:
@@ -402,7 +248,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/system.SysUser'
+          $ref: '#/definitions/request.ChangeUserInfo'
       produces:
       - application/json
       responses:
@@ -428,7 +274,6 @@ paths:
       consumes:
       - application/json
       description: 用户登录
-      operationId: /v1/api/admin/login
       parameters:
       - description: 用户名,密码,验证码,验证码ID
         in: body
@@ -451,7 +296,6 @@ paths:
       consumes:
       - application/json
       description: 退出登录
-      operationId: /v1/api/admin/logout
       parameters:
       - description: 用户名,密码,验证码,验证码ID
         in: body
@@ -470,9 +314,8 @@ paths:
       consumes:
       - application/json
       description: 用户注册
-      operationId: /v1/api/admin/register
       parameters:
-      - description: body
+      - description: 登录请求数据
         in: body
         name: data
         required: true
@@ -512,7 +355,6 @@ paths:
       consumes:
       - application/json
       description: 更改密码
-      operationId: /v1/user/changePassword
       produces:
       - application/json
       responses: {}
@@ -555,7 +397,7 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: 路由path, 父菜单ID, 路由name, 对应前端文件路径, 排序标记
+      - description: 菜单数据
         in: body
         name: data
         required: true
@@ -565,7 +407,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: 新增菜单
+          description: 更新菜单
           schema:
             allOf:
             - $ref: '#/definitions/response.Response'
@@ -576,6 +418,61 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 新增菜单
+      tags:
+      - 菜单管理
+  /v1/api/menu/deleteMenu:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 菜单ID数组
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.CommonIds'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新菜单
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除菜单
+      tags:
+      - 菜单管理
+  /v1/api/menu/getMenuById:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 菜单ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新菜单
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取菜单
       tags:
       - 菜单管理
   /v1/api/menu/getMenuList:
@@ -608,6 +505,39 @@ paths:
       summary: 分页获取基础menu列表
       tags:
       - Menu
+  /v1/api/menu/updateMenu:
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: 菜单ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 菜单数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/request.UpdateMenu'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 更新菜单
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新菜单
+      tags:
+      - 菜单管理
   /v1/api/role/addRole:
     post:
       consumes:
