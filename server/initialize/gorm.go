@@ -3,19 +3,19 @@ package initialize
 import (
 	"context"
 	"fmt"
-	"go.uber.org/zap"
-	"time"
-
-	"github.com/zhengpanone/gin-vue3-admin/global"
-	"github.com/zhengpanone/gin-vue3-admin/model/entity/system"
 
 	"log"
 	"os"
+	"time"
 
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	gormLogger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+
+	"github.com/zhengpanone/gin-vue3-admin/global"
+	"github.com/zhengpanone/gin-vue3-admin/model"
 )
 
 /**
@@ -139,13 +139,13 @@ func setNewLogger(gConfig *gorm.Config) {
 
 func sysTable() {
 
-	_ = setTableOption("用户表").AutoMigrate(&system.SysUser{})
-	_ = setTableOption("角色表").AutoMigrate(&system.SysRole{})
-	_ = setTableOption("菜单表").AutoMigrate(&system.SysMenu{})
-	_ = setTableOption("用户信息表").AutoMigrate(&system.SysUserInfo{})
-	_ = setTableOption("jwt黑名单表").AutoMigrate(&system.JwtBlacklist{})
+	_ = setTableOption("用户表").AutoMigrate(&model.SysUser{})
+	_ = setTableOption("角色表").AutoMigrate(&model.SysRole{})
+	_ = setTableOption("菜单表").AutoMigrate(&model.SysMenu{})
+	_ = setTableOption("用户信息表").AutoMigrate(&model.SysUserInfo{})
+	_ = setTableOption("jwt黑名单表").AutoMigrate(&model.JwtBlacklist{})
 
-	_ = setTableOption("用户角色表").AutoMigrate(&system.SysUserAuthority{})
+	_ = setTableOption("用户角色表").AutoMigrate(&model.SysUserAuthority{})
 
 	// 用户账户表
 	//_ = setTableOption("菜单按钮表").AutoMigrate(&system.SysBaseMenuBtn{})

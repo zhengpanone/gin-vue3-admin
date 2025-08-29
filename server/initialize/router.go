@@ -5,16 +5,17 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "github.com/zhengpanone/gin-vue3-admin/docs"
+
 	"github.com/zhengpanone/gin-vue3-admin/global"
 	"github.com/zhengpanone/gin-vue3-admin/middleware"
-	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
+	"github.com/zhengpanone/gin-vue3-admin/response"
 	"github.com/zhengpanone/gin-vue3-admin/router"
 )
 
 // InitRouters 初始化总路由
 func InitRouters() *gin.Engine {
 	Router := gin.Default()
-	systemRouter := router.RouterGroupApp.System
+	systemRouter := router.RouterGroupApp
 	global.GVA_LOG.Info("use middleware logger")
 	// http://127.0.0.1:8099/swagger/index.html
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

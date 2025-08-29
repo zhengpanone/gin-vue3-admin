@@ -2,7 +2,7 @@ package utils
 
 import (
 	"errors"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/request"
 	"net/http"
 	"strings"
 	"time"

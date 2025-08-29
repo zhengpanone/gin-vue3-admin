@@ -11,6 +11,9 @@ import (
 //go:generate go mod download
 
 // @title			gin swagger API接口文档
+// @securityDefinitions.apikey  ApiKeyAuth
+// @in                          header
+// @name                        Authorization
 // @version		0.0.1
 // @description	This is gin learn api docs.
 // @license.name	Apache 2.0

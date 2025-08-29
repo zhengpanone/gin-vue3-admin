@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"github.com/songzhibin97/gkit/cache/local_cache"
+	"github.com/spf13/viper"
 
 	"github.com/zhengpanone/gin-vue3-admin/global"
-
-	"github.com/fsnotify/fsnotify"
-	"github.com/spf13/viper"
 )
 
 // http://liuqh.icu/2021/06/11/go/gin/integrated/1-viper/

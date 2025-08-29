@@ -1,11 +1,11 @@
 package router
 
-import (
-	"github.com/zhengpanone/gin-vue3-admin/router/system"
-)
-
 type RouterGroup struct {
-	System system.RouterGroup
+	BaseRouter
+	UserRouter
+	JwtRouter
+	RoleRouter
+	MenuRouter
 }
 
 var RouterGroupApp = new(RouterGroup)

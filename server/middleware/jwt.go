@@ -2,10 +2,10 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/zhengpanone/gin-vue3-admin/dao"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	"github.com/zhengpanone/gin-vue3-admin/model/common/response"
-	"github.com/zhengpanone/gin-vue3-admin/model/dao"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	systemReq "github.com/zhengpanone/gin-vue3-admin/request"
+	"github.com/zhengpanone/gin-vue3-admin/response"
 	"github.com/zhengpanone/gin-vue3-admin/utils"
 )
 

@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gofrs/uuid/v5"
 	"github.com/zhengpanone/gin-vue3-admin/global"
-	systemReq "github.com/zhengpanone/gin-vue3-admin/model/system/request"
+	"github.com/zhengpanone/gin-vue3-admin/request"
 	"net"
 )
 
@@ -23,7 +23,7 @@ func ClearToken(c *gin.Context) {
 	}
 }
 
-func GetClaims(c *gin.Context) (*systemReq.CustomClaims, error) {
+func GetClaims(c *gin.Context) (*request.CustomClaims, error) {
 	token := c.Request.Header.Get("X-Token")
 	if token == "" {
 		token = c.GetHeader("Authorization")
@@ -52,7 +52,7 @@ func GetUserUuid(c *gin.Context) (userID uuid.UUID) {
 			return cl.UUID
 		}
 	} else {
-		waitUse := claims.(*systemReq.CustomClaims)
+		waitUse := claims.(*request.CustomClaims)
 		return waitUse.UUID
 	}
 }
@@ -65,7 +65,7 @@ func GetUserAuthorityId(c *gin.Context) uint {
 			return cl.AuthorityId
 		}
 	} else {
-		waitUse := claims.(*systemReq.CustomClaims)
+		waitUse := claims.(*request.CustomClaims)
 		return waitUse.AuthorityId
 	}
 }
